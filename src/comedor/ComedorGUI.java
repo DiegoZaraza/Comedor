@@ -132,7 +132,7 @@ public class ComedorGUI extends JFrame
 	public void updateDatosCentro()
 	{
 		getBaseDeDatos().getDatosCentro(labelDatosCentro);
-		labelDenominacion.setText(""+getBaseDeDatos().getDenominacion());
+		labelDenominacion.setText("" + getBaseDeDatos().getDenominacion());
 		desktop.updateUI();
 	}
 
@@ -140,7 +140,7 @@ public class ComedorGUI extends JFrame
 	{
 		try
 		{
-			arrayListGroups =new ArrayList<>();
+			arrayListGroups = new ArrayList<>();
 			comboBox.removeAllItems();
 			getBaseDeDatos().getGroups(comboBox,arrayListGroups);
 		}
@@ -166,7 +166,7 @@ public class ComedorGUI extends JFrame
 					@Override
 					public void actionPerformed(ActionEvent arg0) 
 					{
-						ImporDataITACA dataITACA=new ImporDataITACA(getInstance());
+						ImporDataITACA dataITACA = new ImporDataITACA(getInstance());
 						desktop.add(dataITACA);
 						dataITACA.setVisible(true);
 					}
@@ -181,34 +181,29 @@ public class ComedorGUI extends JFrame
 					@Override
 					public void componentResized(ComponentEvent arg0) 
 					{
-						jcMousePanel11.setBounds(10, getHeight()-130,160, 30);
-						btnScanner.setBounds(10, getHeight()-260,210, 80);
-						jcMousePanel11112.setBounds(395, getHeight()-130,340, 30);
-						jcMousePanel111.setBounds(180, getHeight()-130,210, 30);
-						jcMousePanel1111.setBounds(10, getHeight()-170,460, 35);
-						jcMousePanel111121.setBounds(getWidth()-450, getHeight()-130,200, 30);
-						jcMousePanel1111xxxx.setBounds(240, getHeight()-260,400, 80);
-						labelDenominacion.setBounds(16, getHeight()-330,400, 80);
-					}
-					@Override
-					public void componentMoved(ComponentEvent arg0) {
-						// TODO Auto-generated method stub
-
+						jcMousePanel11.setBounds(10, getHeight()-130, 160, 30);
+						btnScanner.setBounds(10, getHeight()-260, 210, 80);
+						jcMousePanel11112.setBounds(395, getHeight()-130, 340, 30);
+						jcMousePanel111.setBounds(180, getHeight()-130, 210, 30);
+						jcMousePanel1111.setBounds(10, getHeight()-170, 460, 35);
+						jcMousePanel111121.setBounds(getWidth()-450, getHeight()-130, 200, 30);
+						jcMousePanel1111xxxx.setBounds(240, getHeight()-260, 400, 80);
+						labelDenominacion.setBounds(16, getHeight()-330, 400, 80);
 					}
 
 					@Override
-					public void componentHidden(ComponentEvent arg0) {
-						// TODO Auto-generated method stub
+					public void componentMoved(ComponentEvent arg0) { }
 
-					}
+					@Override
+					public void componentHidden(ComponentEvent arg0) { }
 				});
 
 		menu2 = new JMenu("ITACA");
-		menu2.setFont(new Font("tahoma",Font.BOLD,12));
+		menu2.setFont(new Font("tahoma", Font.BOLD,12));
 		menu2.setIcon(new ImageIcon(getClass().getResource("/resource/a8.png")));
 		menu2.add(item);
 		menu = new JMenu("Archivo");
-		menu.setFont(new Font("tahoma",Font.BOLD,12));
+		menu.setFont(new Font("tahoma", Font.BOLD,12));
 		menuAbout = new JLabel("Acerca de..");
 		menuAbout.setForeground(Color.WHITE);
 		menuAbout.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -216,9 +211,9 @@ public class ComedorGUI extends JFrame
 		menuAbout.addMouseListener(
 				new MouseListener() 
 				{
-
 					@Override
-					public void mouseReleased(MouseEvent arg0) {
+					public void mouseReleased(MouseEvent arg0) 
+					{
 						new About(getInstance()).setVisible(true);
 					}
 
@@ -234,7 +229,8 @@ public class ComedorGUI extends JFrame
 					@Override
 					public void mouseClicked(MouseEvent arg0) { }
 				});
-		menuAbout.setFont(new Font("tahoma",Font.BOLD,12));
+
+		menuAbout.setFont(new Font("tahoma", Font.BOLD,12));
 		menuAbout.setIcon(new ImageIcon(getClass().getResource("/resource/a8.png")));
 		menu.setIcon(new ImageIcon(getClass().getResource("/resource/a8.png")));
 		menu3 = new JMenu("Base de Datos");
@@ -256,7 +252,7 @@ public class ComedorGUI extends JFrame
 
 		menu3.add(iteml);
 		menu3.add(new JSeparator());
-		menu3.setFont(new Font("tahoma",Font.BOLD,12));
+		menu3.setFont(new Font("tahoma", Font.BOLD,12));
 		menu3.setIcon(new ImageIcon(getClass().getResource("/resource/a8.png")));
 		setTitle("Software de Administracion y Gestion Comedor v0.1");
 		bar = new JKMenuBar(200, 300, Color.WHITE);
@@ -315,6 +311,7 @@ public class ComedorGUI extends JFrame
 						configurarEmail.setVisible(true);
 					}
 				});
+
 		item.setVisible(false);
 		menu.add(item);
 		menu.add(new JSeparator());
@@ -322,91 +319,89 @@ public class ComedorGUI extends JFrame
 
 		itemFotos.addActionListener(
 				new ActionListener() 
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				JFileChooser chooser = new JFileChooser();
-				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				int y = chooser.showOpenDialog(getInstance());
-				
-				if(y == JFileChooser.APPROVE_OPTION)
 				{
-					final File dir = chooser.getSelectedFile();
-					final JDialog dialog = new JDialog(getInstance(),true);
-					dialog.setSize(400, 400);
-					dialog.setLocationRelativeTo(getInstance());
-					final JTextArea area = new JTextArea();
-					JScrollPane jScrollPane = new JScrollPane(area);
-					dialog.getContentPane().setLayout(new BorderLayout());
-					area.setEditable(false);
-					dialog.setTitle("Cargar Fotos");
-					dialog.getContentPane().add(jScrollPane, BorderLayout.CENTER);
-					JButton button = new JButton("Cerrar");
-					final JProgressBar progressBar = new JProgressBar();
-					progressBar.setIndeterminate(true);
-					progressBar.setStringPainted(true);
-					progressBar.setString("Procesando...");
-					button.setFont(new Font("arial", Font.BOLD, 11));
-					
-					button.addActionListener(new ActionListener() 
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
 					{
-						@Override
-						public void actionPerformed(ActionEvent arg0) 
-						{
-							// TODO Auto-generated method stub
-							dialog.dispose();
-						}
-					});
-					dialog.add(progressBar,BorderLayout.NORTH);
-					dialog.setFont(new Font("arial", Font.BOLD, 11));
-					dialog.getContentPane().add(button, BorderLayout.SOUTH);
-					new Thread(new Runnable() {	
-						@Override
-						public void run() {
-							//								 System.out.println("mierda");
-							getBaseDeDatos().insertFotos(dir.toString(), area,dialog,progressBar);	
-							//							     progressBar.setIndeterminate(tr);
-							//							 	 progressBar.setString("Completado");
+						JFileChooser chooser = new JFileChooser();
+						chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+						int y = chooser.showOpenDialog(getInstance());
 
-							//							getBaseDeDatos().insertFotos(dir.toString(), area);
-						}}).start();
-					dialog.setVisible(true);
-				}
-			}
-		});
+						if(y == JFileChooser.APPROVE_OPTION)
+						{
+							final File dir = chooser.getSelectedFile();
+							final JDialog dialog = new JDialog(getInstance(),true);
+							dialog.setSize(400, 400);
+							dialog.setLocationRelativeTo(getInstance());
+							final JTextArea area = new JTextArea();
+							JScrollPane jScrollPane = new JScrollPane(area);
+							dialog.getContentPane().setLayout(new BorderLayout());
+							area.setEditable(false);
+							dialog.setTitle("Cargar Fotos");
+							dialog.getContentPane().add(jScrollPane, BorderLayout.CENTER);
+							JButton button = new JButton("Cerrar");
+							final JProgressBar progressBar = new JProgressBar();
+							progressBar.setIndeterminate(true);
+							progressBar.setStringPainted(true);
+							progressBar.setString("Procesando...");
+							button.setFont(new Font("arial", Font.BOLD, 11));
+
+							button.addActionListener(new ActionListener() 
+							{
+								@Override
+								public void actionPerformed(ActionEvent arg0) 
+								{
+									dialog.dispose();
+								}
+							});
+
+							dialog.add(progressBar,BorderLayout.NORTH);
+							dialog.setFont(new Font("arial", Font.BOLD, 11));
+							dialog.getContentPane().add(button, BorderLayout.SOUTH);
+
+							new Thread(
+									new Runnable() 
+									{	
+										@Override
+										public void run() 
+										{
+											getBaseDeDatos().insertFotos(dir.toString(), area,dialog,progressBar);	
+										}
+									}).start();
+							dialog.setVisible(true);
+						}
+					}
+				});
+
 		menuItemUpdate = new JMenuItem("Actualizar Datos en la Nube");
 		menuItemUpdate.setIcon(new ImageIcon(getClass().getResource("/resource/A1-connections.png")));
 		menuItemBackup = new JMenuItem("Respaldar Base de Datos");
-		menuItemBackup.addActionListener(new ActionListener() {
+		menuItemBackup.addActionListener(
+				new ActionListener() 
+				{
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						new BackupBD().start();
+					}
+				});
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-				new BackupBD().start();
-			}
-		});
 		menuItemBackup.setIcon(new ImageIcon(getClass().getResource("/resource/A1-dword.png")));
 		jMenuItemList = new JMenuItem("Respaldos Realizados");
 		jMenuItemList.setVisible(false);
 		jMenuItemList.setIcon(new ImageIcon(getClass().getResource("/resource/A1-folder.png")));
+
 		desktop = new JDesktopPane()
 		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void paintComponent(Graphics g) {
-				g.drawImage(
-						new ImageIcon(getClass().getResource(
-								"/resource/e1.jpg"))
-						.getImage(), 0, 0, getWidth(), getHeight(),
-						null);
-
-
-
+			public void paintComponent(Graphics g) 
+			{
+				g.drawImage(new ImageIcon(getClass().getResource("/resource/e1.jpg")).getImage(), 0, 0, getWidth(), getHeight(), null);
 			}
 		};
+
 		menu3.add(menuItemUpdate);
 		menu3.add(new JSeparator());
 		menu3.add(menuItemBackup);
@@ -416,86 +411,68 @@ public class ComedorGUI extends JFrame
 
 		bar.add(menu3);
 
-		menuz=new JMenu("Cursos");
-		menuz.setFont(new Font("tahoma",Font.BOLD,12));
+		menuz = new JMenu("Cursos");
+		menuz.setFont(new Font("tahoma", Font.BOLD,12));
 		menuz.setIcon(new ImageIcon(getClass().getResource("/resource/a8.png")));
-		if(bd!=null){
+
+		if(bd != null)
 			getBaseDeDatos().getCursos(menuz);
-		}
+
 		bar.add(menuz);
 		bar.add(menuAbout);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		y=(int )Toolkit.getDefaultToolkit().getScreenSize().height;
-		x=(int)Toolkit.getDefaultToolkit().getScreenSize().width;
-		setSize(x,y-90);
+		y = (int )Toolkit.getDefaultToolkit().getScreenSize().height;
+		x = (int)Toolkit.getDefaultToolkit().getScreenSize().width;
+		setSize(x, y - 90);
 
 		contentPane = new JPanel();
 
-		JXTaskPane taskPane=new JXTaskPane();
+		JXTaskPane taskPane = new JXTaskPane();
 		taskPane.setTitle("Menu Principal");
 		taskPane.setIcon(new ImageIcon(getClass().getResource("/resource/a23.png")));
-
-
-
-
-
-
-		//		taskPane.add(label);
-		////		taskPane.add(new JSeparator());
-		//		taskPane.add(label1);
-		//		taskPane.add(label2);
-		//		taskPane.add(label3);
-		//		taskPane.add(label4);
-		//		taskPane.add(label5);
-		//		taskPane.add(label6);
-		//		taskPane.add(label7);
 
 		JPanel panelCenter = new JPanel(new BorderLayout());
 		panelCenter.add( desktop,BorderLayout.CENTER);
 
-		menuPrincipalComedor=new MenuPrincipalComedor(this);
-		menuPrincipalComedor.setPreferredSize(new Dimension(230,0));
-		panelCenter.add(menuPrincipalComedor,BorderLayout.WEST);
-
-
-		//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		menuPrincipalComedor = new MenuPrincipalComedor(this);
+		menuPrincipalComedor.setPreferredSize(new Dimension(230, 0));
+		panelCenter.add(menuPrincipalComedor, BorderLayout.WEST);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);	
 		desktop.setLayout(null);
-		getContentPane().add(panelCenter,BorderLayout.CENTER);
-		bar1 = new JKStatusBar(JKStatusBar.ON_LEFT, new Font("arial",Font.BOLD,12));
-		String codigoCentro ="00000";
-		String denominacion ="Sin Definir";
+		getContentPane().add(panelCenter, BorderLayout.CENTER);
+		bar1 = new JKStatusBar(JKStatusBar.ON_LEFT, new Font("arial", Font.BOLD,12));
+		String codigoCentro = "00000";
+		String denominacion = "Sin Definir";
 		String domicilio = "Sin Definir";
-		String telefono ="Sin Definir";
-		String fax ="Sin Definir";
+		String telefono = "Sin Definir";
+		String fax = "Sin Definir";
 
-		labelDenominacion=new JLabel("");
+		labelDenominacion = new JLabel("");
 		desktop.add(labelDenominacion);
-		labelDenominacion.setFont(new Font("arial",Font.BOLD|Font.HANGING_BASELINE,30));
-		labelDenominacion.setBounds(16, getHeight()-330,500, 80);
+		labelDenominacion.setFont(new Font("arial", Font.BOLD | Font.HANGING_BASELINE, 30));
+		labelDenominacion.setBounds(16, getHeight()-330, 500, 80);
 		{
 			jcMousePanel1 = new jcMousePanel();
 
 			jcMousePanel1.setLayout(new FlowLayout(FlowLayout.LEFT));
-			labelDatosCentro=new JLabel("<html>Codigo de Centro: <font color='white'><b>"+codigoCentro+"</b></font><br>Denomincación:<b>"+denominacion+"</b><BR>Domicilio: <b>"+domicilio+"</b><br>Telefono: <b>"+telefono+"</b><br>Fax:  <b>"+fax+"</b>    </html>");
+			labelDatosCentro=new JLabel("<html>Codigo de Centro: <font color='white'> <b>" + codigoCentro + "</b> </font> <br>Denomincación:<b>" + denominacion 
+					+ "</b> <BR> Domicilio: <b>" + domicilio + "</b> <br>Telefono: <b>" + telefono + "</b> <br>Fax:  <b>" + fax + "</b> </html>");
 			jcMousePanel1.add(labelDatosCentro);
-			if(bd!=null&&bd.isActive())
+
+			if(bd != null && bd.isActive())
 				getBaseDeDatos().getDatosCentro(labelDatosCentro);
+
 			jcMousePanel1.setPreferredSize(new Dimension(420, 110));
-			jcMousePanel1.setBorder(new TitledBorder(null, "Datos del Centro",
-					TitledBorder.LEADING, TitledBorder.TOP, new Font("arial",
-							Font.BOLD, 11), Color.black));
+			jcMousePanel1.setBorder(new TitledBorder(null, "Datos del Centro", TitledBorder.LEADING, TitledBorder.TOP, new Font("arial", Font.BOLD, 11), Color.black));
 			jcMousePanel1.setModo(2);
 			jcMousePanel1.setOpaque(true);
 			jcMousePanel1.setVisible(true);
 
 			desktop.add(jcMousePanel1);
-
 		}
 		JLabel jLabel4 = new JLabel("");
 		{
-
 			javax.swing.GroupLayout dpaneLayout = new javax.swing.GroupLayout(desktop);
 
 			desktop.setLayout(dpaneLayout);
@@ -547,52 +524,45 @@ public class ComedorGUI extends JFrame
 			desktop.setLayer(jcMousePanel1,javax.swing.JLayeredPane.PALETTE_LAYER);
 		}
 		desktop.add(jcMousePanel1);
-		desktop .setLayer(jcMousePanel1,javax.swing.JLayeredPane.DEFAULT_LAYER);
+		desktop.setLayer(jcMousePanel1,javax.swing.JLayeredPane.DEFAULT_LAYER);
 		{
-
 			{
-				//					jcMousePanel1q = new jcMousePanel();
-				//					jcMousePanel1q.setLayout(new FlowLayout(FlowLayout.LEFT));
-				btnScanner=new JToggleButton();
+				btnScanner = new JToggleButton();
 				btnScanner.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				btnScanner.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						if(btnScanner.isSelected()){
-							btnScanner.setText("<html><body><h5><font color='white'>Lector</font></h5><font color='white'>Estado:</font> <b><font color='orange'><br>Activado!</font></b></body></html>");
-							fieldCode.requestFocus();
-						}
-						else{
-							btnScanner.setText("<html><body><h5<font color='white'>Lector</font></h5><font color='white'>Estado:</font> <b><font color='red'><br>Desactivado</font></b></body></html>");
-						}
-					}
-				});
+				btnScanner.addActionListener(
+						new ActionListener() 
+						{
+							@Override
+							public void actionPerformed(ActionEvent arg0) 
+							{
+								if(btnScanner.isSelected())
+								{
+									btnScanner.setText("<html><body><h5><font color='white'>Lector</font></h5><font color='white'>Estado:</font> <b><font color='orange'><br>Activado!</font></b></body></html>");
+									fieldCode.requestFocus();
+								}
+								else
+									btnScanner.setText("<html><body><h5<font color='white'>Lector</font></h5><font color='white'>Estado:</font> <b><font color='red'><br>Desactivado</font></b></body></html>");
+							}
+						});
+
 				btnScanner.setText("<html><body><h5><font color='white'>Lector</font></h5><font color='white'>Estado:</font><b><font color='red'><br>Desactivado</font></b></body></html>");
 				btnScanner.setIcon(new ImageIcon(getClass().getResource("/resource/scanner.png")));
-				//					jcMousePanel1q.add(label);
-
 
 				desktop.add(btnScanner);
 				btnScanner.setBounds(10, getHeight()-260,210, 80);
 			}
-
 		}
 		{
-
-			nroAlumnos="0";
+			nroAlumnos = "0";
 			{
 				jcMousePanel11 = new jcMousePanel();
 				jcMousePanel11.setLayout(new FlowLayout(FlowLayout.CENTER));
-				nAlumnos=new JLabel("<html><body><center>Nro. de Alumnos: <font color='blue'><b>"+nroAlumnos+"</b> " +
-						" </font></center></body> </html>");
-				//					n.setForeground(Color.WHITE);
+				nAlumnos=new JLabel("<html><body><center>Nro. de Alumnos: <font color='blue'><b>" +nroAlumnos+"</b> " 
+						+ " </font></center></body> </html>");
 				nAlumnos.setHorizontalAlignment(SwingConstants.CENTER);
 				jcMousePanel11.add(nAlumnos);
 				jcMousePanel11.setPreferredSize(new Dimension(290, 80));
-				jcMousePanel11.setBorder(new TitledBorder(null, "",
-						TitledBorder.LEADING, TitledBorder.TOP, new Font("arial",
-								Font.BOLD, 11), new Color(0, 0, 128)));
+				jcMousePanel11.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, new Font("arial", Font.BOLD, 11), new Color(0, 0, 128)));
 				jcMousePanel11.setModo(2);
 				jcMousePanel11.setOpaque(true);
 				jcMousePanel11.setVisible(true);
@@ -615,8 +585,8 @@ public class ComedorGUI extends JFrame
 							public void keyTyped(KeyEvent arg0) { }
 
 							@Override
-							public void keyReleased(KeyEvent arg0) {
-
+							public void keyReleased(KeyEvent arg0) 
+							{
 								if(isEscontrado())
 									setEscontrado(false);
 								else
@@ -692,233 +662,272 @@ public class ComedorGUI extends JFrame
 															else
 															{
 																boolean t1 = getBaseDeDatos().verificarFechas(g);
-																System.out.println(t1);
+
 																if(t1)
 																{
-																	//												os alumnos no asiduos saltara ticket si el dia que entran 
-																	//												esta fuera de subperiodo alta bajo y si son de dos dias tb ssltaran los jueves
-																	if(getBaseDeDatos().verificarUsuario(g)){
+																	// Los alumnos no asiduos saltara ticket si el dia que entran 
+																	// esta fuera de subperiodo alta bajo y si son de dos dias tb ssltaran los jueves
+																	if(getBaseDeDatos().verificarUsuario(g))
+																	{
+																		int t = JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?", "Ticked Necesario", JOptionPane.INFORMATION_MESSAGE);
 
-																		int t=JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?","Ticked Necesario",JOptionPane.INFORMATION_MESSAGE);
-																		if(t==JOptionPane.OK_OPTION){
+																		if(t==JOptionPane.OK_OPTION)
 																			getBaseDeDatos().addAsistencia(g,"Si");
-																		}else{
-																			JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
+																		else
+																		{
+																			JOptionPane.showMessageDialog(getInstance(), "No Autorizado!", "Denegado", JOptionPane.WARNING_MESSAGE);
 																			return;
 																		}
 																	}
-
-																}else{
+																}
+																else
+																{
 																	if(getBaseDeDatos().verificarSiExiste(g))
 																	{
 																		if(getBaseDeDatos().verificarAsistencia(g))
 																		{
-																			JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
+																			JOptionPane.showMessageDialog(getInstance(), "El Usuario Ya Accedio El Día de Hoy!", "Denegado", JOptionPane.WARNING_MESSAGE);
 																			return;
 																		}
 																		else
 																		{
-																			int t=JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?","Ticked Necesario",JOptionPane.INFORMATION_MESSAGE);
-																			if(t==JOptionPane.OK_OPTION){
-																				getBaseDeDatos().addAsistencia(g,"Si");
-																			}else{
+																			int t = JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?", "Ticked Necesario", JOptionPane.INFORMATION_MESSAGE);
+
+																			if(t == JOptionPane.OK_OPTION)
+																				getBaseDeDatos().addAsistencia(g, "Si");
+																			else
+																			{
 																				JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
 																				return;
 																			}
 																		}
-																	}else{
-																		int x=JOptionPane.showConfirmDialog(getInstance(), "<html><body>No se encuentro Registrado.<br>Desea Registrar?</body></html>","No Registrado",JOptionPane.WARNING_MESSAGE);
-																		if(x == JOptionPane.OK_OPTION){
-																			if(a==null)
-																				a=new RegistrarAlumno(getInstance(),getBaseDeDatos().getNia(g),true);
+																	}
+																	else
+																	{
+																		int x = JOptionPane.showConfirmDialog(getInstance(), "<html><body>No se encuentro Registrado.<br>Desea Registrar?</body></html>", "No Registrado", JOptionPane.WARNING_MESSAGE);
+
+																		if(x == JOptionPane.OK_OPTION)
+																		{
+																			if(a == null)
+																				a = new RegistrarAlumno(getInstance(), getBaseDeDatos().getNia(g), true);
 																			else 
 																				return;
+
 																			desktop.add(a);
 																			a.setVisible(true);
-																			synchronized (this) {
+
+																			synchronized (this) 
+																			{
 																				setEscontrado(true);
 																			}
-																			a=null;
-																		}else{
+																			a = null;
+																		}
+																		else
+																		{
 																			return;
 																		}
 																	}
-
 																}
-
 
 																updateAsistencias();
 																fieldCode.setText("");
-																if(a==null)
-																	a=new RegistrarAlumno(getInstance(),getBaseDeDatos().getNia(g),true);
+
+																if(a == null)
+																	a = new RegistrarAlumno(getInstance(),getBaseDeDatos().getNia(g),true);
 																else 
 																	return;
+
 																desktop.add(a);
 
 																a.setEnabledNIA(false);
 																a.loadDatos();
 
-																n=true;
+																n = true;
 
 																System.out.println("Encontrado - 1");
-																synchronized (this) {
 
+																synchronized (this) 
+																{
 																	setEscontrado(true);
 																}
-																a=null;
+
+																a = null;
 																fieldCode.requestFocus();
 															}
-															if(!n){
+
+															if(!n)
+															{
 																JOptionPane.showMessageDialog(getInstance(), "No encontrado","",JOptionPane.WARNING_MESSAGE);
+																fieldCode.setText("");
 																return;
 															}
-														}else
-															if(g.length()==8){
-																boolean b =getBaseDeDatos().verificarSiExiste(g);
-																if(b){
-																	synchronized (this) {
-																		setEscontrado(true);
-																	}
-																	fieldCode.setText("");
-																	//											if(a==null){
-																	boolean n1=getBaseDeDatos().verificarSiEsUsuarioComedor(g);
-																	if(n1){
-																		String tipo=getBaseDeDatos().getTipoDeUsuario(g);
+														}
+														else if(g.length() == 8)
+														{
+															boolean b = getBaseDeDatos().verificarSiExiste(g);
 
-																		if(tipo.equalsIgnoreCase("2")){
-																			if(dia.equalsIgnoreCase("jueves")){
-																				int t=JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?","Ticked Necesario",JOptionPane.INFORMATION_MESSAGE);
-																				if(t==JOptionPane.OK_OPTION){
-																					getBaseDeDatos().addAsistencia(g,"Si");
+															if(b)
+															{
+																synchronized (this) 
+																{
+																	setEscontrado(true);
+																}
+																fieldCode.setText("");
 
-																				}else{
-																					JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
-																					return;
-																				}
-																			}
-																		}else{
+																boolean n1 = getBaseDeDatos().verificarSiEsUsuarioComedor(g);
 
-																			boolean z=false;
-																			if(dia.equalsIgnoreCase("lunes") || dia.equalsIgnoreCase("martes")){
-																				z=getBaseDeDatos().verificarSiEstaAutorizadoLunesMartes(g);
-																			}else
-																				if(dia.equalsIgnoreCase("jueves")){
-																					z=getBaseDeDatos().verificarSiEstaAutorizadoJueves(g);
-																				}
-																			if(!z){
+																if(n1)
+																{
+																	String tipo = getBaseDeDatos().getTipoDeUsuario(g);
+
+																	if(tipo.equalsIgnoreCase("2"))
+																	{
+																		if(dia.equalsIgnoreCase("jueves"))
+																		{
+																			int t = JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?","Ticked Necesario",JOptionPane.INFORMATION_MESSAGE);
+																			if(t == JOptionPane.OK_OPTION)
+																				getBaseDeDatos().addAsistencia(g,"Si");
+																			else
+																			{
 																				JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
-
 																				return;
 																			}
-																			getBaseDeDatos().addAsistencia(g,"No");
 																		}
-																	}else{
-																		boolean t1=getBaseDeDatos().verificarFechas(g);
-																		if(t1){
-																			//														os alumnos no asiduos saltara ticket si el dia que entran 
-																			//														esta fuera de subperiodo alta bajo y si son de dos dias tb ssltaran los jueves
-																			if(getBaseDeDatos().verificarUsuario(g)){
+																	}
+																	else
+																	{
+																		boolean z = false;
+																		if(dia.equalsIgnoreCase("lunes") || dia.equalsIgnoreCase("martes"))
+																			z = getBaseDeDatos().verificarSiEstaAutorizadoLunesMartes(g);
+																		else if(dia.equalsIgnoreCase("jueves"))
+																			z = getBaseDeDatos().verificarSiEstaAutorizadoJueves(g);
+																		if(!z)
+																		{
+																			JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
+																			return;
+																		}
+																		getBaseDeDatos().addAsistencia(g,"No");
+																	}
+																}
+																else
+																{
+																	boolean t1 = getBaseDeDatos().verificarFechas(g);
+																	if(t1)
+																	{
+																		if(getBaseDeDatos().verificarUsuario(g))
+																		{
+																			int t = JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?", "Ticked Necesario", JOptionPane.INFORMATION_MESSAGE);
 
-																				int t=JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?","Ticked Necesario",JOptionPane.INFORMATION_MESSAGE);
-																				if(t==JOptionPane.OK_OPTION){
-																					getBaseDeDatos().addAsistencia(g,"Si");
-																				}else{
-																					JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
-																					return;
-																				}
+																			if(t == JOptionPane.OK_OPTION)
+																				getBaseDeDatos().addAsistencia(g,"Si");
+																			else
+																			{
+																				JOptionPane.showMessageDialog(getInstance(), "No Autorizado!", "Denegado", JOptionPane.WARNING_MESSAGE);
+																				return;
 																			}
+																		}
+																	}
+																	else
+																	{
+																		if(getBaseDeDatos().verificarSiExiste(g))
+																		{
 																			/** Se agrega la función VerificarAsistencia para que un usuario no pase el mismo día varias veces**/
-																		}else{
-																			if(getBaseDeDatos().verificarSiExiste(g)){
-																				if(getBaseDeDatos().verificarAsistencia(g))
-																				{
-																					JOptionPane.showMessageDialog(getInstance(), "Ya Tuvo Acceso Este Día","Denegado",JOptionPane.WARNING_MESSAGE);
-																					return;
-																				}
+																			if(getBaseDeDatos().verificarAsistencia(g))
+																			{
+																				JOptionPane.showMessageDialog(getInstance(), "Ya Tuvo Acceso Este Día", "Denegado", JOptionPane.WARNING_MESSAGE);
+																				return;
+																			}
+																			else
+																			{
+																				int t = JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?", "Ticked Necesario", JOptionPane.INFORMATION_MESSAGE);
+
+																				if(t==JOptionPane.OK_OPTION)
+																					getBaseDeDatos().addAsistencia(g,"Si");
 																				else
 																				{
-
-																					int t=JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?","Ticked Necesario",JOptionPane.INFORMATION_MESSAGE);
-																					if(t==JOptionPane.OK_OPTION){
-																						getBaseDeDatos().addAsistencia(g,"Si");
-																					}else{
-																						JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
-																						return;
-																					}
-																				}
-																			}else{
-																				int x=JOptionPane.showConfirmDialog(getInstance(), "<html><body>No se encuentro Registrado.<br>Desea Registrar?</body></html>","No Registrado",JOptionPane.WARNING_MESSAGE);
-																				if(x == JOptionPane.OK_OPTION){
-																					if(a==null)
-																						a=new RegistrarAlumno(getInstance(),getBaseDeDatos().getNia(g),true);
-																					else 
-																						return;
-																					desktop.add(a);
-																					a.setVisible(true);
-																					synchronized (this) {
-
-																						setEscontrado(true);
-																					}
-																					a=null;
-																				}else{
+																					JOptionPane.showMessageDialog(getInstance(), "No Autorizado!", "Denegado", JOptionPane.WARNING_MESSAGE);
 																					return;
 																				}
 																			}
 																		}
+																		else
+																		{
+																			int x = JOptionPane.showConfirmDialog(getInstance(), "<html><body>No se encuentro Registrado.<br>Desea Registrar?</body></html>", "No Registrado", JOptionPane.WARNING_MESSAGE);
+																			if(x == JOptionPane.OK_OPTION)
+																			{
+																				if(a == null)
+																					a = new RegistrarAlumno(getInstance(),getBaseDeDatos().getNia(g),true);
+																				else 
+																					return;
+
+																				desktop.add(a);
+																				a.setVisible(true);
+																				synchronized (this) 
+																				{
+																					setEscontrado(true);
+																				}
+																				a = null;
+																			}
+																			else
+																			{
+																				return;
+																			}
+																		}
 																	}
-
-																	updateAsistencias();
-																	fieldCode.setText("");
-																	if(a==null)
-																		a=new RegistrarAlumno(getInstance(),g,true);
-																	else 
-																		return;
-																	desktop.add(a);
-
-																	a.setEnabledNIA(false);	
-																	a.loadDatos();
-																	n=true;
-																	try{
-																		a.setVisible(true);
-																	}catch(Exception e){
-
-																	}
-																	System.out.println("Encontrado - 2");
-																	a=null;
-																	synchronized (this) {
-
-																		setEscontrado(true);
-																	}
-
-																	fieldCode.requestFocus();
 																}
-																if(!n){
-																	JOptionPane.showMessageDialog(getInstance(), "No encontrado","",JOptionPane.WARNING_MESSAGE);
+
+																updateAsistencias();
+																fieldCode.setText("");
+
+																if(a == null)
+																	a = new RegistrarAlumno(getInstance(),g,true);
+																else 
 																	return;
+
+																desktop.add(a);
+
+																a.setEnabledNIA(false);	
+																a.loadDatos();
+																n = true;
+
+																try
+																{
+																	a.setVisible(true);
 																}
-															}else{
+																catch(Exception e) { }
+
+																System.out.println("Encontrado - 2");
+
+																a = null;
+																synchronized (this) 
+																{
+																	setEscontrado(true);
+																}
+
+																fieldCode.requestFocus();
 															}
+
+															if(!n)
+															{
+																JOptionPane.showMessageDialog(getInstance(), "No encontrado","",JOptionPane.WARNING_MESSAGE);
+																fieldCode.setText("");
+																return;
+															}
+														}
+														else{ }
 													}
-
-
 												}).start();
 							}
-
 							@Override
-							public void keyPressed(KeyEvent arg0) {
-								// TODO Auto-generated method stub
-
-							}
+							public void keyPressed(KeyEvent arg0) { }
 						});
-				JLabel jLabel= new JLabel("<html><body><b>NIA/Documento:</b></body></html>");
-				//					jLabel.setForeground(Color.white);
+
+				JLabel jLabel = new JLabel("<html><body><b>NIA/Documento:</b></body></html>");
 				jLabel.setHorizontalAlignment(SwingConstants.CENTER);
 				jcMousePanel111.add(jLabel);
 				jcMousePanel111.add(fieldCode);
 				jcMousePanel111.setPreferredSize(new Dimension(290, 80));
-				jcMousePanel111.setBorder(new TitledBorder(null, "",
-						TitledBorder.LEADING, TitledBorder.TOP, new Font("arial",
-								Font.BOLD, 11), new Color(0, 0, 128)));
+				jcMousePanel111.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, new Font("arial", Font.BOLD, 11), new Color(0, 0, 128)));
 				jcMousePanel111.setModo(2);
 				jcMousePanel111.setOpaque(true);
 				jcMousePanel111.setVisible(true);
@@ -927,476 +936,393 @@ public class ComedorGUI extends JFrame
 
 			}
 
-
-
-
 			jcMousePanel111.setLayout(new GridLayout());
-
 			jcMousePanel111.setBounds(180, getHeight()-130,210, 30);
-
 			jcMousePanel111.setVisible(true);
 		}
 		{
 			{
 				jcMousePanel11112 = new jcMousePanel();
 				jcMousePanel11112.setLayout(new FlowLayout(FlowLayout.CENTER));
-				fieldNombre=new JTextField(10);
-				//							fieldNombre.addKeyListener(new KeyListener() {
-				//								
-				//							
-				//								@Override
-				//								public void keyTyped(KeyEvent arg0) {
-				//									// TODO Auto-generated method stub
-				//									
-				//								}
-				//								
-				//								@Override
-				//								public void keyReleased(KeyEvent arg0) {
-				//									if(consultaListados==null){
-				//										consultaListados=new ConsultaListados(getInstance());
-				//										consultaListados.getPanelAlumnos().buscar(fieldNombre.getText());
-				//										getDesktop().add(consultaListados);
-				////										fieldNombre.requestFocus();
-				//										consultaListados.setVisible(true);
-				//										
-				//										fieldNombre.requestFocus();
-				//										fieldNombre.setCaretPosition(fieldNombre.getText().length());
-				//										
-				//										
-				//									}else{
-				//										fieldNombre.requestFocus();
-				//										fieldNombre.setCaretPosition(fieldNombre.getText().length());
-				//										
-				//										consultaListados.getPanelAlumnos().buscar(fieldNombre.getText());
-				//									}	
-				//								}
-				//								
-				//								@Override
-				//								public void keyPressed(KeyEvent arg0) {
-				//									// TODO Auto-generated method stub
-				//									
-				//								}
-				//							});
-				tableBusqueda=new JKTable();
-				JLabel label=new JLabel("Busqueda Por Nombre:");
-				JKCoreBar coreBar=new JKCoreBar(JKCoreBar.MODE_1);
-				JKMenu jkMenu=new JKMenu("Busqueda Por Nombre", JKCoreBar.MODE_1);
+				fieldNombre = new JTextField(10);
+				tableBusqueda = new JKTable();
+				JLabel label = new JLabel("Busqueda Por Nombre:");
+				JKCoreBar coreBar = new JKCoreBar(JKCoreBar.MODE_1);
+				JKMenu jkMenu = new JKMenu("Busqueda Por Nombre", JKCoreBar.MODE_1);
 				label.setHorizontalAlignment(SwingConstants.CENTER);
 				coreBar.add(jkMenu);
-				JPanel jPanel=new JPanel(new BorderLayout());
+				JPanel jPanel = new JPanel(new BorderLayout());
 
 				tableBusqueda.addColumn("Apellidos y Nombres");
 				tableBusqueda.addColumn("NIA");
 
 				JScrollPane jScrollPane=new JScrollPane(tableBusqueda);
 				jPanel.add(fieldNombre,BorderLayout.NORTH);
-				fieldNombre.addKeyListener(new KeyListener() {
+				fieldNombre.addKeyListener(
+						new KeyListener() 
+						{
+							@Override
+							public void keyTyped(KeyEvent arg0) { }
 
-					@Override
-					public void keyTyped(KeyEvent arg0) {
-						// TODO Auto-generated method stub
+							@Override
+							public void keyReleased(KeyEvent arg0) 
+							{
+								tableBusqueda.search(fieldNombre.getText().toUpperCase());
+							}
 
-					}
+							@Override
+							public void keyPressed(KeyEvent arg0) { }
+						});
 
-					@Override
-					public void keyReleased(KeyEvent arg0) {
-						// TODO Auto-generated method stub
-						tableBusqueda.search(fieldNombre.getText().toUpperCase());
-					}
-
-					@Override
-					public void keyPressed(KeyEvent arg0) {
-						// TODO Auto-generated method stub
-
-					}
-				});
 				jPanel.add(jScrollPane,BorderLayout.CENTER);
 				jkMenu.add(jPanel);
 				jPanel.setPreferredSize(new Dimension(300,200));
-				//							jcMousePanel11112.add(label);
 				jcMousePanel11112.add(coreBar);
 				jcMousePanel11112.setPreferredSize(new Dimension(290, 80));
-				jcMousePanel11112.setBorder(new TitledBorder(null, "",
-						TitledBorder.LEADING, TitledBorder.TOP, new Font("arial",
-								Font.BOLD, 11), new Color(0, 0, 128)));
+				jcMousePanel11112.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, new Font("arial", Font.BOLD, 11), new Color(0, 0, 128)));
 				jcMousePanel11112.setModo(2);
 				jcMousePanel11112.setOpaque(true);
 				jcMousePanel11112.setVisible(true);
 
 				desktop.add(jcMousePanel11112);
-
 			}
-
 			jcMousePanel11112.setLayout(new GridLayout());
 			jcMousePanel11112.setBounds(395, getHeight()-130,340, 30);
 			jcMousePanel11112.setVisible(true);
-
 		}
-
 		{
 			{
 				jcMousePanel111121 = new jcMousePanel();
 				jcMousePanel111121.setLayout(new FlowLayout(FlowLayout.CENTER));
-				//						JTextField field=new JTextField(10);
-				//						JLabel label=new JLabel("Busqueda Por Nombre:");
-				//						label.setHorizontalAlignment(SwingConstants.CENTER);
-				//						jcMousePanel11112.add(label);
-				//						jcMousePanel11112.add(field);
 				JButton button=new JButton("Salir...");
 				button.setIcon(new ImageIcon(ImporDataITACA.class.getResource("/resource/exit-hi.png")));
-				button.addActionListener(new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						System.exit(0);
-					}
-				});
+				button.addActionListener(
+						new ActionListener() 
+						{
+							@Override
+							public void actionPerformed(ActionEvent arg0) 
+							{
+								System.exit(0);
+							}
+						});
 				jcMousePanel111121.add(button);
 				jcMousePanel111121.setPreferredSize(new Dimension(290, 80));
-				jcMousePanel111121.setBorder(new TitledBorder(null, "",
-						TitledBorder.LEADING, TitledBorder.TOP, new Font("arial",
-								Font.BOLD, 11), new Color(0, 0, 128)));
+				jcMousePanel111121.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, new Font("arial", Font.BOLD, 11), new Color(0, 0, 128)));
 				jcMousePanel111121.setModo(2);
 				jcMousePanel111121.setOpaque(true);
 				jcMousePanel111121.setVisible(true);
 
 				desktop.add(jcMousePanel111121);
-
 			}
 
 			jcMousePanel111121.setLayout(new GridLayout());
-			jcMousePanel111121.setBounds(getWidth()-450, getHeight()-130,200, 30);
+			jcMousePanel111121.setBounds(getWidth()-450, getHeight()-130, 200, 30);
 			jcMousePanel111121.setVisible(true);
-
-
 		}
-
-
-
-
 		{
 			jcMousePanel1111xxxx = new jcMousePanel();
 			jcMousePanel1111xxxx.setLayout(new GridLayout(2,0));
 
 			SimpleDateFormat dateFormat=new SimpleDateFormat("EEEEE");
 
-			//				    urce/users.png")));
-			//					label.setHorizontalAlignment(SwingConstants.CENTER);
-			//					jcMousePanel1111.add(label);
-			//					jcMousePanel1111.add(comboBox);
-			label1Provistos=new JLabel("  Provistos: "+nAutorizados);
+			label1Provistos=new JLabel("  Provistos: " + nAutorizados);
 			jcMousePanel1111xxxx.add(label1Provistos);
 
-			labelAsistencia=new JLabel("  Asisten: "+nAsistencia);
+			labelAsistencia=new JLabel("  Asisten: " +nAsistencia);
 			jcMousePanel1111xxxx.add(labelAsistencia);
-
 
 			String fechaInicio = new java.sql.Date(new java.util.Date().getTime()).toString();
 			String ano1 = fechaInicio.toString().split("-")[0];
 			String mes1 = fechaInicio.toString().split("-")[1];
 			String dia1 = fechaInicio.toString().split("-")[2];
 
-
-
-
 			String fecha1 = dia1 + "/" + mes1 + "/" + ano1;
 
-
-
-
-			try{
-				jcMousePanel1111xxxx.setBorder(new TitledBorder(null, "Fecha: "+fecha1+" ("+dateFormat.format(new Date())+")         Curso Actual: < "+getBaseDeDatos().getCursoActual()+" >",
-						TitledBorder.LEADING, TitledBorder.TOP, new Font("arial",
-								Font.BOLD, 11), new Color(0, 0, 128)));
-
-			}catch(Exception e){
-
+			try
+			{
+				jcMousePanel1111xxxx.setBorder(new TitledBorder(null, "Fecha: " + fecha1 + " (" + dateFormat.format(new Date()) + ")         Curso Actual: < " + getBaseDeDatos().getCursoActual() + " >", TitledBorder.LEADING, TitledBorder.TOP, new Font("arial", Font.BOLD, 11), new Color(0, 0, 128)));
 			}
+			catch(Exception e){ }
+
 			jcMousePanel1111xxxx.setModo(2);
 			jcMousePanel1111xxxx.setOpaque(true);
 			jcMousePanel1111xxxx.setVisible(true);
 
 			desktop.add(jcMousePanel1111xxxx);
-
 		}
 
-		jcMousePanel1111xxxx.setBounds(240, getHeight()-260,400, 80);
+		jcMousePanel1111xxxx.setBounds(240, getHeight()-260, 400, 80);
 		jcMousePanel1111xxxx.setVisible(true);
-
-
-
-
 		{
-
-			//					System.out.println(Math.r);
-
 			jcMousePanel1111 = new jcMousePanel();
 			jcMousePanel1111.setLayout(new GridLayout());
 			comboBox = new JKComboBox();
-			comboBox.setPreferredSize(new Dimension(280,24));
-			comboBox.setFont(new Font("tahoma",Font.BOLD,12));	
-			if(bd!=null&&bd.isActive())
+			comboBox.setPreferredSize(new Dimension(280, 24));
+			comboBox.setFont(new Font("tahoma", Font.BOLD, 12));	
+
+			if(bd != null && bd.isActive())
 				getBaseDeDatos().getGroups(comboBox);
-			JLabel label=new JLabel("Busqueda Por Grupo:");
+
+			JLabel label = new JLabel("Busqueda Por Grupo:");
 			label.setIcon(new ImageIcon(ImporDataITACA.class.getResource("/resource/users.png")));
 			label.setHorizontalAlignment(SwingConstants.CENTER);
 			jcMousePanel1111.add(label);
-			//					jcMousePanel1111.add(comboBox);
 			JKCoreBar coreBar2=new JKCoreBar(JKCoreBar.MODE_1);
 			final JKMenu jkMenu2=new JKMenu("Seleccionar Grupo...", JKCoreBar.MODE_1);
-			//					jkMenu2.setFont(new Font("arial",Font.BOLD,12));
-			coreBar2.setPreferredSize(new Dimension(230,24));
-			jkMenu2.setLayout(new GridLayout(2,2));
+			coreBar2.setPreferredSize(new Dimension(230, 24));
+			jkMenu2.setLayout(new GridLayout(2, 2));
 
 			coreBar2.add(jkMenu2);
 			{
 				table2 = new JKTable();
-				table2.setFont(new Font("arial",Font.BOLD,12));
+				table2.setFont(new Font("arial", Font.BOLD,12));
 				table2.addColumn("Codigo");
 				table2.addColumn("Grupo");
-				table2.addMouseListener(new MouseListener() {
-
+				table2.addMouseListener(new MouseListener() 
+				{
 					@Override
-					public void mouseReleased(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-						String code=table2.getValueAt(table2.getSelectedRow(), 0).toString();
-						try{
-							tableBusqueda2.clearTable();
-						}catch(Exception e){
+					public void mouseReleased(MouseEvent arg0)
+					{
+						String code = table2.getValueAt(table2.getSelectedRow(), 0).toString();
 
+						try
+						{
+							tableBusqueda2.clearTable();
 						}
+						catch(Exception e){ }
+
 						getBaseDeDatos().getAlumnos(code, tableBusqueda2, new JLabel());
 					}
 
 					@Override
-					public void mousePressed(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-
-					}
+					public void mousePressed(MouseEvent arg0) { }
 
 					@Override
-					public void mouseExited(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-
-
-
-					}
+					public void mouseExited(MouseEvent arg0) { }
 
 					@Override
-					public void mouseEntered(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-
-					}
+					public void mouseEntered(MouseEvent arg0) { }
 
 					@Override
-					public void mouseClicked(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-
-					}
+					public void mouseClicked(MouseEvent arg0) { }
 				});
-				table2.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-				JScrollPane jScrollPane=new JScrollPane(table2);
-				jScrollPane.setPreferredSize(new Dimension(490,330));
-				jkMenu2.add(jScrollPane);
-				coreBar2.setPreferredSize(new Dimension(130,24));
-				if(getBaseDeDatos()!=null)
-					getBaseDeDatos().getGroups(table2,new JLabel(),getBaseDeDatos().getCursoActual());
 
-				tableBusqueda2= new JKTable();
+				table2.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+				JScrollPane jScrollPane = new JScrollPane(table2);
+				jScrollPane.setPreferredSize(new Dimension(490, 330));
+				jkMenu2.add(jScrollPane);
+				coreBar2.setPreferredSize(new Dimension(130, 24));
+
+				if(getBaseDeDatos() != null)
+					getBaseDeDatos().getGroups(table2, new JLabel(), getBaseDeDatos().getCursoActual());
+
+				tableBusqueda2 = new JKTable();
 				tableBusqueda2.addColumn("Apellidos y Nombres");
 				tableBusqueda2.addColumn("NIA");
 
+				JScrollPane jScrollPane1 = new JScrollPane(tableBusqueda2);
 
-				JScrollPane jScrollPane1=new JScrollPane(tableBusqueda2);
+				tableBusqueda2.addMouseListener(
+						new MouseListener()
+						{
+							@Override
+							public void mouseReleased(MouseEvent arg0) 
+							{
+								if(tableBusqueda2.getSelectedRow() != -1)
+								{
+									jkMenu2.setPopupMenuVisible(false);
+									String g = tableBusqueda2.getValueAt(tableBusqueda2.getSelectedRow(), 1).toString().toUpperCase();
+									boolean b = getBaseDeDatos().verificarSiExiste(g);
 
-				tableBusqueda2.addMouseListener(new MouseListener() {
-
-					@Override
-					public void mouseReleased(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-
-						if(tableBusqueda2.getSelectedRow()!=-1){
-							jkMenu2.setPopupMenuVisible(false);
-							String g=tableBusqueda2.getValueAt(tableBusqueda2.getSelectedRow(), 1).toString().toUpperCase();
-
-							//									System.out.println(g);
-
-							boolean b =getBaseDeDatos().verificarSiExiste(g);
-							if(b){
-								synchronized (this) {
-									setEscontrado(true);
-								}
-								fieldCode.setText("");
-								//										if(a==null){
-								boolean n1=getBaseDeDatos().verificarSiEsUsuarioComedor(g);
-								if(n1){
-									String tipo=getBaseDeDatos().getTipoDeUsuario(g);
-
-									if(tipo.equalsIgnoreCase("2")){
-										if(dia.equalsIgnoreCase("jueves")){
-											int t=JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?","Ticked Necesario",JOptionPane.INFORMATION_MESSAGE);
-											if(t==JOptionPane.OK_OPTION){
-												getBaseDeDatos().addAsistencia(g,"Si");
-
-											}else{
-												JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
-												return;
-											}
+									if(b)
+									{
+										synchronized (this) 
+										{
+											setEscontrado(true);
 										}
-									}else{
+										fieldCode.setText("");
 
-										boolean z=false;
-										if(dia.equalsIgnoreCase("lunes") || dia.equalsIgnoreCase("martes")){
-											z=getBaseDeDatos().verificarSiEstaAutorizadoLunesMartes(g);
-										}else
-											if(dia.equalsIgnoreCase("jueves")){
-												z=getBaseDeDatos().verificarSiEstaAutorizadoJueves(g);
-											}
-										if(!z){
-											JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
+										boolean n1 = getBaseDeDatos().verificarSiEsUsuarioComedor(g);
 
-											return;
-										}
-										getBaseDeDatos().addAsistencia(g,"No");
-									}
-								}else{
-									boolean t1=getBaseDeDatos().verificarFechas(g);
-									if(t1){
-										//													os alumnos no asiduos saltara ticket si el dia que entran 
-										//													esta fuera de subperiodo alta bajo y si son de dos dias tb ssltaran los jueves
-										if(getBaseDeDatos().verificarUsuario(g)){
+										if(n1)
+										{
+											String tipo = getBaseDeDatos().getTipoDeUsuario(g);
 
-											int t=JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?","Ticked Necesario",JOptionPane.INFORMATION_MESSAGE);
-											if(t==JOptionPane.OK_OPTION){
-												getBaseDeDatos().addAsistencia(g,"Si");
-											}else{
-												JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
-												return;
-											}
-										}
+											if(tipo.equalsIgnoreCase("2"))
+											{
+												if(dia.equalsIgnoreCase("jueves"))
+												{
+													int t = JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?", "Ticked Necesario", JOptionPane.INFORMATION_MESSAGE);
 
-									}else{
-										if(getBaseDeDatos().verificarSiExiste(g)){
-
-
-											int t=JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?","Ticked Necesario",JOptionPane.INFORMATION_MESSAGE);
-											if(t==JOptionPane.OK_OPTION){
-												getBaseDeDatos().addAsistencia(g,"Si");
-											}else{
-												JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
-												return;
-											}
-										}else{
-											int x=JOptionPane.showConfirmDialog(getInstance(), "<html><body>No se encuentro Registrado.<br>Desea Registrar?</body></html>","No Registrado",JOptionPane.WARNING_MESSAGE);
-											if(x == JOptionPane.OK_OPTION){
-												if(a==null)
-													a=new RegistrarAlumno(getInstance(),getBaseDeDatos().getNia(g),true);
-												else 
+													if(t == JOptionPane.OK_OPTION)
+														getBaseDeDatos().addAsistencia(g,"Si");
+													else
+														JOptionPane.showMessageDialog(getInstance(), "No Autorizado!", "Denegado", JOptionPane.WARNING_MESSAGE);
 													return;
-												desktop.add(a);
-												a.setVisible(true);
-												synchronized (this) {
-
-													setEscontrado(true);
 												}
-												a=null;
-											}else{
+											}
+										}
+										else
+										{
+											boolean z = false;
+											if(dia.equalsIgnoreCase("lunes") || dia.equalsIgnoreCase("martes"))
+												z = getBaseDeDatos().verificarSiEstaAutorizadoLunesMartes(g);
+											else if(dia.equalsIgnoreCase("jueves"))
+												z = getBaseDeDatos().verificarSiEstaAutorizadoJueves(g);
+
+											if(!z)
+											{
+												JOptionPane.showMessageDialog(getInstance(), "No Autorizado!", "Denegado", JOptionPane.WARNING_MESSAGE);
 												return;
+											}
+
+											getBaseDeDatos().addAsistencia(g,"No");
+										}
+									}
+									else
+									{
+										boolean t1 = getBaseDeDatos().verificarFechas(g);
+
+										if(t1)
+										{
+											//os alumnos no asiduos saltara ticket si el dia que entran 
+											//esta fuera de subperiodo alta bajo y si son de dos dias tb ssltaran los jueves
+
+											if(getBaseDeDatos().verificarUsuario(g))
+											{
+												int t = JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?", "Ticked Necesario", JOptionPane.INFORMATION_MESSAGE);
+
+												if(t == JOptionPane.OK_OPTION)
+													getBaseDeDatos().addAsistencia(g,"Si");
+												else
+												{
+													JOptionPane.showMessageDialog(getInstance(), "No Autorizado!", "Denegado",JOptionPane.WARNING_MESSAGE);
+													return;
+												}
+											}
+
+										}
+										else
+										{
+											if(getBaseDeDatos().verificarSiExiste(g))
+											{
+												if(getBaseDeDatos().verificarAsistencia(g))
+												{
+													JOptionPane.showMessageDialog(getInstance(), "El Usuario Ya Accedio El Día de Hoy!", "Denegado", JOptionPane.WARNING_MESSAGE);
+													return;
+												}
+												else
+												{
+													int t = JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?", "Ticked Necesario", JOptionPane.INFORMATION_MESSAGE);
+													if(t == JOptionPane.OK_OPTION)
+													{
+														getBaseDeDatos().addAsistencia(g, "Si");
+													}
+													else
+													{
+														JOptionPane.showMessageDialog(getInstance(), "No Autorizado!", "Denegado", JOptionPane.WARNING_MESSAGE);
+														return;
+													}
+												}
+											}
+											else
+											{
+												int  x = JOptionPane.showConfirmDialog(getInstance(), "<html><body>No se encuentro Registrado.<br>Desea Registrar?</body></html>","No Registrado",JOptionPane.WARNING_MESSAGE);
+												if(x == JOptionPane.OK_OPTION)
+												{
+													if(a == null)
+														a = new RegistrarAlumno(getInstance(), getBaseDeDatos().getNia(g), true);
+													else 
+														return;
+
+													desktop.add(a);
+													a.setVisible(true);
+													synchronized (this) 
+													{
+														setEscontrado(true);
+													}
+													a = null;
+												}
+												else
+													return;
 											}
 										}
 									}
-								}
 
-								updateAsistencias();
-								fieldCode.setText("");
-								if(a==null)
-									a=new RegistrarAlumno(getInstance(),g,true);
-								else 
-									return;
-								desktop.add(a);
+									updateAsistencias();
+									fieldCode.setText("");
+									if(a == null)
+										a = new RegistrarAlumno(getInstance(), g, true);
+									else  
+										return;
+									desktop.add(a);
 
-								a.setEnabledNIA(false);	
-								a.loadDatos();
-								//											n=true;
-								try{
-									a.setVisible(true);
-								}catch(Exception e){
+									a.setEnabledNIA(false);	
+									a.loadDatos();
 
-								}
-								System.out.println("Encontrado - 3");
-								a=null;
-								synchronized (this) {
+									try
+									{
+										a.setVisible(true);
+									}
+									catch(Exception e) { }
 
-									setEscontrado(true);
+									a = null;
+									synchronized (this) 
+									{
+										setEscontrado(true);
+									}
 								}
 							}
-						}
 
+							@Override
+							public void mousePressed(MouseEvent arg0) { }
 
-					}
+							@Override
+							public void mouseExited(MouseEvent arg0) { }
 
-					@Override
-					public void mousePressed(MouseEvent arg0) {
-						// TODO Auto-generated method stub
+							@Override
+							public void mouseEntered(MouseEvent arg0) { }
 
-					}
+							@Override
+							public void mouseClicked(MouseEvent arg0) { }
+						});
 
-					@Override
-					public void mouseExited(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void mouseEntered(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void mouseClicked(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-					}
-				});
-				JPanel panel=new JPanel(new FlowLayout(FlowLayout.LEFT));
+				JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 				panel.add(new JLabel("Termino de Busqueda:"));
-				final JTextField textField=new JTextField(35);
-				textField.addKeyListener(new KeyListener() {
+				final JTextField textField = new JTextField(35);
+				textField.addKeyListener(
+						new KeyListener() 
+						{
 
-					@Override
-					public void keyTyped(KeyEvent arg0) {
+							@Override
+							public void keyTyped(KeyEvent arg0) { }
 
+							@Override
+							public void keyReleased(KeyEvent arg0) 
+							{
+								tableBusqueda2.search(textField.getText());
+							}
 
-					}
-					@Override
-					public void keyReleased(KeyEvent arg0) {
-						tableBusqueda2.search(textField.getText());
-					}
-					@Override
-					public void keyPressed(KeyEvent arg0) {
-						// TODO Auto-generated method stub
+							@Override
+							public void keyPressed(KeyEvent arg0) { }
+						});
 
-					}
-				});
 				panel.add(textField);
-				JPanel panel2=new JPanel(new BorderLayout());
-				panel2.add(panel,BorderLayout.NORTH);
-				panel2.add(jScrollPane1,BorderLayout.CENTER);
+				JPanel panel2 = new JPanel(new BorderLayout());
+				panel2.add(panel, BorderLayout.NORTH);
+				panel2.add(jScrollPane1, BorderLayout.CENTER);
 				panel2.setPreferredSize(new Dimension(0,230));
 				jkMenu2.add(panel2);
-
 			}
+
 			jcMousePanel1111.add(coreBar2);
-			jcMousePanel1111.setBorder(new TitledBorder(null, "",
-					TitledBorder.LEADING, TitledBorder.TOP, new Font("arial",
-							Font.BOLD, 11), new Color(0, 0, 128)));
+			jcMousePanel1111.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, new Font("arial", Font.BOLD, 11), new Color(0, 0, 128)));
 			jcMousePanel1111.setModo(2);
 			jcMousePanel1111.setOpaque(true);
 			jcMousePanel1111.setVisible(true);
 
 			desktop.add(jcMousePanel1111);
-
 		}
 
 		jcMousePanel1111.setBounds(10, getHeight()-170,460, 35);
@@ -1407,21 +1333,15 @@ public class ComedorGUI extends JFrame
 		String mes1 = fechaInicio.toString().split("-")[1];
 		String dia1 = fechaInicio.toString().split("-")[2];
 
-
 		String fecha1 = dia1 + "/" + mes1 + "/" + ano1;
+
 		if(bd!=null)
 			bar1.addComponent("Estatus:", "Iniciado Correctamente!",new ImageIcon(getClass().getResource("/resource/A1-connect.png")), Color.blue);
-		else{
+		else
 			bar1.addComponent("Estatus:", "Esperando Conexion...",new ImageIcon(getClass().getResource("/resource/A1-connect.png")), Color.blue);
-		}
-		bar1.addComponent(
-				"Estatus de Camara:",
-				"Desconectado",
-				new ImageIcon(getClass().getResource(
-						"/resource/A1-connect.png")), Color.blue);
-		bar1.addComponent("Fecha Actual:", "" + fecha1, new ImageIcon(
-				getClass().getResource("/resource/calendar.png")),Color.blue);
 
+		bar1.addComponent("Estatus de Camara:", "Desconectado", new ImageIcon(getClass().getResource("/resource/A1-connect.png")), Color.blue);
+		bar1.addComponent("Fecha Actual:", "" + fecha1, new ImageIcon(getClass().getResource("/resource/calendar.png")),Color.blue);
 		checkCamara();
 
 		fieldCode.addMouseListener(
@@ -1449,210 +1369,219 @@ public class ComedorGUI extends JFrame
 
 		getContentPane().add(bar1,BorderLayout.SOUTH);
 
-		if(bd!=null)
+		if(bd != null)
 			updateNroAlumnos(bd.getNroAlumnos());
 	}
 
-	public void repaintData(){
+	public void repaintData()
+	{
 		updateNroAlumnos(bd.getNroAlumnos());
 		updateDatosCentro();
 		updateGroups();
 
-		SimpleDateFormat dateFormat=new SimpleDateFormat("EEEEE");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE");
 
-		//		System.out.println(getBaseDeDatos());
-		try {
-			dia=dateFormat.format(new Date());
-			if(dia.equalsIgnoreCase("lunes")){
+		try 
+		{
+			dia = dateFormat.format(new Date());
+
+			if(dia.equalsIgnoreCase("lunes"))
+				nAutorizados = getBaseDeDatos().getComedorLunesMartes();
+
+			else if(dia.equalsIgnoreCase("martes")) 
 				nAutorizados=getBaseDeDatos().getComedorLunesMartes();
-			}else if(dia.equalsIgnoreCase("martes")){
-				nAutorizados=getBaseDeDatos().getComedorLunesMartes();
-			}else if(dia.equalsIgnoreCase("jueves")){
+			else if(dia.equalsIgnoreCase("jueves"))
 				nAutorizados=getBaseDeDatos().getComedorJueves();
-			}
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
-		}System.out.println("11");
+		}
 
-		//	    urce/users.png")));
-		//		label.setHorizontalAlignment(SwingConstants.CENTER);
-		//		jcMousePanel1111.add(label);
-		//		jcMousePanel1111.add(comboBox);
-		label1Provistos.setText("  Provistos: "+nAutorizados);
-		labelAsistencia.setText("  Asisten: "+nAsistencia);
-
+		label1Provistos.setText("  Provistos: " + nAutorizados);
+		labelAsistencia.setText("  Asisten: " + nAsistencia);
 
 		String fechaInicio = new java.sql.Date(new java.util.Date().getTime()).toString();
 		String ano1 = fechaInicio.toString().split("-")[0];
 		String mes1 = fechaInicio.toString().split("-")[1];
 		String dia1 = fechaInicio.toString().split("-")[2];
 
-
 		String fecha1 = dia1 + "/" + mes1 + "/" + ano1;
 
-
-		try{
-			jcMousePanel1111xxxx.setBorder(new TitledBorder(null, "Fecha: "+fecha1+" ("+dateFormat.format(new Date())+")         Curso Actual: < "+getBaseDeDatos().getCursoActual()+" >",
-					TitledBorder.LEADING, TitledBorder.TOP, new Font("arial",
-							Font.BOLD, 11), new Color(0, 0, 128)));
-		}catch(Exception e){
-
+		try 
+		{
+			jcMousePanel1111xxxx.setBorder(new TitledBorder(null, "Fecha: " +fecha1+" (" +dateFormat.format(new Date())+")         Curso Actual: < " +getBaseDeDatos().getCursoActual()+" >",
+					TitledBorder.LEADING, TitledBorder.TOP, new Font("arial", Font.BOLD, 11), new Color(0, 0, 128)));
 		}
-		//		checkCamara();
-
+		catch(Exception e) { }
 	}
-	public void updateAsistencias(){
-		nAsistencia=getBaseDeDatos().getnAsistenciasDia();
-		labelAsistencia.setText("  Asisten: "+nAsistencia);
-	}
-	public void checkCamara(){
-		new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				while(true){
-					try {
-						Thread.sleep(4000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+	public void updateAsistencias()
+	{
+		nAsistencia = getBaseDeDatos().getnAsistenciasDia();
+		labelAsistencia.setText("  Asisten: " + nAsistencia);
+	}
+
+	public void checkCamara()
+	{
+		new Thread(
+				new Runnable() 
+				{
+					@Override
+					public void run() 
+					{
+						while(true)
+						{
+							try 
+							{
+								Thread.sleep(4000);
+							} 
+							catch (InterruptedException e) 
+							{
+								e.printStackTrace();
+							}
+
+							Webcam webcam = Webcam.getDefault();
+
+							if(webcam == null)
+								bar1.setTextLabel(1, "Estatus de Camara", "Desconectado");
+							else
+								bar1.setTextLabel(1, "Estatus de Camara", "Conectado");
+						}
 					}
-					Webcam webcam = Webcam.getDefault();
-					//				System.out.println(2);
-					if(webcam==null){
-						bar1.setTextLabel(1, "Estatus de Camara", "Desconectado");
-
-					}else{
-						bar1.setTextLabel(1, "Estatus de Camara", "Conectado");
-
-					}
-
-				}
-			}
-		}).start();
+				}).start();
 	}
-	public void setBD(BD bd2) {
-		// TODO Auto-generated method stub
+
+	public void setBD(BD bd2) 
+	{
 		bar1.setTextLabel(0, "Estatus", "Iniciado Correctamente!");
-		//		statusBar.setTextLabel(2, "Fecha Actual", "" + fecha1);
 
-		this.bd=bd2;
+		this.bd = bd2;
 		updateNroAlumnos(bd.getNroAlumnos());
 		updateDatosCentro();
 		updateGroups();
-		if(bd!=null){
+
+		if(bd != null)
 			getBaseDeDatos().getCursos(menuz);
-		}
 
 		SimpleDateFormat dateFormat=new SimpleDateFormat("EEEEE");
 
-		//		System.out.println(getBaseDeDatos());
-		try {
-			dia=dateFormat.format(new Date());
-			if(dia.equalsIgnoreCase("lunes")){
+		try 
+		{
+			dia = dateFormat.format(new Date());
+
+			if(dia.equalsIgnoreCase("lunes"))
 				nAutorizados=getBaseDeDatos().getComedorLunesMartes();
-			}else if(dia.equalsIgnoreCase("martes")){
+			else if(dia.equalsIgnoreCase("martes"))
 				nAutorizados=getBaseDeDatos().getComedorLunesMartes();
-			}else if(dia.equalsIgnoreCase("jueves")){
+			else if(dia.equalsIgnoreCase("jueves"))
 				nAutorizados=getBaseDeDatos().getComedorJueves();
-			}
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 		}
+
 		getBaseDeDatos().getGroups(table2,new JLabel(),getBaseDeDatos().getCursoActual());
-		try{
-			java.sql.Date date=new java.sql.Date(new Date().getTime());
-			String fecha=date.toString();
-			//			2016-06-04
-			String array[]=fecha.split("-");
-			int v=0;
-			//			System.out.println();
-			v=Integer.parseInt(array[2]);
-			v=v-1;
-			String k="";
-			if(v<=9){
-				k="0"+v;
-			}else{
-				k=""+v;
-			}
-			String nueva=""+array[0]+"-"+array[1]+"-"+k;
+
+		try
+		{
+			java.sql.Date date = new java.sql.Date(new Date().getTime());
+			String fecha = date.toString();
+			String array[] = fecha.split("-");
+			int v = 0;
+
+			v = Integer.parseInt(array[2]);
+			v = v - 1;
+
+			String k = "";
+
+			if(v <= 9)
+				k = "0" + v;
+			else
+				k = "" + v;
+
+			String nueva = "" + array[0] + "-" + array[1] + "-" + k;
 			SimpleDateFormat dateFormat2=new SimpleDateFormat("yyyy-MM-dd");
 			Date dat = dateFormat2.parse(nueva);
 			String anterior=dateFormat.format(dat);
-			if(anterior.equalsIgnoreCase("lunes")||anterior.equalsIgnoreCase("martes")){
 
+			if(anterior.equalsIgnoreCase("lunes") || anterior.equalsIgnoreCase("martes"))
+			{
 				ArrayList<Persona> a = getBaseDeDatos().getUsuariosComedor(getBaseDeDatos().getCursoActual());
-				for(int index=0; index<a.size(); index++){
 
-					Boolean n1=getBaseDeDatos().getSelectedLunesMartes(a.get(index).getNia());
-					if(n1){
-						boolean n=getBaseDeDatos().verificarAsistrencia(a.get(index).getNia(),getBaseDeDatos().getCursoActual(),dat,anterior);
-						if(!n){
-							getBaseDeDatos().agregarFalta(a.get(index).getNia(),getBaseDeDatos().getCursoActual(),date,dat,anterior);
-						}
-					}
-				}
-			}else if(anterior.equalsIgnoreCase("jueves")){
-				ArrayList<Persona> a = getBaseDeDatos().getUsuariosComedor(getBaseDeDatos().getCursoActual());
-				for(int index=0; index<a.size(); index++){
+				for(int index = 0; index < a.size(); index++)
+				{
+					Boolean n1 = getBaseDeDatos().getSelectedLunesMartes(a.get(index).getNia());
 
-					Boolean n1=getBaseDeDatos().getSelectedJueves(a.get(index).getNia());
-					if(n1){
-						boolean n=getBaseDeDatos().verificarAsistrencia(a.get(index).getNia(),getBaseDeDatos().getCursoActual(),dat,anterior);
-						if(!n){
-							getBaseDeDatos().agregarFalta(a.get(index).getNia(),getBaseDeDatos().getCursoActual(),date,dat,anterior);
-						}
+					if(n1)
+					{
+						boolean n = getBaseDeDatos().verificarAsistrencia(a.get(index).getNia(), getBaseDeDatos().getCursoActual(), dat, anterior);
+
+						if(!n)
+							getBaseDeDatos().agregarFalta(a.get(index).getNia(), getBaseDeDatos().getCursoActual(), date, dat, anterior);
 					}
 				}
 			}
-		}catch(Exception e){
+			else if(anterior.equalsIgnoreCase("jueves"))
+			{
+				ArrayList<Persona> a = getBaseDeDatos().getUsuariosComedor(getBaseDeDatos().getCursoActual());
+
+				for(int index = 0; index < a.size(); index++)
+				{
+					Boolean n1 = getBaseDeDatos().getSelectedJueves(a.get(index).getNia());
+
+					if(n1) 
+					{
+						boolean n = getBaseDeDatos().verificarAsistrencia(a.get(index).getNia(), getBaseDeDatos().getCursoActual(), dat, anterior);
+
+						if(!n)
+							getBaseDeDatos().agregarFalta(a.get(index).getNia(), getBaseDeDatos().getCursoActual(), date, dat, anterior);
+					}
+				}
+			}
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 
-
-		//	    urce/users.png")));
-		//		label.setHorizontalAlignment(SwingConstants.CENTER);
-		//		jcMousePanel1111.add(label);
-		//		jcMousePanel1111.add(comboBox);
-		label1Provistos.setText("  Provistos: "+nAutorizados);
+		label1Provistos.setText("  Provistos: " + nAutorizados);
 		updateAsistencias();
-		labelAsistencia.setText("  Asisten: "+nAsistencia);
-
+		labelAsistencia.setText("  Asisten: " + nAsistencia);
 
 		String fechaInicio = new java.sql.Date(new java.util.Date().getTime()).toString();
 		String ano1 = fechaInicio.toString().split("-")[0];
 		String mes1 = fechaInicio.toString().split("-")[1];
 		String dia1 = fechaInicio.toString().split("-")[2];
 
-
 		String fecha1 = dia1 + "/" + mes1 + "/" + ano1;
 
-
-		try{
-			jcMousePanel1111xxxx.setBorder(new TitledBorder(null, "Fecha: "+fecha1+" ("+dateFormat.format(new Date())+")         Curso Actual: < "+getBaseDeDatos().getCursoActual()+" >",
-					TitledBorder.LEADING, TitledBorder.TOP, new Font("arial",
-							Font.BOLD, 11), new Color(0, 0, 128)));
-		}catch(Exception e){
-
+		try
+		{
+			jcMousePanel1111xxxx.setBorder(new TitledBorder(null, "Fecha: " + fecha1 + " (" + dateFormat.format(new Date()) + ")         Curso Actual: < " + getBaseDeDatos().getCursoActual() + " >",
+					TitledBorder.LEADING, TitledBorder.TOP, new Font("arial", Font.BOLD, 11), new Color(0, 0, 128)));
 		}
-		labelAsistencia.setFont(new Font("arial",Font.BOLD,12));
-		label1Provistos.setFont(new Font("arial",Font.BOLD,12));
+		catch(Exception e){ }
+
+		labelAsistencia.setFont(new Font("arial", Font.BOLD,12));
+		label1Provistos.setFont(new Font("arial", Font.BOLD,12));
 		tableBusqueda.getColumn("Apellidos y Nombres").setPreferredWidth(200);
 		tableBusqueda.getColumn("Apellidos y Nombres").setWidth(200);
-		new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				String cursoActual=getBaseDeDatos().getCursoActual();
-				ArrayList<Persona> xz = getBaseDeDatos().getTodosLosAlumnos(cursoActual);
-				for(int index=0;index<xz.size();index++){
-					tableBusqueda.addRow(xz.get(index).getNombreCompleto(),xz.get(index).getNia());	
+		new Thread(
+				new Runnable() 
+				{
+					@Override
+					public void run() 
+					{ 
+						String cursoActual = getBaseDeDatos().getCursoActual();
+						ArrayList<Persona> xz = getBaseDeDatos().getTodosLosAlumnos(cursoActual);
 
-				}	
-			}
-		}).start();
+						for(int index = 0; index<xz.size(); index++)
+							tableBusqueda.addRow(xz.get(index).getNombreCompleto(), xz.get(index).getNia());	
+					}
+				}).start();
 
 		tableBusqueda.addMouseListener(
 				new MouseListener() 
@@ -1660,7 +1589,7 @@ public class ComedorGUI extends JFrame
 					@Override
 					public void mouseReleased(MouseEvent arg0) 
 					{
-						if(arg0.getClickCount()==2)
+						if(arg0.getClickCount() == 2)
 						{
 							String g = tableBusqueda.getValueAt(tableBusqueda.getSelectedRow(), 1).toString();
 							boolean n1 = getBaseDeDatos().verificarSiEsUsuarioComedor(g);
@@ -1677,7 +1606,7 @@ public class ComedorGUI extends JFrame
 
 										if(t==JOptionPane.OK_OPTION)
 											getBaseDeDatos().addAsistencia(g,"Si");
-										else
+										else 
 										{
 											JOptionPane.showMessageDialog(getInstance(), "No Autorizado!", "Denegado", JOptionPane.WARNING_MESSAGE);
 											return;
@@ -1774,6 +1703,7 @@ public class ComedorGUI extends JFrame
 		else
 			fieldCode.requestFocus();
 	}
+	
 	private jcMousePanel jcMousePanel1111xxxx;
 	private String nAsistencia = "0";
 	private String dia;
