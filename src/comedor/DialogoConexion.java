@@ -117,7 +117,7 @@ public class DialogoConexion extends JDialog
 									if(j == JOptionPane.OK_OPTION)
 									{
 										file.delete();
-										x=true;
+										x = true;
 									}
 									else
 									{
