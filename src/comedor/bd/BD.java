@@ -1865,6 +1865,9 @@ public class BD extends JKDataBase
 		try{
 
 			ResultSet x = executeQuery("select nia,documento,apellido1,apellido2,nombres,foto,fecha_nacimiento,telefono1,grupo,documento from alumnos where grupo='"+codigoGrupo+"' and curso='"+cursoActual+"' order by apellido1");
+			
+//			System.out.println("select nia,documento,apellido1,apellido2,nombres,foto,fecha_nacimiento,telefono1,grupo,documento from alumnos where grupo='"+codigoGrupo+"' and curso='"+cursoActual+"' order by apellido1");
+			
 			while(x.next()){
 				Persona alumno=new Persona();
 				alumno.setFoto(x.getBytes(6));
@@ -1880,7 +1883,7 @@ public class BD extends JKDataBase
 				if(new File(new File(".")
 				.getAbsolutePath().substring(0,
 						new File(".").getAbsolutePath().length() - 2).toString()+""+File.separator+"System-Comedor"
-						+File.separator+"Fotos"+File.separator+""+x.getString(1)+".jpg").exists()){
+						+File.separator+"Fotos"+File.separator+""+"FotoPrueba"/*x.getString(1)*/+".jpg").exists()){
 					alumno.setFotoVerificada(true);
 				}else{
 					alumno.setFotoVerificada(false);
@@ -1956,41 +1959,55 @@ public class BD extends JKDataBase
 
 
 
-	public ArrayList<Persona> getTodosLosAlumnos(String curso) {
+	public ArrayList<Persona> getTodosLosAlumnos(String curso) 
+	{
 		// TODO Auto-generated method stub
 		ArrayList<Persona> alumnos=new ArrayList<>();
-		try{
-			ResultSet x = executeQuery("select nia,documento,apellido1,apellido2,nombres,foto,fecha_nacimiento,telefono1 from alumnos where curso='"+curso+"' order by apellido1");
-			while(x.next()){
-				Persona alumno=new Persona();
-				alumno.setFoto(x.getBytes(6));
-				alumno.setNia(x.getString(1));
-				alumno.setNombres(x.getString(5));
-				alumno.setApellidos(x.getString(3)+" "+x.getString(4));
-				alumno.setFechaNacimiento(x.getString(7));
-				alumno.setTelefono(x.getString(8));
-				ResultSet a =executeQuery("select nombre,apellido1,apellido2 from familiars where parentesco='1' and alumno='"+x.getString(1)+"' and curso='"+curso+"'");
-				String madre="";
-				while(a.next()){
-					madre=a.getString(2)+" "+a.getString(3)+", "+a.getString(1); 
-				}
-				ResultSet b =executeQuery("select nombre,apellido1,apellido2 from familiars where parentesco='2' and alumno='"+x.getString(1)+"' and curso='"+curso+"'");
-				String padre="";
-				while(b.next()){
-					padre=b.getString(2)+" "+b.getString(3)+", "+b.getString(1); 
-				}
+		
+		try
+		{
+			ResultSet x = executeQuery("SELECT nia, documento, apellido1, apellido2, nombres, foto, fecha_nacimiento, telefono1 " 
+					+ "FROM alumnos WHERE curso = '" + curso + "' ORDER BY apellido1");
+			
+			while(x.next())
+			{
+				Persona alumno = new Persona();
+				alumno.setFoto(x.getBytes("foto"));
+				alumno.setNia(x.getString("nia"));
+				alumno.setNombres(x.getString("nombres"));
+				alumno.setApellidos(x.getString("apellido1") + " " + x.getString("apellido2"));
+				alumno.setFechaNacimiento(x.getString("fecha_nacimiento"));
+				alumno.setTelefono(x.getString("telefono1"));
+				
+				ResultSet a = executeQuery("SELECT nombre, apellido1, apellido2 " 
+						+ "FROM familiars WHERE parentesco = '1' AND alumno = '" + x.getString("nia") + "' AND curso = '" + curso + "'");
+				
+				String madre = "";
+				
+				while(a.next())
+					madre = a.getString("apellido1") + " " + a.getString("apellido2") + ", " + a.getString("nombre"); 
+				
+				ResultSet b = executeQuery("SELECT nombre, apellido1, apellido2 " 
+						+ "FROM familiars WHERE parentesco = '2' AND alumno = '" + x.getString("nia") + "' AND curso = '" + curso + "'");
+				
+				String padre = "";
+				
+				while(b.next())
+					padre = b.getString("apellido1") + " " + b.getString("apellido2") + ", " + b.getString("nombre"); 
+				
 				alumno.setMadre(madre);
 				alumno.setPadre(padre);
 
 				alumnos.add(alumno);
-				//				table.addRow(x.getString(1),x.getString(2),x.getString(3)+" "+x.getString(4)+", "+x.getString(5));
-				//				label.setText(""+table.getRowCount());
 			}
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return alumnos;
 	}
+	
 	public ArrayList<Persona> getUsuariosComedor(String curso, String usuario, String dias) {
 		// TODO Auto-generated method stub
 		ArrayList<Persona> alumnos=new ArrayList<>();
@@ -2431,17 +2448,24 @@ public class BD extends JKDataBase
 		}
 		return "Sin Definir";
 	}
-	public String getCursoActual() {
-		try{
-			ResultSet x =executeQuery("select * from cursos where estado='Activo'");
-			String g="";
-			while(x.next()){
-				g=x.getString(2);
-			}
+	
+	public String getCursoActual() 
+	{
+		try
+		{
+			ResultSet x = executeQuery("SELECT * FROM cursos WHERE estado = 'Activo'");
+			String g = "";
+			
+			while(x.next())
+				g = x.getString(2);
+			
 			return g;
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
+
 		return "Sin Definir";
 	}
 	public String getIDCursoActual() {
@@ -2675,7 +2699,7 @@ public class BD extends JKDataBase
 				if(new File(new File(".")
 				.getAbsolutePath().substring(0,
 						new File(".").getAbsolutePath().length() - 2).toString()+""+File.separator+"System-Comedor"
-						+File.separator+"Fotos"+File.separator+""+x.getString(1)+".jpg").exists()){
+						+File.separator+"Fotos"+File.separator+""+"FotoPrueba"/*x.getString(1)*/+".jpg").exists()){
 					alumno.setFotoVerificada(true);
 				}else{
 					alumno.setFotoVerificada(false);
