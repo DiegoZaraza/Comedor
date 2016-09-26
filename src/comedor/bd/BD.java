@@ -4805,4 +4805,25 @@ public class BD extends JKDataBase
 			e.printStackTrace();
 		}
 	}
+	
+	public String verificarAlergias(String g)
+	{
+		try
+		{
+			String sql = "";
+			String retorno = "";
+			String curso = principal.getBaseDeDatos().getCursoActual();
+			sql = "SELECT informe_medico FROM alumnos WHERE nia = '" + g + "' and curso='" + curso + "'";
+
+			ResultSet x = executeQuery(sql);
+			
+			while(x.next())
+				retorno = x.getString("informe_medico");
+			
+			return retorno;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

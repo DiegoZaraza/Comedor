@@ -503,9 +503,13 @@ public class DialogoLogin extends JDialog implements WindowListener
 		catch (ParserConfigurationException e1) 
 		{
 			e1.printStackTrace();
-		} catch (SAXException e1) {
+		} 
+		catch (SAXException e1) 
+		{
 			e1.printStackTrace();
-		} catch (IOException e1) {
+		} 
+		catch (IOException e1) 
+		{
 			e1.printStackTrace();
 		}
 
@@ -532,6 +536,7 @@ public class DialogoLogin extends JDialog implements WindowListener
 					g.drawImage(image, getWidth()-20, centerPoint - 1, this);
 				}
 			};
+			
 			textField_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			textField_1.setMargin(new Insets(0, image.getWidth() + 1, 0, 0));
 		}

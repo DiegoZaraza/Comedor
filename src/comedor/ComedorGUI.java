@@ -638,24 +638,15 @@ public class ComedorGUI extends JFrame
 																	{
 																		z = getBaseDeDatos().verificarSiEstaAutorizadoLunesMartes(g);
 																	}
-																	else
-																		if(dia.equalsIgnoreCase("jueves"))
-																			z = getBaseDeDatos().verificarSiEstaAutorizadoJueves(g);
+																	else if(dia.equalsIgnoreCase("jueves"))
+																		z = getBaseDeDatos().verificarSiEstaAutorizadoJueves(g);
 
 																	if(!z)
 																	{
 																		JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
 																		return;
 																	}
-																	else
-																	{
-																		z = getBaseDeDatos().verificarAsistencia(g);
-																		if(!z)
-																		{
-																			JOptionPane.showMessageDialog(getInstance(), "Usuario Ya Registrado Este Día", "Denegado",JOptionPane.WARNING_MESSAGE);
-																			return;
-																		}														
-																	}
+
 																	getBaseDeDatos().addAsistencia(g,"No");
 																}
 															}
@@ -728,6 +719,11 @@ public class ComedorGUI extends JFrame
 																		}
 																	}
 																}
+
+																String alergias = getBaseDeDatos().verificarAlergias(g);
+
+																if(!alergias.equals(""))
+																	JOptionPane.showMessageDialog(getInstance(), "El Usuario tiene la siguiente restricción: " + alergias, "Advertencia", JOptionPane.WARNING_MESSAGE);
 
 																updateAsistencias();
 																fieldCode.setText("");
@@ -875,6 +871,11 @@ public class ComedorGUI extends JFrame
 																		}
 																	}
 																}
+
+																String alergias = getBaseDeDatos().verificarAlergias(g);
+
+																if(!alergias.equals(""))
+																	JOptionPane.showMessageDialog(getInstance(), "El Usuario tiene la siguiente restricción: " + alergias, "Advertencia", JOptionPane.WARNING_MESSAGE);
 
 																updateAsistencias();
 																fieldCode.setText("");
@@ -1250,6 +1251,11 @@ public class ComedorGUI extends JFrame
 										}
 									}
 
+									String alergias = getBaseDeDatos().verificarAlergias(g);
+									
+									if(!alergias.equals(""))
+										JOptionPane.showMessageDialog(getInstance(), "El Usuario tiene la siguiente restricción: " + alergias, "Advertencia", JOptionPane.WARNING_MESSAGE);
+									
 									updateAsistencias();
 									fieldCode.setText("");
 									if(a == null)
@@ -1703,7 +1709,7 @@ public class ComedorGUI extends JFrame
 		else
 			fieldCode.requestFocus();
 	}
-	
+
 	private jcMousePanel jcMousePanel1111xxxx;
 	private String nAsistencia = "0";
 	private String dia;
