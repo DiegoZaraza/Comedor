@@ -550,7 +550,7 @@ public class PanelCarnetsProfesores extends JPanel implements Runnable {
 				while((line=bufferedReader.readLine())!=null){
 					xml+=line;
 				}
-				System.out.println(xml);
+//				System.out.println(xml);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

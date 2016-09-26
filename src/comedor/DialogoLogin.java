@@ -93,7 +93,7 @@ public class DialogoLogin extends JDialog implements WindowListener
 							}
 
 							ComedorGUI frame = new ComedorGUI();
-							DialogoLogin login=new DialogoLogin(frame);
+							DialogoLogin login = new DialogoLogin(frame);
 							login.setVisible(true);
 						} 
 						catch (Exception e) 

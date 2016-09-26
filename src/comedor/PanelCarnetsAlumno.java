@@ -50,15 +50,8 @@ import javax.swing.ImageIcon;
 
 public class PanelCarnetsAlumno extends JPanel implements Runnable 
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID  =  1L;
 	private JKTable table;
-
-	/**
-	 * Create the panel.
-	 */
 	private ComedorGUI principal;
 	private JTabbedPane jTabbedPane;
 	private JKTable table2;
@@ -68,7 +61,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 	private JRadioButton b1;
 	private JRadioButton b2;
 
-	public PanelCarnetsAlumno(final ComedorGUI principal,final ImpresionCarnets impresionCarnets) 
+	public PanelCarnetsAlumno(final ComedorGUI principal, final ImpresionCarnets impresionCarnets) 
 	{
 		this.principal  =  principal;
 
@@ -86,21 +79,16 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 		textField.addKeyListener(new KeyListener()
 		{
 			@Override
-			public void keyTyped(KeyEvent arg0) 
-			{
-				// TODO Auto-generated method stub
-			}
+			public void keyTyped(KeyEvent arg0) { }
+
 			@Override
 			public void keyReleased(KeyEvent arg0) 
 			{
-				// TODO Auto-generated method stub
 				table.search(textField.getText().toUpperCase());
 			}
+
 			@Override
-			public void keyPressed(KeyEvent arg0) 
-			{
-				// TODO Auto-generated method stub
-			}
+			public void keyPressed(KeyEvent arg0) { }
 		});
 
 		table  =  new JKTable();
@@ -112,174 +100,155 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 			@Override
 			public void mouseReleased(MouseEvent arg0) 
 			{
-				// TODO Auto-generated method stub
 				if(arg0.getClickCount() == 1)
 				{
-					//					jkMenu.setVisible(false);
 					jkMenu.setPopupMenuVisible(false);
 					int t = JOptionPane.showConfirmDialog(principal, "Imprirmir Carnet?","Confirmar",JOptionPane.INFORMATION_MESSAGE);
-					
+
 					if(t  ==  JOptionPane.OK_OPTION)
 					{
 						clearTabs();
-						new Thread(new Runnable()
-						{
-							@Override
-							public void run()
-							{
-								// TODO Auto-generated method stub
-								progressBar.setString("Generando Carnets...");
-								progressBar.setIndeterminate(true);
-
-								Carnet carnetFrontal = new Carnet(1,PanelCarnetsAlumno.this.principal);
-								String nia = table.getValueAt(table.getSelectedRow(), 1).toString();
-
-								String g[] = xml.split(">");
-
-								Hashtable<String, String> hashtable = new Hashtable<>();
-								Persona s  =  principal.getBaseDeDatos().getAlumno(nia);
-
-								hashtable.put("fechaNacimiento", ""+s.getFechaNacimiento());
-								hashtable.put("grupo", s.getGrupo());
-								hashtable.put("curso", principal.getBaseDeDatos().getCursoActual());
-								hashtable.put("nia", s.getNia());
-							
-								if(s.isFotoVerificada())
+						new Thread(
+								new Runnable()
 								{
-									hashtable.put("foto", "System-Comedor" + File.separator + "Fotos" + File.separator + "" + s.getNia() + ".jpg");
-								}
-								else
-								{
-									JOptionPane.showMessageDialog(principal, "Este alumno no posee Foto","Sin Foto", JOptionPane.WARNING_MESSAGE);
-									progressBar.setIndeterminate(false);
-									progressBar.setString("Fallido!");
-									return;
-								}
-								
-								hashtable.put("documento", s.getDocumento());
-								hashtable.put("nombre", "" + s.getNombreCompleto());
-								hashtable.put("codigo_barra", s.getNia());	
-
-								String xmlFinal = "";
-								
-								for(int index = 0;index<g.length;index++)
-								{
-									String ja = g[index] + ">";
-									
-									if(ja.startsWith("<image background = "))
+									@Override
+									public void run()
 									{
-										String p1 = ja.substring(0,ja.indexOf(" = ") + 2);
-										
-										p1 += new File(".")
-												.getAbsolutePath().substring(0,
-														new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator+"System-Comedor" + File.separator + "fondoCarnet.png";
-										String p2 = ja.substring(ja.indexOf("background-point") - 2, ja.length());
-										xmlFinal += "" + p1 + p2 + "\n";
-										continue;
-									}
-									
-									Enumeration<String> x  =  hashtable.keys();
-									while(x.hasMoreElements()){
-										String m = x.nextElement();
-										
-										if(ja.indexOf("$"+m) != -1)
+										// TODO Auto-generated method stub
+										progressBar.setString("Generando Carnets...");
+										progressBar.setIndeterminate(true);
+
+
+										System.out.println("Antes de Entrar a Carnet Frontal");
+
+										Carnet carnetFrontal = new Carnet(1, PanelCarnetsAlumno.this.principal);
+										String nia = table.getValueAt(table.getSelectedRow(), 1).toString();
+
+										String g[] = xml.split(">");
+
+										Hashtable <String, String> hashtable = new Hashtable<>();
+										Persona s  =  principal.getBaseDeDatos().getAlumno(nia);
+
+										hashtable.put("fechaNacimiento", "" + s.getFechaNacimiento());
+										hashtable.put("grupo", s.getGrupo());
+										hashtable.put("curso", principal.getBaseDeDatos().getCursoActual());
+										hashtable.put("nia", s.getNia());
+
+										if(s.isFotoVerificada())
 										{
-											String primero = ja.substring(0,ja.indexOf("{")+1);
-											String segundo = ja.substring(ja.lastIndexOf("}"),ja.length());
-											ja = primero+hashtable.get(m)+segundo;
+											hashtable.put("foto", "System-Comedor" + File.separator + "Fotos" + File.separator + "FotoPrueba.jpg");// + s.getNia() + ".jpg");
 										}
-									}	
-									xmlFinal += ""+ja+"\n";
-									//						 		System.out.println(xmlFinal);
-								}
-								//						 		System.out.println(xmlFinal);
-								try{
-									File file = new File("System-Comedor"+File.separator+"Temp"+File.separator+hashtable.get("documento")+".xml");
-
-									Writer w  =  new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
-									w.write(xmlFinal);
-									w.flush();
-									w.close();
-
-									carnetFrontal.setPreferredSize(new Dimension(844,455));
-									carnetFrontal.setBorder(BorderFactory.createEmptyBorder(0, 0, 13, 85));
-									carnetFrontal.setModo(2);
-									carnetFrontal.setPathCarnet(new File(".")
-											.getAbsolutePath().substring(0,
-													new File(".").getAbsolutePath().length() - 2).toString()+""+File.separator+"System-Comedor"+File.separator+"Temp"+File.separator+""+s.getDocumento()+".pdf");
-									jTabbedPane.addTab(""+s.getDocumento(), carnetFrontal);
-									try{
-										//							 		    jTabbedPane.setSelectedIndex(jTabbedPane.getTabCount()-1);
-									}catch(Exception e){
-
-									}
-									carnetFrontal.loadConfiguration(file);
-
-									while(true){
-										if(carnetFrontal.isReady()){
-											//							 	    		System.out.println("Si");
-											Thread.sleep(2000);
-											if(!isVistaPrevias())
-												progressBar.setString("Imprimiendo...");
-											//											progressBar.setValue(index+1);
+										else
+										{
+											JOptionPane.showMessageDialog(principal, "Este alumno no posee Foto", "Sin Foto", JOptionPane.WARNING_MESSAGE);
 											progressBar.setIndeterminate(false);
-											progressBar.setString("Completado!");
-											if(!isVistaPrevias())
-												carnetFrontal.imprimir();
-											break;
-										}else{
-											//							 	    		System.out.println("No");
-											Thread.sleep(2000);
+											progressBar.setString("Fallido!");
+											return;
+										}
+
+										hashtable.put("documento", s.getDocumento());
+										hashtable.put("nombre", "" + s.getNombreCompleto());
+										hashtable.put("codigo_barra", s.getNia());	
+
+										String xmlFinal = "";
+
+										for(int index = 0; index < g.length; index++)
+										{
+											String ja = g[index] + ">";
+
+											if(ja.startsWith("<image background = "))
+											{
+												String p1 = ja.substring(0, ja.indexOf(" = ") + 2);
+
+												p1 += new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "fondoCarnet.png";
+												String p2 = ja.substring(ja.indexOf("background-point") - 2, ja.length());
+												xmlFinal += "" + p1 + p2 + "\n";
+												continue;
+											}
+
+											Enumeration<String> x  =  hashtable.keys();
+
+											while(x.hasMoreElements())
+											{
+												String m = x.nextElement();
+
+												if(ja.indexOf("$"+m) != -1)
+												{
+													String primero = ja.substring(0, ja.indexOf("{") + 1);
+													String segundo = ja.substring(ja.lastIndexOf("}"), ja.length());
+													ja = primero+hashtable.get(m) + segundo;
+												}
+											}	
+											xmlFinal += "" + ja + "\n";
+										}
+
+										try
+										{
+											File file = new File("System-Comedor" + File.separator + "Temp" + File.separator + hashtable.get("documento") + ".xml");
+
+											Writer w  =  new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
+											w.write(xmlFinal);
+											w.flush();
+											w.close();
+
+											carnetFrontal.setPreferredSize(new Dimension(844,455));
+											carnetFrontal.setBorder(BorderFactory.createEmptyBorder(0, 0, 13, 85));
+											carnetFrontal.setModo(2);
+											carnetFrontal.setPathCarnet(new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "Temp" + File.separator + "" + s.getDocumento() + ".pdf");
+											jTabbedPane.addTab(""+s.getDocumento(), carnetFrontal);
+
+											carnetFrontal.loadConfiguration(file);
+
+											while(true)
+											{
+												if(carnetFrontal.isReady())
+												{
+													Thread.sleep(2000);
+													if(!isVistaPrevias())
+														progressBar.setString("Imprimiendo...");
+													progressBar.setIndeterminate(false);
+													progressBar.setString("Completado!");
+
+													if(!isVistaPrevias())
+														carnetFrontal.imprimir();
+													break;
+												}
+												else
+												{
+													Thread.sleep(2000);
+												}
+											}
+										}
+										catch(Exception e)
+										{
+											e.printStackTrace();
 										}
 									}
-
-
-								}catch(Exception e){
-									e.printStackTrace();
-								}
-							}
-						}).start();
-
-
-
-
-
-
+								}).start();
 					}
 				}		
 			}
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mousePressed(MouseEvent arg0) { }
 
 			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseExited(MouseEvent arg0) { }
 
 			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseEntered(MouseEvent arg0) { }
 
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseClicked(MouseEvent arg0) { }
 		});
+
 		table.setFont(new Font("arial",Font.BOLD,12));
 		JScrollPane scrollPane = new JScrollPane(table);
 
 		jpanel.add(panel2, BorderLayout.NORTH);
 		jpanel.add(scrollPane,BorderLayout.CENTER);
 		jkMenu.add(jpanel);
-		jkMenu.setFont(new Font("arial",Font.BOLD,12));
+		jkMenu.setFont(new Font("arial", Font.BOLD,12));
 		coreBar.add(jkMenu);
 		setLayout(new BorderLayout());
 		JPanel x = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -299,36 +268,46 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 			table2.setFont(new Font("arial",Font.BOLD,12));
 			table2.addColumn("Codigo");
 			table2.addColumn("Grupo");
-			table2.addMouseListener(new MouseListener() {
-
+			table2.addMouseListener(new MouseListener() 
+			{
 				@Override
-				public void mouseReleased(MouseEvent arg0) {
+				public void mouseReleased(MouseEvent arg0) 
+				{
 					jkMenu2.setPopupMenuVisible(false);
 					int t = JOptionPane.showConfirmDialog(principal, "Imprirmir Carnets?","Confirmar",JOptionPane.INFORMATION_MESSAGE);
-					if(t  ==  JOptionPane.OK_OPTION){
+
+					if(t == JOptionPane.OK_OPTION)
+					{
 						progressBar.setIndeterminate(true);
 						clearTabs();
 						final Timer timer = new Timer();
-						final TimerTask timerTask = new TimerTask() {
-
+						final TimerTask timerTask = new TimerTask() 
+						{
 							@Override
-							public void run() {
-								// TODO Auto-generated method stub
-								//								System.out.println("/"+count);
-								if(max != -1){
-									if(max == count){
+							public void run() 
+							{
+								if(max != -1)
+								{
+									if(max == count)
+									{
 										timer.cancel();
 										progressBar.setIndeterminate(false);
+
 										if(!isVistaPrevias())
 											progressBar.setString("Imprimiendo...");
+
 										progressBar.setMaximum(max);
+
 										if(!isVistaPrevias())
-											for(int index = 0;index<jTabbedPane.getTabCount();index++){
+											for(int index = 0; index < jTabbedPane.getTabCount();index++)
+											{
 												Carnet carnet = (Carnet)jTabbedPane.getComponentAt(index);
+
 												if(!isVistaPrevias())
 													carnet.imprimir();
-												progressBar.setString("Imprimiendo ("+(index+1)+")...");
-												progressBar.setValue(index+1);
+
+												progressBar.setString("Imprimiendo (" + (index + 1) + ")...");
+												progressBar.setValue(index + 1);
 											}
 										if(isVistaPrevias()){
 											progressBar.setValue(1000000);
@@ -344,120 +323,125 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 
 						timer.schedule(timerTask, 0, 1000);
 						progressBar.setString("Cargando Alumnos...");
+
 						final ArrayList<Persona> array  =  principal.getBaseDeDatos().getAlumnos(table2.getValueAt(table2.getSelectedRow(), 0).toString(), principal.getBaseDeDatos().getCursoActual());
 
 						max = 0;
-						for(int index = 0;index<array.size();index++){
-							if(array.get(index).isFotoVerificada()){
+
+						for(int index = 0; index < array.size(); index++)
+						{
+							if(array.get(index).isFotoVerificada())
 								max++;
-							}
 						}
-						//						System.out.println(max);
 
 						progressBar.setString("Generando Carnets...");
-						//						System.out.println("Cantidad: "+array.size());
 
-						for(int index = 0;index<array.size();index++){
+						for(int index = 0; index<array.size(); index++)
+						{
 							final int pos = index;
-							//							System.out.println(pos);
-							new Thread(new Runnable() {
 
-								@Override
-								public synchronized void run() {
-									// TODO Auto-generated method stub
-									Carnet carnetFrontal = new Carnet(1,PanelCarnetsAlumno.this.principal);
+							new Thread(
+									new Runnable() 
+									{
 
-									String g[] = xml.split(">");
+										@Override
+										public synchronized void run() 
+										{
+											Carnet carnetFrontal = new Carnet(1,PanelCarnetsAlumno.this.principal);
 
-									Hashtable<String, String> hashtable = new Hashtable<>();
-									Persona s  =  array.get(pos);
+											String g[] = xml.split(">");
 
-									hashtable.put("fechaNacimiento", ""+s.getFechaNacimiento());
-									hashtable.put("grupo", s.getGrupo());
-									hashtable.put("curso", principal.getBaseDeDatos().getCursoActual());
-									hashtable.put("nia", s.getNia());
-									if(s.isFotoVerificada()){
-										hashtable.put("foto", "System-Comedor"+File.separator+"Fotos"+File.separator+""+s.getNia()+".jpg");
-									}else
-										return;
-									hashtable.put("documento", s.getDocumento());
-									hashtable.put("nombre", ""+s.getNombreCompleto());
-									hashtable.put("codigo_barra", s.getNia());	
+											Hashtable<String, String> hashtable = new Hashtable<>();
+											Persona s  =  array.get(pos);
 
-									String xmlFinal = "";
-									for(int index = 0;index<g.length;index++){
-										String ja = g[index]+">";
-										if(ja.startsWith("<image background = ")){
-											String p1 = ja.substring(0,ja.indexOf(" = ")+2);
-											p1 += new File(".")
-													.getAbsolutePath().substring(0,
-															new File(".").getAbsolutePath().length() - 2).toString()+""+File.separator+"System-Comedor"+File.separator+"fondoCarnet.png";
-											String p2 = ja.substring(ja.indexOf("background-point")-2,ja.length());
-											xmlFinal += ""+p1+p2+"\n";
-											continue;
-										}
-										Enumeration<String> x  =  hashtable.keys();
-										while(x.hasMoreElements()){
-											String m = x.nextElement();
-											if(ja.indexOf("$"+m) != -1){
-												String primero = ja.substring(0,ja.indexOf("{")+1);
-												String segundo = ja.substring(ja.lastIndexOf("}"),ja.length());
-												ja = primero+hashtable.get(m)+segundo;
-											}
-										}	
-										xmlFinal += ""+ja+"\n";
-										System.out.println(xmlFinal);
-									}
-									//							 		System.out.println(xmlFinal);
-									try{
-										File file = new File("System-Comedor"+File.separator+"Temp"+File.separator+hashtable.get("documento")+".xml");
+											hashtable.put("fechaNacimiento", "" + s.getFechaNacimiento());
+											hashtable.put("grupo", s.getGrupo());
+											hashtable.put("curso", principal.getBaseDeDatos().getCursoActual());
+											hashtable.put("nia", s.getNia());
 
-										Writer w  =  new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
-										w.write(xmlFinal);
-										w.flush();
-										w.close();
+											if(s.isFotoVerificada())
+												hashtable.put("foto", "System-Comedor" + File.separator + "Fotos" + File.separator + "" + "FotoPrueba"/*s.getNia()*/ + ".jpg");
+											else
+												return;
 
-										carnetFrontal.setPreferredSize(new Dimension(844,455));
-										carnetFrontal.setBorder(BorderFactory.createEmptyBorder(0, 0, 13, 85));
-										carnetFrontal.setModo(2);
-										carnetFrontal.setPathCarnet(new File(".")
-												.getAbsolutePath().substring(0,
-														new File(".").getAbsolutePath().length() - 2).toString()+""+File.separator+"System-Comedor"+File.separator+"Temp"+File.separator+""+s.getDocumento()+".pdf");
-										//								 		System.out.println(s.getDocumento());
-										synchronized (this) {
-											addTab(s.getDocumento(), carnetFrontal);	
-										}
+											hashtable.put("documento", s.getDocumento());
+											hashtable.put("nombre", "" + s.getNombreCompleto());
+											hashtable.put("codigo_barra", s.getNia());	
 
-										try{
-											//								 		    jTabbedPane.setSelectedIndex(jTabbedPane.getTabCount()-1);
-										}catch(Exception e){
+											String xmlFinal = "";
 
-										}
-										carnetFrontal.loadConfiguration(file);
-
-
-										while(true){
-											if(carnetFrontal.isReady()){
-												//								 	    		System.out.println("Si");
-												Thread.sleep(1000);
-
-												synchronized (this) {
-													count();
+											for(int index = 0;index < g.length; index++)
+											{
+												String ja = g[index] + ">";
+												
+												if(ja.startsWith("<image background = "))
+												{
+													String p1 = ja.substring(0,ja.indexOf(" = ") + 2);
+													
+													p1 += new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "fondoCarnet.png";
+													String p2 = ja.substring(ja.indexOf("background-point")-2, ja.length());
+													xmlFinal += "" + p1 + p2 + "\n";
+													continue;
 												}
-												//								 	    		.imprimir();
-												break;
-											}else{
-												Thread.sleep(2000);
-												//								 	    		System.out.println("No");
+
+												Enumeration<String> x  =  hashtable.keys();
+
+												while(x.hasMoreElements())
+												{
+													String m = x.nextElement();
+													if(ja.indexOf("$"+m) != -1)
+													{
+														String primero = ja.substring(0,ja.indexOf("{")+1);
+														String segundo = ja.substring(ja.lastIndexOf("}"),ja.length());
+														ja = primero+hashtable.get(m)+segundo;
+													}
+												}	
+												xmlFinal += "" + ja + "\n";
+											}
+
+											try
+											{
+												File file = new File("System-Comedor" + File.separator + "Temp" + File.separator + hashtable.get("documento") + ".xml");
+
+												Writer w  =  new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
+												w.write(xmlFinal);
+												w.flush();
+												w.close();
+
+												carnetFrontal.setPreferredSize(new Dimension(844, 455));
+												carnetFrontal.setBorder(BorderFactory.createEmptyBorder(0, 0, 13, 85));
+												carnetFrontal.setModo(2);
+												carnetFrontal.setPathCarnet(new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "Temp" + File.separator + "" + s.getDocumento() + ".pdf");
+
+												synchronized (this) 
+												{
+													addTab(s.getDocumento(), carnetFrontal);	
+												}
+
+												carnetFrontal.loadConfiguration(file);
+
+												while(true)
+												{
+													if(carnetFrontal.isReady())
+													{
+														Thread.sleep(1000);
+
+														synchronized (this) 
+														{
+															count();
+														}
+														break;
+													}
+													else
+													{
+														Thread.sleep(2000);
+													}
+												}
+											}catch(Exception e){
+												e.printStackTrace();
 											}
 										}
-
-
-									}catch(Exception e){
-										e.printStackTrace();
-									}
-								}
-							}).start();
+									}).start();
 
 						}
 
@@ -515,7 +499,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 		JButton button = new JButton("Cerrar");
 		button.setIcon(new ImageIcon(PanelCarnetsAlumno.class.getResource("/resource/close.png")));
 		panel4.add(button);
-		
+
 		button.addActionListener(new ActionListener() 
 		{
 			@Override
@@ -529,14 +513,15 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 		button.setPreferredSize(new Dimension(0,25));
 		setBackground(Color.WHITE);
 	}
+
 	private String xml = "";
 	private int max = -1;
 	private int count = 0;
+
 	public synchronized void count(){
-		//		System.out.println(count);
 		count++;
 	}
-	
+
 	private void clearTabs() 
 	{
 		// TODO Auto-generated method stub
@@ -548,7 +533,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 			jTabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 			panel3.add(jTabbedPane,BorderLayout.CENTER);
 			panel3.updateUI();
-			
+
 			//			for(int index = 0;index<jTabbedPane.getTabCount();index++){
 			//					jTabbedPane.removeTabAt(index);
 			//					
@@ -560,13 +545,13 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 
 		}
 	}
-	
+
 	public synchronized void addTab(String documento,Carnet carnet)
 	{
 		jTabbedPane.addTab(":" + documento, carnet);
 		jTabbedPane.repaint();
 	}
-	
+
 	public boolean isVistaPrevias()
 	{
 		if(b2.isSelected())
@@ -578,51 +563,39 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 	@Override
 	public void run() 
 	{
-		// TODO Auto-generated method stub
 		String cursoActual = principal.getBaseDeDatos().getCursoActual();
 		ArrayList<Persona> xz  =  principal.getBaseDeDatos().getTodosLosAlumnos(cursoActual);
-		for(int index = 0;index<xz.size();index++){
-			table.addRow(xz.get(index).getNombreCompleto(),xz.get(index).getNia());	
-		}	
 
-		principal.getBaseDeDatos().getGroups(table2,new JLabel(),cursoActual);
-		
+		for(int index = 0; index < xz.size(); index++)
+			table.addRow(xz.get(index).getNombreCompleto(), xz.get(index).getNia());	
+
+		principal.getBaseDeDatos().getGroups(table2, new JLabel(), cursoActual);
+
 		String line = null;
 		BufferedReader bufferedReader;
-		
+
 		try 
 		{
 			bufferedReader  =  new BufferedReader(new InputStreamReader(new FileInputStream("System-Comedor" + File.separator + "Carnet_Frontal.xml"), "UTF-8"));
-		
+
+			/** AJUSTE LINEA XML POR NO ESTAR CONCATENANDO **/			
 			try 
 			{
-				while((line = bufferedReader.readLine()) != null)xml = line;
+				while((line = bufferedReader.readLine()) != null)
+					xml += line;
 			} 
 			catch (IOException e) 
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		catch (UnsupportedEncodingException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (FileNotFoundException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		//		String line = null;
-		//		Hashtable<String, String> hashtable = new Hashtable<>();
-		//		hashtable.put("fechaNacimiento", "29/03/1991");
-		//		hashtable.put("grupo", "LEYER");
-		//		hashtable.put("curso", "2016");
-		//		hashtable.put("nia", "20213944");
-		//		hashtable.put("foto", "C:\\46022932\\FotosNIA\\10016322.jpg");
-		//		hashtable.put("documento", "20213944F");
-		//		hashtable.put("nombre", "PAUL JOSE, FERRER ROMERO");
-		//		hashtable.put("codigo_barra", "8992819");	
+		}	
 	}
 }
