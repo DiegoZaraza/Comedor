@@ -9,15 +9,10 @@ import javax.swing.JTabbedPane;
 
 public class ImpresionCarnets extends JInternalFrame 
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Create the frame.
-	 */
-	public ImpresionCarnets(ComedorGUI gui ){
+	public ImpresionCarnets(ComedorGUI gui )
+	{
 		setTitle("Impresion de Carnets");
 		setBounds(10, 10, 884, 585);
 		
