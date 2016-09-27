@@ -108,7 +108,7 @@ public class BD extends JKDataBase
 		this.active = active;
 	}
 
-	public BD(ComedorGUI principal,String user,String password, String ip,DialogoConexion conexion) 
+	public BD(ComedorGUI principal,String user,String password, String ip, DialogoConexion conexion) 
 	{
 		super(JKDataBase.POSTGRESQL, "//" + ip + "/comedorbd", user, password);
 
@@ -2337,37 +2337,37 @@ public class BD extends JKDataBase
 		return alumnos;
 
 	}
-	public Persona getProfesor(String documento) {
-		// TODO Auto-generated method stub
-		//		ArrayList<Persona> alumnos=new ArrayList<>();
-		try{
-
-			ResultSet x = executeQuery("select documento,apellido1,apellido2,nombre,foto from profes where curso='"+getCursoActual()+"' and documento='"+documento+"' order by apellido1");
-			while(x.next()){
-				Persona alumno=new Persona();
-				alumno.setFoto(x.getBytes(5));
-				//				alumno.setNia(x.getString(1));
-				alumno.setDocumento(x.getString(1));
-				alumno.setNombres(x.getString(4));
-				alumno.setApellidos(x.getString(2)+" "+x.getString(3));
-				if(new File(new File(".")
-				.getAbsolutePath().substring(0,
-						new File(".").getAbsolutePath().length() - 2).toString()+""+File.separator+"System-Comedor"
-						+File.separator+"Fotos"+File.separator+""+x.getString(1)+".jpg").exists()){
+	
+	public Persona getProfesor(String documento) 
+	{
+		try
+		{
+			ResultSet x = executeQuery("SELECT documento, apellido1, apellido2, nombre, foto FROM profes "
+					+ "WHERE curso = '" + getCursoActual() + "' AND documento = '" + documento + "' ORDER BY apellido1");
+			
+			while(x.next())
+			{
+				Persona alumno = new Persona();
+				alumno.setFoto(x.getBytes("foto"));
+				alumno.setDocumento(x.getString("documento"));
+				alumno.setNombres(x.getString("nombre"));
+				alumno.setApellidos(x.getString("apellido1") + " " + x.getString("apellido2"));
+				
+				if(new File(new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "Fotos" + File.separator + "" + x.getString("documento") + ".jpg").exists())
 					alumno.setFotoVerificada(true);
-				}else{
+				else
 					alumno.setFotoVerificada(false);
-				}
+				
 				return alumno;
-				//				table.addRow(x.getString(1),x.getString(2),x.getString(3)+" "+x.getString(4)+", "+x.getString(5));
-				//				label.setText(""+table.getRowCount());
 			}
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return null;
-
 	}
+	
 	public ArrayList<Persona> getPas(String curso) {
 		// TODO Auto-generated method stub
 		ArrayList<Persona> alumnos=new ArrayList<>();
@@ -2392,38 +2392,36 @@ public class BD extends JKDataBase
 
 	}
 
-	public Persona getPasS(String documento) {
-		// TODO Auto-generated method stub
-		//		ArrayList<Persona> alumnos=new ArrayList<>();
-		try{
-
-			ResultSet x = executeQuery("select documento,apellido1,apellido2,nombre,foto from pas where curso='"+getCursoActual()+"' and documento='"+documento+"' order by apellido1");
-			while(x.next()){
-				Persona alumno=new Persona();
+	public Persona getPasS(String documento) 
+	{
+		try
+		{
+			ResultSet x = executeQuery("SELECT documento, apellido1, apellido2, nombre, foto FROM pas " 
+					+ "WHERE curso = '" + getCursoActual() + "' AND documento = '" + documento + "' ORDER BY apellido1");
+			
+			while(x.next())
+			{
+				Persona alumno = new Persona();
 				alumno.setFoto(x.getBytes(5));
-				//				alumno.setNia(x.getString(1));
-				if(new File(new File(".")
-				.getAbsolutePath().substring(0,
-						new File(".").getAbsolutePath().length() - 2).toString()+""+File.separator+"System-Comedor"
-						+File.separator+"Fotos"+File.separator+""+x.getString(1)+".jpg").exists()){
+
+				if(new File(new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "Fotos" + File.separator + "" + x.getString("documento") + ".jpg").exists())
 					alumno.setFotoVerificada(true);
-				}else{
+				else
 					alumno.setFotoVerificada(false);
-				}
-				alumno.setDocumento(x.getString(1));
-				alumno.setNombres(x.getString(4));
-				alumno.setApellidos(x.getString(2)+" "+x.getString(3));
-				//				alumnos.add(alumno);
-				//				table.addRow(x.getString(1),x.getString(2),x.getString(3)+" "+x.getString(4)+", "+x.getString(5));
-				//				label.setText(""+table.getRowCount());
+				
+				alumno.setDocumento(x.getString("documento"));
+				alumno.setNombres(x.getString("nombre"));
+				alumno.setApellidos(x.getString("apellido1") + " " + x.getString("apellido2"));
 				return alumno;
 			}
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return null;
-
 	}
+	
 	public String getCentro() {
 		// TODO Auto-generated method stub
 		try{
@@ -3134,28 +3132,41 @@ public class BD extends JKDataBase
 		}
 		return "0";
 	}
-	public String getImpresoraCarnet(){
-		try{
-			ResultSet x =executeQuery("select impresora from impresoras where id_impresora='2'");
-			while(x.next()){
-				return x.getString(1);
-			}
-		}catch(Exception e){
+	
+	public String getImpresoraCarnet()
+	{
+		try
+		{
+			ResultSet x =executeQuery("SELECT impresora FROM impresoras WHERE id_impresora = '2'");
+			
+			while(x.next())
+				return x.getString("impresora");
+			
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return "";
 	}
-	public String getImpresoraEstandar(){
-		try{
-			ResultSet x =executeQuery("select impresora from impresoras where id_impresora='1'");
-			while(x.next()){
-				return x.getString(1);
-			}
-		}catch(Exception e){
+	
+	public String getImpresoraEstandar()
+	{
+		try
+		{
+			ResultSet x =executeQuery("SELECT impresora FROM impresoras WHERE id_impresora='1'");
+	
+			while(x.next())
+				return x.getString("impresora");
+	
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return "";
 	}
+	
 	public void setImpresoraCarnet(String name) {
 		// TODO Auto-generated method stub
 		try{
