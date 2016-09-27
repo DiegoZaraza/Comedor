@@ -64,17 +64,13 @@ public class PdfCarnet
 				document.add(imagen);
 			}
 
-			System.out.println("Print");
-
-			if(principal.getBaseDeDatos().isImpresoraCarnetConfigurada()){
-				
+			if(principal.getBaseDeDatos().isImpresoraCarnetConfigurada())
 				new Impresora(principal).printCarnet(new File(fileName).toString());
-			}else
-				if(Desktop.isDesktopSupported()){
+			else
+				if(Desktop.isDesktopSupported())
 					Desktop.getDesktop().open(new File(fileName));
-				}else{
-					JOptionPane.showMessageDialog(null, "Accion no Soportada!","No Soportado!",JOptionPane.WARNING_MESSAGE);
-				}	
+				else
+					JOptionPane.showMessageDialog(null, "Accion no Soportada!","No Soportado!",JOptionPane.WARNING_MESSAGE);	
 			document.close();
 		}catch(Exception e){
 			e.printStackTrace();

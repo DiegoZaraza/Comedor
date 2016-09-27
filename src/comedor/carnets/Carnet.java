@@ -335,7 +335,7 @@ public class Carnet extends JPanel
 	public void loadConfiguration(final File selected) throws ParserConfigurationException, SAXException, IOException
 	{
 		clearCarnet();
-		System.out.println("loadConfiguration = " + selected);
+
 		progressMonitor = new ProgressMonitor(getInstance(), "Cargando Configuracion...", "", 0, 10);
 
 		new Thread(
@@ -701,7 +701,6 @@ public class Carnet extends JPanel
 								imageView1.repaint();
 								Point2D x = new Point2D.Double(100,100);
 								imageView1.setImageLocation(x);
-								System.out.println(imageView1.getImageLocation());
 							}
 							catch (Exception e) 
 							{
@@ -937,7 +936,6 @@ public class Carnet extends JPanel
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				BufferedImage c = getScreenShot(imageView1);
-				System.out.println(imageView1.getName());
 
 				if(mode == 2)
 					new PdfCarnet("carnet_posterior.pdf", c, MODE, principal);
