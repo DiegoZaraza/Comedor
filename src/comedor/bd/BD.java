@@ -313,7 +313,7 @@ public class BD extends JKDataBase
 			while(x.next())
 			{
 				String sql = "UPDATE profes " +
-						"SET  nombre='"+a.getNombre().toUpperCase()+"', apellido1='"+a.getApellido1().toUpperCase()+"',apellido2='"+a.getApellido2().toUpperCase()+"', tipo_doc='"+a.getTipo_doc()+"', documento='"+a.getDocumento()+"', sexo='"+a.getSexo()+"', "+
+						"SET  nombre='" + a.getNombre().toUpperCase()+"', apellido1='"+a.getApellido1().toUpperCase()+"',apellido2='"+a.getApellido2().toUpperCase()+"', tipo_doc='"+a.getTipo_doc()+"', documento='"+a.getDocumento()+"', sexo='"+a.getSexo()+"', "+
 						"fecha_ingreso='"+a.getFecha_ingreso()+"', domicilio='"+a.getDomicilio()+"', numero='"+a.getNumero()+"', puerta='"+a.getPuerta()+"', escalera='"+a.getEscalera()+"', "+
 						"letra='"+a.getLetra()+"', piso='"+a.getPiso()+"', provincia='"+a.getProviencia()+"', municipio='"+a.getMunicipio()+"', localidad='"+a.getLocalidad()+"', cod_postal='"+a.getCod_postal()+"', "+
 						"telefono1='"+a.getTelefono1()+"', telefono2='"+a.getTelefono2()+"', telefono3='"+a.getTelefono3()+"', horas_puesto='"+a.getHoras_puesto()+"', horas_dedicadas='"+a.getHoras_dedicadas()+"', "+
@@ -1883,7 +1883,7 @@ public class BD extends JKDataBase
 				if(new File(new File(".")
 				.getAbsolutePath().substring(0,
 						new File(".").getAbsolutePath().length() - 2).toString()+""+File.separator+"System-Comedor"
-						+File.separator+"Fotos"+File.separator+""+"FotoPrueba"/*x.getString(1)*/+".jpg").exists()){
+						+File.separator+"Fotos"+File.separator+"" + x.getString(1) + ".jpg").exists()){
 					alumno.setFotoVerificada(true);
 				}else{
 					alumno.setFotoVerificada(false);
@@ -2640,29 +2640,31 @@ public class BD extends JKDataBase
 		fileOutputStream.close();
 
 	}
-	public void insertFotos(File file) {
-
+	
+	public void insertFotos(File file) 
+	{
 		String fileName = file.getName();
-		if (fileName.indexOf("jpg") != -1 || fileName.indexOf("png") != -1
-				|| fileName.indexOf("JPG") != -1
-				|| fileName.indexOf("PNG") != -1) {
-			//				FileInputStream fileInputStream = null;
-			File file2=null;
-			try {
+	
+		if (fileName.indexOf("jpg") != -1 || fileName.indexOf("png") != -1 || fileName.indexOf("JPG") != -1 || fileName.indexOf("PNG") != -1) 
+		{
+			File file2 = null;
+			
+			try 
+			{
 				FileInputStream fileInputStream1 = new FileInputStream(file);
-				//						System.out.println();
-				resize(fileInputStream1, new FileOutputStream(file.getParentFile()+File.separator+"T"+file.getName()), 480, 640,file);
+
+				resize(fileInputStream1, new FileOutputStream(file.getParentFile() + File.separator + "T" + file.getName()), 480, 640, file);
 				fileInputStream1.close();
-				file2=new File(file.getParentFile()+File.separator+"T"+file.getName());
-				//						fileInputStream = new FileInputStream(file2);
+				file2 = new File(file.getParentFile() + File.separator + "T" + file.getName());
 				file2.delete();
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				e.printStackTrace();
 			}
-
 		}
-
 	}
+	
 	public void insertFotos2(File file,String nia) {
 
 		String fileName = nia+".jpg";
@@ -2699,7 +2701,7 @@ public class BD extends JKDataBase
 				if(new File(new File(".")
 				.getAbsolutePath().substring(0,
 						new File(".").getAbsolutePath().length() - 2).toString()+""+File.separator+"System-Comedor"
-						+File.separator+"Fotos"+File.separator+""+"FotoPrueba"/*x.getString(1)*/+".jpg").exists()){
+						+File.separator+"Fotos"+File.separator+""+x.getString(1)+".jpg").exists()){
 					alumno.setFotoVerificada(true);
 				}else{
 					alumno.setFotoVerificada(false);

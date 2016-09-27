@@ -937,6 +937,7 @@ public class Carnet extends JPanel
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				BufferedImage c = getScreenShot(imageView1);
+				System.out.println(imageView1.getName());
 
 				if(mode == 2)
 					new PdfCarnet("carnet_posterior.pdf", c, MODE, principal);

@@ -30,7 +30,8 @@ import com.github.sarxos.webcam.WebcamPanel;
 import com.github.sarxos.webcam.WebcamResolution;
 import com.leyer.JKComboBox;
 
-public class Camara extends JDialog implements Runnable,WindowListener{
+public class Camara extends JDialog implements Runnable,WindowListener
+{
 	private static final long serialVersionUID = 1L;
 	private File fileFotox;
 	private Webcam webcam;
@@ -42,7 +43,9 @@ public class Camara extends JDialog implements Runnable,WindowListener{
 	private JButton button;
 	private JButton button2;
 	private BufferedImage image = null;
-	public void resize(FileInputStream fileInputStream, FileOutputStream fileOutputStream, int width, int height) throws Exception {
+
+	public void resize(FileInputStream fileInputStream, FileOutputStream fileOutputStream, int width, int height) throws Exception 
+	{
 	    BufferedImage src = ImageIO.read(fileInputStream);
 	    BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	    Graphics2D g = dest.createGraphics();
@@ -51,7 +54,9 @@ public class Camara extends JDialog implements Runnable,WindowListener{
 	    ImageIO.write(dest, "JPG", fileOutputStream);
 	    fileOutputStream.close();
 	}
-	public Camara(final ComedorGUI principal, final RegistrarProfesores registrarProfesor) {
+	
+	public Camara(final ComedorGUI principal, final RegistrarProfesores registrarProfesor) 
+	{
 		super(principal,true);
 		this.principal=principal;
 		JFrame.setDefaultLookAndFeelDecorated(true);
@@ -112,14 +117,14 @@ public class Camara extends JDialog implements Runnable,WindowListener{
 			
 	
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) 
+			{
 				image = webcam.getImage();
-				
-				
-				try {				
-					fileFotox = new File("System-Comedor"+File.separator+"Fotos"+File.separator+"foto-"+registrarProfesor.getDocumento()+".jpg");
+				try 
+				{				
+					fileFotox = new File("System-Comedor" + File.separator + "Fotos" + File.separator + "foto-" + registrarProfesor.getDocumento()+".jpg");
 					ImageIO.setUseCache(true);
-					
+					ImageIO.write(image, "PNG", fileFotox);
 					principal.getBaseDeDatos().insertFotos(fileFotox);
 					 
 					ImageIO.write(image, "PNG", new File("System-Comedor"+File.separator+"Fotos"+File.separator+"foto-"+registrarProfesor.getDocumento()+".jpg"));
@@ -216,6 +221,7 @@ public class Camara extends JDialog implements Runnable,WindowListener{
 		
 		new Thread(this).start();
 	}
+	
 	public Camara(final ComedorGUI principal, final RegistrarNoDocentes registrarProfesor) {
 		super(principal,true);
 		this.principal=principal;
@@ -284,12 +290,12 @@ public class Camara extends JDialog implements Runnable,WindowListener{
 				try {				
 					fileFotox = new File("System-Comedor"+File.separator+"Fotos"+File.separator+""+registrarProfesor.getDocumento()+".jpg");
 					ImageIO.setUseCache(true);
+					
 					ImageIO.write(image, "PNG", fileFotox);
 					principal.getBaseDeDatos().insertFotos(fileFotox);
 					
-					
-					
 					registrarProfesor.setFoto(image,new File("System-Comedor"+File.separator+"Fotos"+File.separator+""+registrarProfesor.getDocumento()+".jpg"));
+					
 					try{
 //							webcam.close();
 //							webcam.close();
@@ -426,7 +432,7 @@ public class Camara extends JDialog implements Runnable,WindowListener{
 				
 				
 				try {				
-					fileFotox = new File("System-Comedor"+File.separator+"Fotos"+File.separator+""+internalAlumno.getNia()+".jpg");
+					fileFotox = new File("System-Comedor" + File.separator + "Fotos" + File.separator + "" + internalAlumno.getNia()+".jpg");
 					ImageIO.setUseCache(true);
 					ImageIO.write(image, "PNG", fileFotox);
 //					fileFotox.close();

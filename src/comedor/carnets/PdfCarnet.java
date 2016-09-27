@@ -32,7 +32,7 @@ public class PdfCarnet
 				document.setMargins(-1, 0, -1, 0);
 				document.open();
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				ImageIO.write(c, "png", baos );
+				ImageIO.write(c, "png", baos);
 				baos.flush();
 				byte[] imageInByte = baos.toByteArray();
 				baos.close();
@@ -67,6 +67,7 @@ public class PdfCarnet
 			System.out.println("Print");
 
 			if(principal.getBaseDeDatos().isImpresoraCarnetConfigurada()){
+				
 				new Impresora(principal).printCarnet(new File(fileName).toString());
 			}else
 				if(Desktop.isDesktopSupported()){
@@ -78,7 +79,5 @@ public class PdfCarnet
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-
 	}
-
 }

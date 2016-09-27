@@ -7,8 +7,7 @@
 		<locationY>223</locationY>
 		<width>200</width>
 		<height>100</height>
-		<text>&lt;HTML&gt;&lt;BODY&gt;$curso{2016}&lt;/BODY&gt;&lt;/HTML&gt;
-		</text>
+		<text>&lt;HTML&gt;&lt;BODY&gt;$curso{2016}&lt;/BODY&gt;&lt;/HTML&gt; </text>
 		<foreground>javax.swing.plaf.ColorUIResource[r=0,g=0,b=0]</foreground>
 		<transparencia>0.0</transparencia>
 		<font>java.awt.Font[family=Tahoma,name=Tahoma,style=bold,size=22]
@@ -38,8 +37,7 @@
 		<locationY>222</locationY>
 		<width>200</width>
 		<height>100</height>
-		<text>&lt;HTML&gt;&lt;BODY&gt;$curs{Curs:}&lt;/BODY&gt;&lt;/HTML&gt;
-		</text>
+		<text>&lt;HTML&gt;&lt;BODY&gt;$curs{Curs:}&lt;/BODY&gt;&lt;/HTML&gt; </text>
 		<foreground>javax.swing.plaf.ColorUIResource[r=0,g=0,b=0]</foreground>
 		<transparencia>0.0</transparencia>
 		<font>java.awt.Font[family=Tahoma,name=Tahoma,style=bold,size=22]
@@ -69,8 +67,7 @@
 		<locationY>230</locationY>
 		<width>200</width>
 		<height>89</height>
-		<text>&lt;HTML&gt;&lt;BODY&gt;$documento{20213944f}&lt;/BODY&gt;&lt;/HTML&gt;
-		</text>
+		<text>&lt;HTML&gt;&lt;BODY&gt;$documento{20213944f}&lt;/BODY&gt;&lt;/HTML&gt; </text>
 		<foreground>javax.swing.plaf.ColorUIResource[r=0,g=0,b=0]</foreground>
 		<transparencia>0.0</transparencia>
 		<font>java.awt.Font[family=Tahoma,name=Tahoma,style=bold,size=22]

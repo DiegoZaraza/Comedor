@@ -3,19 +3,19 @@
 	<image background="\System-Comedor\fondoCarnet.png"
 		background-point="Point2D.Double[224.0, 151.0]" background-scale="1.0" />
 	<elemento id="codigo_barra" type="CodigoBarra">
-		<locationX>-275</locationX>
-		<locationY>281</locationY>
+		<locationX>-280</locationX>
+		<locationY>300</locationY>
 		<width>983</width>
-		<height>88</height>
+		<height>80</height>
 		<text>$codigo_barra{01010101}</text>
+		<transparencia>0.0</transparencia>
 	</elemento>
 	<elemento id="nia" type="texto">
 		<locationX>31</locationX>
 		<locationY>216</locationY>
 		<width>200</width>
 		<height>100</height>
-		<text>&lt;HTML&gt;&lt;BODY&gt;$nia{20213944}&lt;/BODY&gt;&lt;/HTML&gt;
-		</text>
+		<text>&lt;HTML&gt;&lt;BODY&gt;$nia{20213944}&lt;/BODY&gt;&lt;/HTML&gt; </text>
 		<foreground>javax.swing.plaf.ColorUIResource[r=0,g=0,b=0]</foreground>
 		<transparencia>0.0</transparencia>
 		<font>java.awt.Font[family=Tahoma,name=Tahoma,style=bold,size=22]
@@ -26,27 +26,25 @@
 		<locationY>214</locationY>
 		<width>200</width>
 		<height>100</height>
-		<text>&lt;HTML&gt;&lt;BODY&gt;$labelCurso{Curs:}&lt;/BODY&gt;&lt;/HTML&gt;
-		</text>
+		<text>&lt;HTML&gt;&lt;BODY&gt;$labelCurso{Curs:}&lt;/BODY&gt;&lt;/HTML&gt; </text>
 		<foreground>javax.swing.plaf.ColorUIResource[r=0,g=0,b=0]</foreground>
 		<transparencia>0.0</transparencia>
 		<font>java.awt.Font[family=Tahoma,name=Tahoma,style=bold,size=22]
 		</font>
 	</elemento>
 	<elemento id="foto" type="imagen">
-		<locationX>420</locationX>
-		<locationY>135</locationY>
-		<width>138</width>
-		<height>188</height>
+		<locationX>413</locationX>
+		<locationY>88</locationY>
+		<width>129</width>
+		<height>176</height>
 		<imagen>$foto{C:\46022932\FotosNIA\1039353.jpg}</imagen>
 	</elemento>
 	<elemento id="fechaNacimiento" type="texto">
 		<locationX>371</locationX>
-		<locationY>281</locationY>
+		<locationY>255</locationY>
 		<width>200</width>
-		<height>100</height>
-		<text>&lt;HTML&gt;&lt;BODY&gt;$fechaNacimiento{09/03/1991}&lt;/BODY&gt;&lt;/HTML&gt;
-		</text>
+		<height>40</height>
+		<text>&lt;HTML&gt;&lt;BODY&gt;$fechaNacimiento{09/03/1991}&lt;/BODY&gt;&lt;/HTML&gt; </text>
 		<foreground>javax.swing.plaf.ColorUIResource[r=0,g=0,b=0]</foreground>
 		<transparencia>0.0</transparencia>
 		<font>java.awt.Font[family=Tahoma,name=Tahoma,style=bold,size=15]
@@ -57,8 +55,7 @@
 		<locationY>216</locationY>
 		<width>200</width>
 		<height>100</height>
-		<text>&lt;HTML&gt;&lt;BODY&gt;$labelNia{NIA:}&lt;/BODY&gt;&lt;/HTML&gt;
-		</text>
+		<text>&lt;HTML&gt;&lt;BODY&gt;$labelNia{NIA:}&lt;/BODY&gt;&lt;/HTML&gt; </text>
 		<foreground>javax.swing.plaf.ColorUIResource[r=0,g=0,b=0]</foreground>
 		<transparencia>0.0</transparencia>
 		<font>java.awt.Font[family=Tahoma,name=Tahoma,style=bold,size=22]
@@ -78,11 +75,10 @@
 	</elemento>
 	<elemento id="documento" type="texto">
 		<locationX>371</locationX>
-		<locationY>299</locationY>
+		<locationY>270</locationY>
 		<width>200</width>
-		<height>100</height>
-		<text>&lt;HTML&gt;&lt;BODY&gt;$documento{13274323F}&lt;/BODY&gt;&lt;/HTML&gt;
-		</text>
+		<height>40</height>
+		<text>&lt;HTML&gt;&lt;BODY&gt;$documento{13274323F}&lt;/BODY&gt;&lt;/HTML&gt; </text>
 		<foreground>javax.swing.plaf.ColorUIResource[r=0,g=0,b=0]</foreground>
 		<transparencia>0.0</transparencia>
 		<font>java.awt.Font[family=Tahoma,name=Tahoma,style=bold,size=15]
@@ -105,8 +101,7 @@
 		<locationY>85</locationY>
 		<width>200</width>
 		<height>100</height>
-		<text>&lt;HTML&gt;&lt;BODY&gt;$grupo{ISOBS1}&lt;/BODY&gt;&lt;/HTML&gt;
-		</text>
+		<text>&lt;HTML&gt;&lt;BODY&gt;$grupo{ISOBS1}&lt;/BODY&gt;&lt;/HTML&gt; </text>
 		<foreground>javax.swing.plaf.ColorUIResource[r=0,g=0,b=0]</foreground>
 		<transparencia>0.0</transparencia>
 		<font>java.awt.Font[family=Tahoma,name=Tahoma,style=bold,size=27]

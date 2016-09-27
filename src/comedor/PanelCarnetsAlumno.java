@@ -118,9 +118,6 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 										progressBar.setString("Generando Carnets...");
 										progressBar.setIndeterminate(true);
 
-
-										System.out.println("Antes de Entrar a Carnet Frontal");
-
 										Carnet carnetFrontal = new Carnet(1, PanelCarnetsAlumno.this.principal);
 										String nia = table.getValueAt(table.getSelectedRow(), 1).toString();
 
@@ -136,7 +133,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 
 										if(s.isFotoVerificada())
 										{
-											hashtable.put("foto", "System-Comedor" + File.separator + "Fotos" + File.separator + "FotoPrueba.jpg");// + s.getNia() + ".jpg");
+											hashtable.put("foto", "System-Comedor" + File.separator + "Fotos" + File.separator + s.getNia() + ".jpg");
 										}
 										else
 										{
@@ -155,7 +152,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 										for(int index = 0; index < g.length; index++)
 										{
 											String ja = g[index] + ">";
-
+											System.out.println(g[index]);
 											if(ja.startsWith("<image background = "))
 											{
 												String p1 = ja.substring(0, ja.indexOf(" = ") + 2);
@@ -360,7 +357,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 											hashtable.put("nia", s.getNia());
 
 											if(s.isFotoVerificada())
-												hashtable.put("foto", "System-Comedor" + File.separator + "Fotos" + File.separator + "" + "FotoPrueba"/*s.getNia()*/ + ".jpg");
+												hashtable.put("foto", "System-Comedor" + File.separator + "Fotos" + File.separator + "" + s.getNia() + ".jpg");
 											else
 												return;
 
