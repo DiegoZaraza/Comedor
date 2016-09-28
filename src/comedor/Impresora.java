@@ -20,15 +20,15 @@ public class Impresora
 {
 	public List<PrintService> getImpresoras()
 	{
+		List<PrintService> x;
+		
 		DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.PAGEABLE;
 		PrintRequestAttributeSet patts = new HashPrintRequestAttributeSet();
 		patts.add(Sides.ONE_SIDED);
 		PrintService[] ps = PrintServiceLookup.lookupPrintServices(flavor, patts);
+		
+		x = Arrays.asList(ps);
 
-		if (ps.length == 0) 
-			return null;
-
-		List<PrintService> x = Arrays.asList(ps);
 		return x;
 	}
 

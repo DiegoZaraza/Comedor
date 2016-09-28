@@ -2870,15 +2870,20 @@ public class BD extends JKDataBase
 
 	}
 
-	public void updateAlumnoAS(String nia, String string) {
-		// TODO Auto-generated method stub
-		try{	
-			String curso=principal.getBaseDeDatos().getCursoActual();
-			executeUpdate("UPDATE estatus_alumno SET usuario_comedor='"+string+"' WHERE nia='"+string+"' and curso='"+curso+"'");
-		}catch(Exception e){
+	public void updateAlumnoAS(String nia, String string) 
+	{
+		try
+		{	
+			String curso = principal.getBaseDeDatos().getCursoActual();
+			System.out.println("UPDATE estatus_alumno SET usuario_comedor='" + string + "' WHERE nia = '" + nia + "' and curso='" + curso + "'");
+			executeUpdate("UPDATE estatus_alumno SET usuario_comedor='" + string + "' WHERE nia = '" + nia + "' and curso='" + curso + "'");
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
+	
 	public Boolean getSelectedLunesMartes(String nia) {
 		try{
 			String curso=principal.getBaseDeDatos().getCursoActual();
@@ -3154,7 +3159,7 @@ public class BD extends JKDataBase
 	{
 		try
 		{
-			ResultSet x =executeQuery("SELECT impresora FROM impresoras WHERE id_impresora='1'");
+			ResultSet x = executeQuery("SELECT impresora FROM impresoras WHERE id_impresora = '1'");
 	
 			while(x.next())
 				return x.getString("impresora");

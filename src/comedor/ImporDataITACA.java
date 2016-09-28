@@ -55,9 +55,6 @@ import javax.swing.JTextField;
 
 public class ImporDataITACA extends JInternalFrame 
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private ComedorGUI principal;
 	private JKList list;
@@ -67,13 +64,12 @@ public class ImporDataITACA extends JInternalFrame
 	private JLabel label_9;
 	private JLabel label_10;
 	private JLabel label_11;
-	private JLabel label_12;
-	
-	private ArrayList<Familiars> arrayListFamiliars=new ArrayList<>();
-	private ArrayList<Grups> arrayListGrups=new ArrayList<>();
-	private ArrayList<Imexalum> arrayListImexalums=new ArrayList<>();
-	private ArrayList<Pass> arrayListPas=new  ArrayList<>();
-	private ArrayList<Profes> arrayListProfes=new ArrayList<>();
+	private JLabel label_12;	
+	private ArrayList<Familiars> arrayListFamiliars = new ArrayList<>();
+	private ArrayList<Grups> arrayListGrups = new ArrayList<>();
+	private ArrayList<Imexalum> arrayListImexalums = new ArrayList<>();
+	private ArrayList<Pass> arrayListPas = new ArrayList<>();
+	private ArrayList<Profes> arrayListProfes = new ArrayList<>();
 	private JLabel label;
 	private JLabel label_1;
 	private JLabel label_2;
@@ -81,35 +77,40 @@ public class ImporDataITACA extends JInternalFrame
 	private JProgressBar progressBarMain;
 	private JTextField textField;
 	private JCheckBox chckbxNewCheckBox_1;
-	public String getCurso(){
+	
+	public String getCurso()
+	{
 		return textField.getText();
 	}
-	public void loadFileXML(File file){
+	
+	public void loadFileXML(File file)
+	{
 		File fXmlFile = file;
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
-		try {
+		
+		try 
+		{
 			dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
 			
-			doc.getDocumentElement().normalize();
-			
-			
+			doc.getDocumentElement().normalize();		
 			doc.getDocumentElement().getAttribute("codigo");
 			doc.getDocumentElement().getAttribute("denominacion");
 			doc.getDocumentElement().getAttribute("curso");
 			
 			String fechaExp="";
 			
-		
-			fechaExp=doc.getDocumentElement().getAttribute("fechaExportacion");
-			if(file.getName().indexOf("familiars.xml")!=-1){
+			fechaExp = doc.getDocumentElement().getAttribute("fechaExportacion");
+			
+			if(file.getName().indexOf("familiars.xml")!=-1)
+			{
 				label_8.setText(fechaExp);
 				
 				NodeList nList = doc.getElementsByTagName("familiar");
 				
-				for (int temp = 0; temp < nList.getLength(); temp++) {
-
+				for (int temp = 0; temp < nList.getLength(); temp++) 
+				{
 					Node nNode = nList.item(temp);
 					Familiars familiars=new Familiars();
 //					System.out.println("\nCurrent Element :" + nNode.getNodeName());
@@ -126,7 +127,9 @@ public class ImporDataITACA extends JInternalFrame
 					arrayListFamiliars.add(familiars);
 				}
 				
-			}else if(file.getName().indexOf("grups.xml")!=-1){
+			}
+			else if(file.getName().indexOf("grups.xml")!=-1)
+			{
 				label_9.setText(fechaExp);
 				
 				NodeList nList = doc.getElementsByTagName("grupo");
@@ -151,7 +154,8 @@ public class ImporDataITACA extends JInternalFrame
 				}
 				label_1.setText(""+arrayListGrups.size());
 				
-			}else if(file.getName().indexOf("imexalum.xml")!=-1){
+			}else if(file.getName().indexOf("imexalum.xml")!=-1)
+			{
 				label_10.setText(fechaExp);
 				NodeList nList = doc.getElementsByTagName("alumno");
 			
@@ -324,9 +328,7 @@ public class ImporDataITACA extends JInternalFrame
 				}
 				label_3.setText(""+arrayListProfes.size());
 			}
-			
-			
-			
+
 //			NodeList nList = doc.getElementsByTagName("centro");
 			
 			progressBar.setString("Cargado!");
@@ -346,6 +348,7 @@ public class ImporDataITACA extends JInternalFrame
 		}
 		
 	}
+	
 	public void loadCSV(){
 		
 		new Thread(new Runnable() {
@@ -362,24 +365,16 @@ public class ImporDataITACA extends JInternalFrame
 					try {
 					
 						csvReader.readHeaders();
-
-//						for(int index=0;index<csvReader.getHeaderCount();index++){
-//							System.out.println(csvReader.getHeaders()[index]);
-//						}
 						while (csvReader.readRecord())
 						{
-//							System.out.println(csvReader.getHeaders());
-							String nia=csvReader.get("NIA");
-							String alta=csvReader.get("F. Alta");
-							String baja=csvReader.get("F. Baja");
-							String pago=csvReader.get("Tipo pago");
+							String nia = csvReader.get("NIA");
+							String alta = csvReader.get("F. Alta");
+							String baja = csvReader.get("F. Baja");
+							String pago = csvReader.get("Tipo pago");
 							
-//							System.out.println(alta);
-//							dateFormat=new SimpleDateFormat("dd/MM/yyy");
-							
-							if(principal.getBaseDeDatos().verificarSiExiste(nia)){
-								
-								principal.getBaseDeDatos().updateAlumnoAS(nia,"si");
+							if(principal.getBaseDeDatos().verificarSiExiste(nia))
+							{	
+								principal.getBaseDeDatos().updateAlumnoAS(nia, "si");
 								SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyy");
 								
 								try {
@@ -952,8 +947,6 @@ public class ImporDataITACA extends JInternalFrame
 					loadFileXML(selected);
 					}
 				}
-				
-				
 			}
 		});
 		btnNewButton.setIcon(new ImageIcon(ImporDataITACA.class.getResource("/resource/14.png")));
@@ -988,8 +981,6 @@ public class ImporDataITACA extends JInternalFrame
 		progressBar.setString("Esperando archivos.");
 		progressBar.setStringPainted(true);
 		panel_1.add(progressBar, BorderLayout.SOUTH);
-		panel.setLayout(gl_panel);
-
-		
+		panel.setLayout(gl_panel);		
 	}
 }

@@ -2,6 +2,7 @@ package comedor;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -24,9 +25,13 @@ import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JTabbedPane;
+
 import java.awt.GridLayout;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -41,6 +46,7 @@ import javax.swing.UIManager;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
+
 import org.jdesktop.swingx.JXBusyLabel;
 import org.jdesktop.xswingx.PromptSupport;
 
@@ -51,6 +57,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Random;
+
 import javax.swing.SwingConstants;
 
 public class RegistrarAlumno extends JInternalFrame implements MouseListener 
@@ -778,6 +785,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 								JOptionPane.showMessageDialog(getInstance(), "Se han actualizado los datos correctamente!","Exio al Actualizar!",JOptionPane.INFORMATION_MESSAGE);
 
 								dispose();
+
 								if(mode)
 									principal.activeScanner();
 							}
@@ -1024,17 +1032,17 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 
 		tabbedPane.addTab("" + tipo, new ImageIcon(getClass().getResource("/resource/a8.png")), panelFamiliar);
 	}
-	
+
 	public void setFoto(BufferedImage bufferedImage)
 	{
 		jkPanel.setBackground(new ImageIcon(bufferedImage));
 	}
-	
+
 	public String getNia ()
 	{
 		return textField_2.getText().toUpperCase();
 	}
-	
+
 	public void setNia (String n)
 	{
 		textField_2.setText( n);
@@ -1044,12 +1052,12 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	{
 		return textField.getText();
 	}
-	
+
 	public void setNombres(String n)
 	{
 		textField.setText(n);
 	}
-	
+
 	public String getApellido1 ()
 	{
 		return textFieldApellido1.getText();
@@ -1059,7 +1067,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	{
 		return textFieldApellido2.getText();
 	}
-	
+
 	public void setApellido2 (String n)
 	{
 		textFieldApellido2.setText(n);
@@ -1069,22 +1077,22 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	{
 		return textFieldDocumento.getText();
 	}
-	
+
 	public void setDocumento (String n)
 	{
 		textFieldDocumento.setText(n);
 	}
-	
+
 	public void setApellido1 (String n)
 	{
 		textFieldApellido1.setText(n);
 	}
-	
+
 	public String getGrupo()
 	{
 		return arrayListgrupos.get(comboBox.getSelectedIndex());
 	}
-	
+
 	private BufferedImage foto;
 	private File fileFoto;
 
@@ -1097,12 +1105,12 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	{
 		return fileFoto;
 	}
-	
+
 	public String getCuentaBancaria()
 	{
 		return textFieldCuenta.getText();
 	}
-	
+
 	public void setCuentaBancaria(String j)
 	{
 		textFieldCuenta.setText(j);
@@ -1112,7 +1120,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	{
 		return textArea_2.getText();
 	}
-	
+
 	public void setInformeMedico(String n)
 	{
 		textArea_2.setText(n);
@@ -1128,25 +1136,27 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		lblNewLabel_7.setBusy(false);
 		lblNewLabel_7.setVisible(false);
 		found = true;
-		
+
 		new Thread(
 				new Runnable() 
 				{
-
-			@Override
-			public void run() 
-			{
-				try 
-				{
-					Thread.sleep(2500);
-					dispose();
-				} 
-				catch (InterruptedException e) 
-				{
-					e.printStackTrace();
-				}
-			}
-		}).start();
+					@Override
+					public void run() 
+					{
+						try 
+						{
+							/** SE AGREGA WHILE PARA MANTENER LA VENTANA ACTIVA MIENTRAS SE DIGITA
+							 ** UN NUENO NUMERO DE DOCUMENTO **/
+							while(principal.getScanned().length() == 0)
+								Thread.sleep(2500);
+							
+							dispose();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}).start();
 	}
 
 	public Date getfechaNacimiento() 
@@ -1161,18 +1171,18 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		}
 		return new Date(textFieldFechaNacimiento.getDateEditor().getDate().getTime());
 	}
-	
+
 	public void setFechaNacimiento(String fechaAlta)
 	{
 		SimpleDateFormat dateFormat = null;
-		
+
 		if(fechaAlta != null)
 		{
 			if(fechaAlta.indexOf("-") != -1)
 				dateFormat = new SimpleDateFormat("yyy-MM-dd");
 			else
 				dateFormat = new SimpleDateFormat("dd/MM/yyy");
-			
+
 			try 
 			{
 				textFieldFechaNacimiento.setDate(dateFormat.parse(fechaAlta));
@@ -1192,7 +1202,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		else
 			return "E";
 	}
-	
+
 	public void setTipoDoc(String n)
 	{
 		if(n!=null)
@@ -1207,7 +1217,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	{
 		return textField_10.getText();
 	}
-	
+
 	public String getPersonaDeContacto()
 	{
 		return textField_9.getText();
@@ -1217,7 +1227,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	{
 		return textFieldExpediente.getText();
 	}
-	
+
 	public void setExpediente(String n)
 	{
 		textFieldExpediente.setText(n);
@@ -1250,38 +1260,38 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 				comboBox.setSelectedIndex(index);
 		}
 	}
-	
+
 	public String getReferenciaMandato()
 	{
 		return textFieldReferenciaMandato.getText();
 	}
-	
+
 	public void setReferenciaMandato(String ref)
 	{
 		textFieldReferenciaMandato.setText(ref);
 	}
-	
+
 	public String getSexo()
 	{
 		return comboBoxSexo.getSelectedItem().toString();
 	}
-	
+
 	public void setSexo(String sex)
 	{
 		if(sex == null)
 			sex = "M";
-		
+
 		if(sex.equalsIgnoreCase("H"))
 			comboBoxSexo.setSelectedIndex(0);
 		else
 			comboBoxSexo.setSelectedIndex(1);
 	}
-	
+
 	public String getTelefono1()
 	{
 		return textFieldTelefono1.getText();
 	}
-	
+
 	public void setTelefono1(String telefono)
 	{
 		textFieldTelefono1.setText(telefono);
@@ -1291,7 +1301,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	{
 		return textFieldSip.getText();
 	}
-	
+
 	public void setSIP(String telefono)
 	{
 		textFieldSip.setText(telefono);
@@ -1301,7 +1311,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	{
 		return textFieldTelefono2.getText();
 	}
-	
+
 	public void setTelefono2(String telefono)
 	{
 		textFieldTelefono2.setText(telefono);
@@ -1311,12 +1321,12 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	{
 		return textFieldEmail.getText();
 	}
-	
+
 	public void setEmail(String email)
 	{
 		textFieldEmail.setText(email);
 	}
-	
+
 	public void setTutor(String tutorDeGrupo) { }
 
 	private JTextField textFieldEmail;
@@ -1330,19 +1340,19 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	private JTextField textFieldCuenta;
 	private JTextField textFieldCurso;
 	private JTextField textFieldReferenciaMandato;
-	
+
 	public void setIDOtrosDatos(String id) { }
 
 	public String getCurso()
 	{
 		return textFieldCurso.getText();
 	}
-	
+
 	public void setCurso(String curso)
 	{
 		textFieldCurso.setText(curso);
 	}
-	
+
 	public void setMedicamentos(String medicamentos) 
 	{
 		textField_10.setText(medicamentos);
@@ -1352,19 +1362,19 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	{
 		textField_2.setEditable(b);
 	}
-	
+
 	@Override
 	public void mouseClicked(MouseEvent arg0) { }
-	
+
 	@Override
 	public void mouseEntered(MouseEvent arg0) { }
-	
+
 	@Override
 	public void mouseExited(MouseEvent arg0) { }
-	
+
 	@Override
 	public void mousePressed(MouseEvent arg0) { }
-	
+
 	@Override
 	public void mouseReleased(MouseEvent arg0) 
 	{

@@ -1697,7 +1697,7 @@ public class ComedorGUI extends JFrame
 				});
 	}
 
-	private synchronized String getScanned() 
+	public synchronized String getScanned() 
 	{
 		return fieldCode.getText();
 	}
