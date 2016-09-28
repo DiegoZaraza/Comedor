@@ -188,7 +188,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 								public synchronized void run() 
 								{
 									final String h = textField_2.getText();
-
+									
 									setFound((found = principal.getBaseDeDatos().verificarSiExiste(h)));
 
 									if(isFound()) 
@@ -1132,7 +1132,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		btnNewButton.setText("Actualizar");
 		btnNewButton.setIcon(new ImageIcon(getClass().getResource("/resource/update.png")));
 
-		principal.getBaseDeDatos().getDatosAlumno(textField_2.getText(),getInstance());
+		principal.getBaseDeDatos().getDatosAlumno(textField_2.getText(), getInstance());
 		lblNewLabel_7.setBusy(false);
 		lblNewLabel_7.setVisible(false);
 		found = true;

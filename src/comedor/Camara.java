@@ -128,6 +128,9 @@ public class Camara extends JDialog implements Runnable,WindowListener
 				{				
 					fileFotox = new File("System-Comedor" + File.separator + "Fotos" + File.separator + "foto-" + registrarProfesor.getDocumento()+".jpg");
 					ImageIO.setUseCache(true);
+					/** AJUSTE IMAGEN DE IMPRERIOS */
+					image = image.getSubimage((image.getWidth() / 2) - 240, (image.getHeight() / 2) - 320, 480, 640);
+					
 					ImageIO.write(image, "PNG", fileFotox);
 					principal.getBaseDeDatos().insertFotos(fileFotox);
 

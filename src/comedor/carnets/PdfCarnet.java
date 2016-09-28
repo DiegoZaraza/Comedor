@@ -63,6 +63,9 @@ public class PdfCarnet
 				imagen.setUseVariableBorders(true);
 				document.add(imagen);
 			}
+			
+			/** SE AGREGA EL CIERRE DEL DOCUMENTO YA QUE AL QUEDAR ABIERTO NO SE REALIZA LA IMPRESION DEL MISMO */
+			document.close();
 
 			if(principal.getBaseDeDatos().isImpresoraCarnetConfigurada())
 				new Impresora(principal).printCarnet(new File(fileName).toString());

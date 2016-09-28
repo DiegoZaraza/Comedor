@@ -464,7 +464,7 @@ public class BD extends JKDataBase
 		try{
 			ResultSet x=executeQuery("select usuario,clave FROM USUARIOS where usuario='"+text+"' " +
 					"and clave='"+Base64.encodeBytes(password.getBytes())+"' and id_rol='"+id_rol+"'");
-			System.out.println("select usuario,clave FROM USUARIOS where usuario='"+text+"' " +"and clave='"+Base64.encodeBytes(password.getBytes())+"' and id_rol='"+id_rol+"");
+
 			while(x.next()){
 				Toolkit.getDefaultToolkit().beep();
 				if(id_rol.toString().equalsIgnoreCase("6")){
@@ -894,60 +894,71 @@ public class BD extends JKDataBase
 		}
 		return false;
 	}
-	public synchronized boolean verificarSiExiste(String nia) {
-		try{
-			String sql="";
-			String curso=principal.getBaseDeDatos().getCursoActual();
-			if(Character.isAlphabetic(nia.charAt(nia.length()-1))){
-				sql="select * from alumnos where documento='"+nia+"' and curso='"+curso+"'";
-			}else{
-				sql="select * from alumnos where nia='"+nia+"' and curso='"+curso+"'";
-			}
+	
+	/** AJUSTE CONSULTA PARA BUSQUEDA POR APELLIDO */
+	public synchronized boolean verificarSiExiste(String nia) 
+	{
+		try
+		{
+			String sql = "";
+			String curso = principal.getBaseDeDatos().getCursoActual();
+			
+			if(Character.isAlphabetic(nia.charAt(nia.length()-1)))
+				sql = "SELECT * FROM alumnos WHERE (documento = '" + nia + "' OR apellido1 = '" + nia + "') AND curso = '" + curso + "'";
+			else
+				sql = "SELECT * FROM alumnos WHERE (nia = '" + nia + "' OR apellido1 = '" + nia + "') AND curso = '" + curso + "'";
 
 			ResultSet x = executeQuery(sql);
-			while(x.next()){
+			while(x.next())
 				return true;
-
-			}
-		}catch(Exception e){
-			//			e.printStackTrace();
 		}
-		return false;
-	}
-	public synchronized boolean verificarSiExisteProfesor(String doc) {
-		try{
-			String sql="";
-			String curso=principal.getBaseDeDatos().getCursoActual();
-			sql="select * from profes where documento='"+doc+"' and curso='"+curso+"'";
-
-
-			ResultSet x = executeQuery(sql);
-			while(x.next()){
-				return true;
-
-			}
-		}catch(Exception e){
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return false;
 	}
-	public synchronized boolean verificarSiExisteNoProfesor(String doc) {
-		try{
-			String sql="";
-			String curso=principal.getBaseDeDatos().getCursoActual();
-			sql="select * from pas where documento='"+doc+"' and curso='"+curso+"'";
+	
+	/** AJUSTE CONSULTA PARA BUSQUEDA POR APELLIDO */
+	public synchronized boolean verificarSiExisteProfesor(String doc) 
+	{
+		try
+		{
+			String sql = "";
+			String curso = principal.getBaseDeDatos().getCursoActual();
+			sql = "SELECT * FROM profes WHERE documento = '" + doc + "' OR apellido1 = '" + doc + "')  AND curso = '" + curso + "'";
 
-			//			System.out.println("sasasasas");
 			ResultSet x = executeQuery(sql);
-			while(x.next()){
-				return true;
-
-			}
-		}catch(Exception e){
+			while(x.next())
+				return true;	
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return false;
 	}
+	
+	/** AJUSTE CONSULTA PARA BUSQUEDA POR APELLIDO */
+	public synchronized boolean verificarSiExisteNoProfesor(String doc) 
+	{
+		try
+		{
+			String sql = "";
+			String curso = principal.getBaseDeDatos().getCursoActual();
+			sql="SELECT * FROM pas WHERE documento = '" + doc + "' OR apellido1 = '" + doc + "') AND curso = '" + curso + "'";
+
+			ResultSet x = executeQuery(sql);
+			while(x.next())
+				return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public String getTutorDeGrupo(String codigoGrupo){
 		try{
 			String curso=principal.getBaseDeDatos().getCursoActual();
@@ -991,8 +1002,6 @@ public class BD extends JKDataBase
 					"motivo, horas_preparacion, horas_computo_mens, fecha_antiguedad, "+
 					"claustro, tipo_docente, iban, foto, alergias,apellido2, referencia_mandato "+
 					" FROM profes where documento='"+doc+"' and curso='"+curso+"'");
-			//			System.out.println(doc);
-			//			System.out.println("select nombres, apellidos, nia, grupo, foto, codigo_barra from alumnos where nia='"+nia+"'");
 			while(x.next()){
 
 				registrarProfesores.setNombre(x.getString(2));
@@ -1045,8 +1054,6 @@ public class BD extends JKDataBase
 					"horas_puesto, horas_dedicadas, funcion, tipo_trabajador, fecha_nac, "+
 					"organismo, banco, sucursal, digito_control, cuenta, claustro, "+
 					"iban,foto,apellido2 FROM pas where documento='"+doc+"' and curso='"+curso+"'");
-			//			System.out.println(doc);
-			//			System.out.println("select nombres, apellidos, nia, grupo, foto, codigo_barra from alumnos where nia='"+nia+"'");
 			while(x.next()){
 				registrarProfesores.setNombre(x.getString(2));
 				registrarProfesores.setApellido1(x.getString(3));
@@ -1089,10 +1096,10 @@ public class BD extends JKDataBase
 			ResultSet x = executeQuery("select nombres, apellido1, nia, grupo, foto, codigo_barra,sexo,email," +
 					"telefono1, apellido2, expediente, sip, fecha_nacimiento, telefono2,documento,tipo_doc,curso,persona_de_contacto,cta_bancaria," +
 					"informe_medico,medicamentos, referencia_mandato " +
-					" from alumnos where nia='"+nia+"' and curso='"+curso+"'");
+					" from alumnos where (nia='"+nia+"' OR apellido1='"+nia+"') and curso='"+curso+"'");
 			//			System.out.println("select nombres, apellidos, nia, grupo, foto, codigo_barra from alumnos where nia='"+nia+"'");
 			while(x.next()){
-
+				instance.setNia(x.getString(3));
 				instance.setNombres(x.getString(1));
 				instance.setApellido1(x.getString(2));
 				instance.setGrupo(x.getString(4));
@@ -2194,13 +2201,13 @@ public class BD extends JKDataBase
 				//				System.out.println(y);
 
 				ResultSet a1 = executeQuery("SELECT nia, fecha_alta, fecha_baja, id_fechas, curso, beca, tipo_usuario, "+
-						"asiduo, autorizados_lunes_martes, autorizados_jueves"+
-						" FROM fechas_altas_bajas where nia='"+x.getString(1)+"'and curso='"+curso+"'");
+						"asiduo, autorizados_lunes_martes, autorizados_jueves, permiso_salida"+
+						" FROM fechas_altas_bajas where nia='"+x.getString(1)+"'and curso='"+curso+"' and ");
 
 				boolean n = false;
 				while(a1.next()){
 					String fecha=a1.getString(2).split("-")[1];
-					if(fecha.equalsIgnoreCase(nMes)&&a1.getString(8).equalsIgnoreCase("No")){
+					if(fecha.equalsIgnoreCase(nMes)&&a1.getString(8).equalsIgnoreCase("No")&&a1.getString(11).equalsIgnoreCase("Si")){
 						n = true;
 						break;
 					}else
@@ -2739,11 +2746,14 @@ public class BD extends JKDataBase
 			e.printStackTrace();
 		}
 	}
-	public boolean addFechas(Date getfechaAlta, Date getfechaBaja, String nia, String beca, String dias, String asiduo, String marteslunes, String jueves) {
+	public boolean addFechas(Date getfechaAlta, Date getfechaBaja, String nia, String beca, String dias, String asiduo, String marteslunes, String jueves, String salida) {
 		// TODO Auto-generated method stub
 		try{
+			
+			System.out.println("SALIDA: " + salida);
+			
 			String curso=principal.getBaseDeDatos().getCursoActual();
-			ResultSet x = executeQuery("SELECT nia, fecha_alta, fecha_baja, id_fechas FROM fechas_altas_bajas where nia ='"+nia+"' " +
+			ResultSet x = executeQuery("SELECT nia, fecha_alta, fecha_baja, id_fechas, permiso_salida FROM fechas_altas_bajas where nia ='"+nia+"' " +
 					"and fecha_alta='"+getfechaAlta+"' and fecha_baja='"+getfechaBaja+"' and curso='"+curso+"'");
 			while(x.next()){
 				return true;
@@ -2757,9 +2767,9 @@ public class BD extends JKDataBase
 				}else{
 					pagox="0";
 				}
-			//			System.out.println(asiduo);
+						System.out.println(asiduo);
 			PreparedStatement p = preparedStatement("INSERT INTO fechas_altas_bajas(nia, fecha_alta, " +
-					"fecha_baja,curso,beca,tipo_usuario,asiduo,autorizados_lunes_martes,autorizados_jueves,documento)VALUES (?, ?, ?,?,?,?,?,?,?,?);");
+					"fecha_baja,curso,beca,tipo_usuario,asiduo,autorizados_lunes_martes,autorizados_jueves,documento,permiso_salida)VALUES (?, ?, ?,?,?,?,?,?,?,?,?);");
 			p.setString(1, nia);
 			p.setDate(2, getfechaAlta);
 			p.setDate(3, getfechaBaja);
@@ -2770,6 +2780,7 @@ public class BD extends JKDataBase
 			p.setString(8, marteslunes);
 			p.setString(9, jueves);
 			p.setString(10, getDocumento(nia));
+			p.setString(11, salida);
 
 
 			if(p.executeUpdate()==1){
@@ -3298,14 +3309,15 @@ public class BD extends JKDataBase
 	public void getDatosPeriodo(String id, NuevoPeriodoComedor nuevoPeridoComedor) {
 		// TODO Auto-generated method stub
 		try{
-			ResultSet x = executeQuery("SELECT nia, fecha_alta, fecha_baja, id_fechas, curso, beca, tipo_usuario,  asiduo FROM fechas_altas_bajas where id_fechas='"+id+"'");
+			ResultSet x = executeQuery("SELECT nia, fecha_alta, fecha_baja, id_fechas, curso, beca, tipo_usuario,  asiduo, permiso_salida FROM fechas_altas_bajas where id_fechas='"+id+"'");
 			while(x.next()){
 				nuevoPeridoComedor.setFechAlta(x.getString(2));
 				nuevoPeridoComedor.setFechBaja(x.getString(3));
 				//				System.out.println("MSAKMDS");
 				nuevoPeridoComedor.setBeca(x.getString(6));
-				nuevoPeridoComedor.setAsiduo((x.getString(8).equalsIgnoreCase("Si")?true:false));
+				nuevoPeridoComedor.setAsiduo(x.getString(8));
 				nuevoPeridoComedor.setTipoUsuario(x.getString(7));
+				nuevoPeridoComedor.setSalida(x.getString(9));
 			}
 		}catch(Exception e){
 			e.printStackTrace();

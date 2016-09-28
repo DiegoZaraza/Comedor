@@ -602,7 +602,7 @@ public class PDF_ProfesorHorizontal {
 	public PDF_ProfesorHorizontal(String nombreCurso,String tutor,ArrayList<Persona> arrayList,ComedorGUI principal) throws DocumentException, MalformedURLException, IOException{
 	   document = new Document();
 	   this.arrayList=arrayList;
-	   PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("System-Comedor"+File.separator+"listadoHorizontal.pdf"));
+	   PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("System-Comedor"+File.separator+"Temp"+File.separator+"listadoHorizontal.pdf"));
 	   FooterPiePaginaiText footer = new FooterPiePaginaiText();
 	   writer.setPageEvent(footer);
 	   
@@ -669,14 +669,14 @@ public class PDF_ProfesorHorizontal {
 		
 		document.close();
 		if(principal.getBaseDeDatos().getImpresionDirecta()){
-			  new Impresora(principal).print(new File("System-Comedor"+File.separator+"listadoHorizontal.pdf").toString());
+			  new Impresora(principal).print(new File("System-Comedor"+File.separator+"Temp"+File.separator+"listadoHorizontal.pdf").toString());
 		}else{
 			
 		
 		try {
 			
 			Desktop.getDesktop().open(
-					new File("System-Comedor"+File.separator+"listadoHorizontal.pdf"));
+					new File("System-Comedor"+File.separator+"Temp"+File.separator+"listadoHorizontal.pdf"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

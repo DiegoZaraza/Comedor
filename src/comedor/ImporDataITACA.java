@@ -378,7 +378,7 @@ public class ImporDataITACA extends JInternalFrame
 								SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyy");
 								
 								try {
-									principal.getBaseDeDatos().addFechas(new Date(dateFormat.parse(alta).getTime()),new Date(dateFormat.parse(baja).getTime()), nia,pago,"3","si","Si","Si");
+									principal.getBaseDeDatos().addFechas(new Date(dateFormat.parse(alta).getTime()),new Date(dateFormat.parse(baja).getTime()), nia,pago,"3","si","Si","Si","No");
 //									principal.getBaseDeDatos().addPago(nia,pago);
 									
 //									principal.getBaseDeDatos().reme

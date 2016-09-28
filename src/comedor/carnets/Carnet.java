@@ -88,20 +88,20 @@ public class Carnet extends JPanel
 	}
 
 	private File fileBackground;
-	private Hashtable<String, Object> hashtableElements =new Hashtable<>();
+	private Hashtable<String, Object> hashtableElements = new Hashtable<>();
 	private ProgressMonitor progressMonitor;
 
 	public void setCountElements(int countElements) 
 	{
 		this.countElements = countElements;
-		label.setText("<html><body>N. Elementos: <b>"+countElements+"</b></body></html>");
+		label.setText("<html><body>N. Elementos: <b>" + countElements + "</b></body></html>");
 	}
 
 	public void saveConfiguration()
 	{
 		JFileChooser chooser = new JFileChooser();
 
-		if(mode==1)
+		if(mode == 1)
 			chooser.setSelectedFile(new File("Carnet_Frontal.xml"));
 		else
 			chooser.setSelectedFile(new File("Carnet_Posterior.xml"));
@@ -134,17 +134,17 @@ public class Carnet extends JPanel
 
 			Attr nombre = doc.createAttribute("background");
 
-			if(fileBackground!=null)
-				nombre.setValue(""+fileBackground.toString());
+			if(fileBackground != null)
+				nombre.setValue("" + fileBackground.toString());
 			else
-				nombre.setValue(""+null);
+				nombre.setValue("" + null);
 
 			elemento1.setAttributeNode(nombre);
 
 			nombre = doc.createAttribute("background-scale");
 
-			if(fileBackground!=null)
-				nombre.setValue(""+imageView1.getScale());
+			if(fileBackground != null)
+				nombre.setValue("" + imageView1.getScale());
 			else
 				nombre.setValue("null");
 
@@ -152,8 +152,8 @@ public class Carnet extends JPanel
 
 			nombre = doc.createAttribute("background-point");
 
-			if(fileBackground!=null)
-				nombre.setValue(""+getLocationFondo());
+			if(fileBackground != null)
+				nombre.setValue("" + getLocationFondo());
 			else
 				nombre.setValue("null");
 
@@ -170,6 +170,7 @@ public class Carnet extends JPanel
 				rootElement.appendChild(elemento);
 
 				nombre = doc.createAttribute("type");
+
 				if(obj instanceof PanelTexto)
 					nombre.setValue("texto");
 				else if(obj instanceof PanelImage)
@@ -226,19 +227,19 @@ public class Carnet extends JPanel
 					PanelImage panelImage = (PanelImage) c;
 
 					Element locationx = doc.createElement("locationX");
-					locationx.appendChild(doc.createTextNode(""+panelImage.getLocation().x));
+					locationx.appendChild(doc.createTextNode("" + panelImage.getLocation().x));
 					elemento.appendChild(locationx);
 
 					Element locationy = doc.createElement("locationY");
-					locationy.appendChild(doc.createTextNode(""+panelImage.getLocation().y));
+					locationy.appendChild(doc.createTextNode("" + panelImage.getLocation().y));
 					elemento.appendChild(locationy);
 
 					Element va = doc.createElement("width");
-					va.appendChild(doc.createTextNode(""+panelImage.getWidth()));
+					va.appendChild(doc.createTextNode("" + panelImage.getWidth()));
 					elemento.appendChild(va);
 
 					va = doc.createElement("height");
-					va.appendChild(doc.createTextNode(""+panelImage.getHeight()));
+					va.appendChild(doc.createTextNode("" + panelImage.getHeight()));
 					elemento.appendChild(va);
 
 					va = doc.createElement("imagen");
@@ -261,15 +262,15 @@ public class Carnet extends JPanel
 					elemento.appendChild(locationx);
 
 					Element locationy = doc.createElement("locationY");
-					locationy.appendChild(doc.createTextNode(""+panelImage.getLocation().y));
+					locationy.appendChild(doc.createTextNode("" + panelImage.getLocation().y));
 					elemento.appendChild(locationy);
 
 					Element va = doc.createElement("width");
-					va.appendChild(doc.createTextNode(""+panelImage.getWidth()));
+					va.appendChild(doc.createTextNode("" + panelImage.getWidth()));
 					elemento.appendChild(va);
 
 					va = doc.createElement("height");
-					va.appendChild(doc.createTextNode(""+panelImage.getHeight()));
+					va.appendChild(doc.createTextNode("" + panelImage.getHeight()));
 					elemento.appendChild(va);
 
 					va = doc.createElement("text");
@@ -285,19 +286,19 @@ public class Carnet extends JPanel
 			StreamResult result = new StreamResult(fileSelected.toString());
 
 			transformer.transform(source, result);
-			JOptionPane.showMessageDialog(getInstance(), "Se ha guardado la configuracion correctamente!","Exito",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(getInstance(), "Se ha guardado la configuracion correctamente!", "Exito", JOptionPane.INFORMATION_MESSAGE);
 		} 
 		catch (ParserConfigurationException e) 
 		{
-			JOptionPane.showMessageDialog(getInstance(), ""+e.getMessage(),""+e.getLocalizedMessage(),JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(getInstance(), ""+ e.getMessage(), "" + e.getLocalizedMessage(), JOptionPane.ERROR_MESSAGE);
 		} 
 		catch (TransformerConfigurationException e) 
 		{
-			JOptionPane.showMessageDialog(getInstance(), ""+e.getMessage(),""+e.getLocalizedMessage(),JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(getInstance(), ""+ e.getMessage(), "" + e.getLocalizedMessage(), JOptionPane.ERROR_MESSAGE);
 		} 
 		catch (TransformerException e) 
 		{
-			JOptionPane.showMessageDialog(getInstance(), ""+e.getMessage(),""+e.getLocalizedMessage(),JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(getInstance(), ""+ e.getMessage(), "" + e.getLocalizedMessage(), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -320,10 +321,9 @@ public class Carnet extends JPanel
 				}
 				else
 				{
-					PanelImage az = (PanelImage) x;
+					PanelImage az = (PanelImage)x;
 					imageView1.remove(az);
 				}
-
 				removeElement(null, k);
 			}
 			imageView1.repaint();
@@ -379,14 +379,14 @@ public class Carnet extends JPanel
 									Node nNode = nList.item(temp);
 									Element eElement = (Element) nNode;
 
-									String bac=eElement.getAttribute("background");
-									String sca=eElement.getAttribute("background-scale");
-									String point =eElement.getAttribute("background-point");
+									String bac = eElement.getAttribute("background");
+									String sca = eElement.getAttribute("background-scale");
+									String point = eElement.getAttribute("background-point");
 
-									String g="0";
+									String g = "0";
 
-									float xc =0;
-									float yc =0;
+									float xc = 0;
+									float yc = 0;
 
 									try
 									{
@@ -433,7 +433,7 @@ public class Carnet extends JPanel
 
 									try
 									{
-										texto=eElement.getElementsByTagName("text").item(0).getTextContent().trim(); 
+										texto = eElement.getElementsByTagName("text").item(0).getTextContent().trim(); 
 									}
 									catch(Exception e){ }
 
@@ -467,26 +467,25 @@ public class Carnet extends JPanel
 									}
 									catch(Exception e){ }
 
-									PanelTexto panelTexto=new PanelTexto(new JPanel(),imageView1,"Texto",getInstance(),identificador);
+									PanelTexto panelTexto = new PanelTexto(new JPanel(), imageView1, "Texto", getInstance(), identificador);
 
 									tree.addIconItem(identificador, new ImageIcon(getClass().getResource("/resource/iconTexto.png")));
 									expandAllNodes(tree, 0, root.getChildCount());
-									setCountElements(countElements+1);
-
+									setCountElements(countElements + 1);
 
 									hashtableElements.put(identificador, panelTexto);
 
-									panelTexto.setBounds(Integer.parseInt(locationX), Integer.parseInt(locationY),Integer.parseInt(width),Integer.parseInt(height));
+									panelTexto.setBounds(Integer.parseInt(locationX), Integer.parseInt(locationY), Integer.parseInt(width), Integer.parseInt(height));
 									panelTexto.setFormatText(texto);
 
-									String rgb=foreground.substring(foreground.indexOf("[")+1,foreground.length()-1);
-									String sx[]=rgb.split(",");
+									String rgb=foreground.substring(foreground.indexOf("[") + 1,foreground.length() - 1);
+									String sx[]  =rgb.split(",");
 
 									int r = Integer.parseInt(sx[0].split("=")[1]);
 									int g = Integer.parseInt(sx[1].split("=")[1]);
 									int b = Integer.parseInt(sx[2].split("=")[1]);
 
-									panelTexto.setForeground(new Color(r,g,b));
+									panelTexto.setForeground(new Color(r, g, b));
 									panelTexto.setTransparencia(Float.parseFloat(tranaparencia));
 									{
 										String g1 = font;
@@ -494,6 +493,7 @@ public class Carnet extends JPanel
 										String h[] = m.split(",");
 										String STY = h[2].split("=")[1];
 										int l = 0;
+										
 										if(STY.equalsIgnoreCase("plain"))
 											l = Font.PLAIN;
 										else if(STY.equalsIgnoreCase("bold"))
@@ -556,7 +556,8 @@ public class Carnet extends JPanel
 
 									tree.addItem(identificador);
 									expandAllNodes(tree, 0, root.getChildCount());
-									setCountElements(countElements+1);
+									setCountElements(countElements + 1);
+									
 									JXImageView view = new JXImageView();
 									PanelCodigoBarra panelCodigoBarra = new PanelCodigoBarra(view, imageView1, "CodigoBarra", getInstance(), identificador, texto);
 									panelCodigoBarra.setBounds(Integer.parseInt(locationX), Integer.parseInt(locationY), Integer.parseInt(width), Integer.parseInt(height));
@@ -591,8 +592,8 @@ public class Carnet extends JPanel
 		this.ready = ready;
 	}
 
-	private boolean ready=false;
-	private int mode=1;
+	private boolean ready = false;
+	private int mode = 1;
 	private JButton buttonImprimir;
 	private JPanel pl;
 	private JScrollPane jScrollPane;
@@ -632,8 +633,8 @@ public class Carnet extends JPanel
 		JPanel panelControl11 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panelControl1.setBorder(BorderFactory.createTitledBorder(""));
 
-		button1 = new JButton("Zoom +1");
-		button2 = new JButton("Zoom -1");
+		button1 = new JButton("Zoom + 1");
+		button2 = new JButton("Zoom - 1");
 		button1.addActionListener(imageView1.getZoomInAction());
 		button2.addActionListener(imageView1.getZoomOutAction());
 		button1.setIcon(new ImageIcon(getClass().getResource("/resource/zoom+.png")));
@@ -651,7 +652,7 @@ public class Carnet extends JPanel
 							JFileChooser chooser = new JFileChooser();
 							FileNameExtensionFilter filter = new FileNameExtensionFilter("archivo xml", "xml", "xml");
 							chooser.setFileFilter(filter);
-							
+
 							int t = chooser.showOpenDialog(getInstance());
 
 							if(t == JFileChooser.APPROVE_OPTION)
@@ -730,8 +731,8 @@ public class Carnet extends JPanel
 
 		panelControl1.add(button1);
 		panelControl1.add(button2);
-		
-		JSlider slider_1 = new JSlider(1,100);
+
+		JSlider slider_1 = new JSlider(1, 100);
 		slider_1.setValue(1);
 		slider_1.setMinorTickSpacing(1);
 		slider_1.setPaintTicks(true);
@@ -800,8 +801,9 @@ public class Carnet extends JPanel
 
 								tree.addIconItem(identificador, new ImageIcon(getClass().getResource("/resource/iconTexto.png")));
 								expandAllNodes(tree, 0, root.getChildCount());
-								setCountElements(countElements+1);
-								PanelTexto panelTexto=new PanelTexto(new JPanel(), imageView1, "Texto", getInstance(),identificador);
+								setCountElements(countElements + 1);
+								
+								PanelTexto panelTexto = new PanelTexto(new JPanel(), imageView1, "Texto", getInstance(), identificador);
 								hashtableElements.put(identificador, panelTexto);
 								imageView1.add(panelTexto);
 								imageView1.repaint();
@@ -818,84 +820,103 @@ public class Carnet extends JPanel
 				new ActionListener() 
 				{
 					@Override
-					public void actionPerformed(
-							ActionEvent e) 
+					public void actionPerformed(ActionEvent e) 
 					{
-						// TODO Auto-generated method stub
 						boolean b = true;
+
 						while(b)
 						{
-							String identificador = (String)JOptionPane.showInputDialog(getInstance(), "Ingrese un Identificador:","Nombre de Variable",JOptionPane.INFORMATION_MESSAGE);
-							if(identificador!=null){
-								if(identificador.length()<=1){
-									JOptionPane.showMessageDialog(getInstance(), "Identificador no Valido!","No Valido!",JOptionPane.WARNING_MESSAGE);
+							String identificador = (String)JOptionPane.showInputDialog(getInstance(), "Ingrese un Identificador:", "Nombre de Variable", JOptionPane.INFORMATION_MESSAGE);
+							
+							if(identificador!=null)
+							{
+								if(identificador.length() <= 1)
+								{
+									JOptionPane.showMessageDialog(getInstance(), "Identificador no Valido!", "No Valido!", JOptionPane.WARNING_MESSAGE);
 									continue;
 								}
-								if(identificador.length()>=9){
-									JOptionPane.showMessageDialog(getInstance(), "Identificador demasiado largo! maximo 8 Caracteres.","No Valido!",JOptionPane.WARNING_MESSAGE);
+								if(identificador.length() >= 9)
+								{
+									JOptionPane.showMessageDialog(getInstance(), "Identificador demasiado largo! maximo 8 Caracteres.", "No Valido!", JOptionPane.WARNING_MESSAGE);
 									continue;
 								}
-								if(hashtableElements.containsKey(identificador)){
-									JOptionPane.showMessageDialog(getInstance(), "Ya hay un elemento con este Nombre!","Ya Agregado!",JOptionPane.WARNING_MESSAGE);
+								if(hashtableElements.containsKey(identificador))
+								{
+									JOptionPane.showMessageDialog(getInstance(), "Ya hay un elemento con este Nombre!", "Ya Agregado!", JOptionPane.WARNING_MESSAGE);
 									continue;
 								}
+								
 								tree.addItem(identificador);
 								expandAllNodes(tree, 0, root.getChildCount());
-								setCountElements(countElements+1);
-								JXImageView view=new JXImageView();
-								panelImage = new PanelImage(view,imageView1,"Imagen",getInstance(),identificador);
+								setCountElements(countElements + 1);
+								
+								JXImageView view = new JXImageView();
+								panelImage = new PanelImage(view,imageView1, "Imagen",getInstance(), identificador);
 								imageView1.add(panelImage);
 								imageView1.repaint();
 								hashtableElements.put(identificador, panelImage);
 
 								break;
-							}else{
-								b=false;
 							}
+							else
+								b = false;
 						}
 					}
 				});
 		JButton button3 = new JButton("Cod. Barra");
-		button3.addActionListener(new ActionListener() {
+		
+		button3.addActionListener(
+				new ActionListener() 
+		{
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(
+					ActionEvent arg0) 
+			{
 				boolean b = true;
-				while(b){
-
-					String identificador=(String)JOptionPane.showInputDialog(getInstance(), "Ingrese un Identificador:","Nombre de Variable",JOptionPane.INFORMATION_MESSAGE);
-					if(identificador!=null){
-						if(identificador.length()<=1){
-							JOptionPane.showMessageDialog(getInstance(), "Identificador no Valido!","No Valido!",JOptionPane.WARNING_MESSAGE);
+				while(b)
+				{
+					String identificador = (String)JOptionPane.showInputDialog(getInstance(), "Ingrese un Identificador:", "Nombre de Variable", JOptionPane.INFORMATION_MESSAGE);
+					
+					if(identificador != null)
+					{
+						if(identificador.length() <= 1)
+						{
+							JOptionPane.showMessageDialog(getInstance(), "Identificador no Valido!", "No Valido!", JOptionPane.WARNING_MESSAGE);
 							continue;
 						}
-						if(identificador.length()==9){
-							JOptionPane.showMessageDialog(getInstance(), "Identificador demasiado largo! maximo 8 Caracteres.","No Valido!",JOptionPane.WARNING_MESSAGE);
+						if(identificador.length() == 9)
+						{
+							JOptionPane.showMessageDialog(getInstance(), "Identificador demasiado largo! maximo 8 Caracteres.", "No Valido!", JOptionPane.WARNING_MESSAGE);
 							continue;
 						}
-						if(hashtableElements.containsKey(identificador)){
-							JOptionPane.showMessageDialog(getInstance(), "Ya hay un elemento con este Nombre!","Ya Agregado!",JOptionPane.WARNING_MESSAGE);
+						if(hashtableElements.containsKey(identificador))
+						{
+							JOptionPane.showMessageDialog(getInstance(), "Ya hay un elemento con este Nombre!", "Ya Agregado!", JOptionPane.WARNING_MESSAGE);
 							continue;
 						}
+						
 						tree.addIconItem(identificador, new ImageIcon(getClass().getResource("/resource/iconTexto.png")));
 						expandAllNodes(tree, 0, root.getChildCount());
-						setCountElements(countElements+1);
+						setCountElements(countElements + 1);
 
-						JXImageView view=new JXImageView();
-						PanelCodigoBarra panelImage = new PanelCodigoBarra(view,imageView1,"Codigo Barra",getInstance(),identificador,"01010101");
+						JXImageView view = new JXImageView();
+						PanelCodigoBarra panelImage = new PanelCodigoBarra(view,imageView1, "Codigo Barra", getInstance(), identificador, "01010101");
 
 						hashtableElements.put(identificador, panelImage);
 						imageView1.add(panelImage);
 						imageView1.repaint();
 						break;
-					}else{
-						b=false;
 					}
+					else
+						b = false;
 				}
 			}
 		});
 		button3.setIcon(new ImageIcon(getClass().getResource("/resource/iconBarra.png")));
 		JButton button5 = new JButton("Capturar");
-		button5.addActionListener(new ActionListener() {
+		
+		button5.addActionListener(new ActionListener()
+		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub

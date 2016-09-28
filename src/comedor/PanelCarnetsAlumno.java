@@ -377,7 +377,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 
 													String xmlFinal = "";
 
-													for(int index = 0;index < g.length; index++)
+													for(int index = 0; index < g.length; index++)
 													{
 														String ja = g[index] + ">";
 

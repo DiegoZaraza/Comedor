@@ -24,88 +24,25 @@ import com.itextpdf.text.pdf.PdfWriter;
 import comedor.ComedorGUI;
 import comedor.Impresora;
 
-public class PDF_Listado_Usuarios {
+public class PDF_Listado_Usuarios 
+{
 
 	private PdfPTable tabla;
 	private Document document;
-	public PDF_Listado_Usuarios( final ComedorGUI principal,ArrayList<Persona> arrayList) throws FileNotFoundException, DocumentException{
-	
-//		Document document = new Document();
-//		String titulo = "UNIVERSIDAD NACIONAL EXPERIMENTAL\n"
-//				+ "\"FRANCISCO DE MIRANDA\"\n" + "VICE-RECTORADO ACADÉMICO \n"
-//				+ "DECANATO DE POSTGRADO\n"
-//				+ "DEPARTAMENTO DE EVALUACIÓN Y SEGUIMIENTO ESTUDIANTIL";
-//		File usuarios = new File("Usuarios");
-//		if (!usuarios.exists()) {
-//			usuarios.mkdirs();
-//		}
-//		// color
-//		
+	public PDF_Listado_Usuarios( final ComedorGUI principal,ArrayList<Persona> arrayList) throws FileNotFoundException, DocumentException
+	{
 		document = new Document();
-		PdfWriter.getInstance(document,
-				new FileOutputStream("System-Comedor"+File.separator+"Temp"+File.separator+"listado_usuarios.pdf"));
+		PdfWriter.getInstance(document, new FileOutputStream("System-Comedor"+File.separator+"Temp"+File.separator+"listado_usuarios.pdf"));
 		document.open();
-		
-		
+
+
 		Paragraph texto22 = new Paragraph("LISTADO", FontFactory.getFont("arial",12,
 				Font.BOLD, BaseColor.BLACK));
 		texto22.setAlignment(Chunk.ALIGN_CENTER);
 		document.add(texto22);
-	
+
 		document.add(new Paragraph("\n"));
-		
-		//Image usu=Image.getInstance(getClass().getResource("acceso1.png"));
-		//usu.scaleToFit(50, 50);
-		//
-		//// usu.setAlignment(11);
-		//usu.setAbsolutePosition(60, 755);
-		//
-		//
-		//
-		// document.add(usu);
-		//
 
-	
-		// Image foto4 = Image.getInstance(getClass().getResource(
-		// "/scep_unefm/pdf/resource/logo_unefm.png"));
-		// foto4.setAbsolutePosition(100, 200);
-		// foto4.scaleToFit(400, 400);
-		//
-		// document.add(foto4);
-//
-//		Image unefm = Image.getInstance(getClass().getResource(
-//				"/scep_unefm/pdf/resource/logo.png"));
-//		unefm.setAbsolutePosition(50, 740);
-//		unefm.scaleToFit(60, 60);
-//
-//		document.add(unefm);
-//		document.add(texto1);
-//		document.add(new Paragraph("\n"));
-//
-//		Paragraph a11 = new Paragraph("Listado de Preinscritos",
-//				FontFactory.getFont("arial", // fuente
-//						12, // tamaño
-//						Font.BOLD, // estilo
-//						BaseColor.BLACK));
-//		a11.setAlignment(Element.ALIGN_CENTER);
-//		document.add(a11);
-//		Paragraph a14 = new Paragraph(cohorte, FontFactory.getFont("arial", // fuente
-//				12, // tamaño
-//				Font.BOLD, // estilo
-//				BaseColor.BLACK));
-//		a14.setAlignment(Element.ALIGN_CENTER);
-//		document.add(a14);
-//		// document.add(new Paragraph(parrafo,FontFactory.getFont("arial", //
-//		// fuente
-//		// 22, // tamaño
-//		// Font.ITALIC, // estilo
-//		// BaseColor.CYAN)));
-		//
-
-		// Image foto = Image.getInstance(getClass().getResource("cnepdf.png"));
-		// foto.scaleToFit(350, 350);
-		// foto.setAlignment(11);
-		// document.add(foto);
 		document.add(new Paragraph("\n"));
 
 		tabla = new PdfPTable(5);// tabla
@@ -196,19 +133,7 @@ public class PDF_Listado_Usuarios {
 		celda.setBackgroundColor(BaseColor.LIGHT_GRAY);
 		celda.setBackgroundColor(new BaseColor(new Color(230, 223, 223)));
 		tabla.addCell(celda);
-		// columna4
-//		celda = new PdfPCell(new Paragraph("Fecha de Preinscripción",
-//				FontFactory.getFont("arial", // fuente
-//						8, // tamaño
-//						Font.NORMAL, // estilo
-//						BaseColor.BLACK))); // color
-//
-//		celda.setColspan(1);// abarca 1 fila
-//		celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-//		celda.setPadding(5.0f);
-//		celda.setBackgroundColor(BaseColor.LIGHT_GRAY);
-//		celda.setBackgroundColor(new BaseColor(new Color(230, 223, 223)));
-//		tabla.addCell(celda);
+
 		int valor = 0;
 		int findPase = 0;
 		int dd = 1;
@@ -240,24 +165,19 @@ public class PDF_Listado_Usuarios {
 							Font.NORMAL, // estilo
 							BaseColor.BLACK));
 
-//			String cedula = A.getString1();
-			
+			//			String cedula = A.getString1();
+
 			Paragraph e = new Paragraph("" + persona.getEmail(), FontFactory.getFont(
 					"arial", // fuente
 					8, // tamaño
 					Font.NORMAL, // estilo
 					BaseColor.BLACK));
-//			Paragraph ta1 = new Paragraph("" + email.toLowerCase(),
-//					FontFactory.getFont("arial", // fuente
-//							8, // tamaño
-//							Font.NORMAL, // estilo
-//							BaseColor.BLACK));
+
 			tabla.addCell(a);
 			tabla.addCell(b);
 			tabla.addCell(c);
 			tabla.addCell(d);
 			tabla.addCell(e);
-//			tabla.addCell(t2);
 
 			String dia = "";
 			String mes = "";
@@ -296,18 +216,18 @@ public class PDF_Listado_Usuarios {
 				document.add(numpage);
 				document.newPage();
 
-				
-				
+
+
 
 				tabla = new PdfPTable(5);// tabla
 				tabla.setWidthPercentage(105);
 				// float[] medidaCeldas = { 0.160f, 0.260f, 1.2f, 0.160f,0.340f,
 				// 0.7f,0.3f };
 
-//				float[] medidaCeldas = { 0.210f, 0.360f, 1.6f, 0.5f, 1.2f };
+				//				float[] medidaCeldas = { 0.210f, 0.360f, 1.6f, 0.5f, 1.2f };
 				tabla.setWidths(medidaCeldas);
 				// encabezado
-			celda = new PdfPCell(new Paragraph("",
+				celda = new PdfPCell(new Paragraph("",
 						FontFactory.getFont("arial", // fuente
 								11, // tamaño
 								Font.NORMAL, // estilo
@@ -387,9 +307,9 @@ public class PDF_Listado_Usuarios {
 				celda.setBackgroundColor(BaseColor.LIGHT_GRAY);
 				celda.setBackgroundColor(new BaseColor(new Color(230, 223, 223)));
 				tabla.addCell(celda);
-				
-				
-				
+
+
+
 				findPase = 1;
 			}
 
@@ -437,10 +357,10 @@ public class PDF_Listado_Usuarios {
 		document.add(numpage1);
 
 		document.close();
-		
+
 
 		if(principal.getBaseDeDatos().getImpresionDirecta()){
-			  new Impresora(principal).print(new File("System-Comedor"+File.separator+"Temp"+File.separator+"listado_usuarios.pdf").toString());
+			new Impresora(principal).print(new File("System-Comedor"+File.separator+"Temp"+File.separator+"listado_usuarios.pdf").toString());
 		}else{
 			try {
 				Desktop.getDesktop().open(
@@ -450,9 +370,9 @@ public class PDF_Listado_Usuarios {
 				e.printStackTrace();
 			}
 		}
-//		return true;
+		//		return true;
 
-	
+
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

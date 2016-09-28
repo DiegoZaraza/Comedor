@@ -55,6 +55,7 @@ public class Impresora
 		try 
 		{
 			fis = new FileInputStream(pdf);
+//			fis = new FileInputStream("D:\\Java\\Comedor\\System-Comedor\\Temp\\021012026P.pdf");
 			Doc pdfDoc = new SimpleDoc(fis, DocFlavor.INPUT_STREAM.AUTOSENSE, null);
 			DocPrintJob printJob = myService.createPrintJob();
 

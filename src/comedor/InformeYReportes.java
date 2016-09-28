@@ -352,7 +352,7 @@ public class InformeYReportes extends JInternalFrame implements Runnable
 
 								try 
 								{
-									new PDF_Listado().crearPDF51(principal, principal.getBaseDeDatos().getCursoActual(), " ", " ", "Orla General", array, true);
+									new PDF_Listado().crearPDF5(principal, principal.getBaseDeDatos().getCursoActual(), " ", " ", "Orla General", array, true);
 								} catch (Exception e1) {
 									// TODO Auto-generated catch block
 									//									e.printStackTrace();
