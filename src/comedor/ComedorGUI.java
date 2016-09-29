@@ -677,7 +677,7 @@ public class ComedorGUI extends JFrame
 																	{
 																		if(getBaseDeDatos().verificarAsistencia(g))
 																		{
-																			JOptionPane.showMessageDialog(getInstance(), "El Usuario Ya Accedio El Día de Hoy!", "Denegado", JOptionPane.WARNING_MESSAGE);
+//																			JOptionPane.showMessageDialog(getInstance(), "El Usuario Ya Accedio El Día de Hoy!", "Denegado", JOptionPane.WARNING_MESSAGE);
 																			return;
 																		}
 																		else
@@ -1210,7 +1210,7 @@ public class ComedorGUI extends JFrame
 											{
 												if(getBaseDeDatos().verificarAsistencia(g))
 												{
-													JOptionPane.showMessageDialog(getInstance(), "El Usuario Ya Accedio El Día de Hoy!", "Denegado", JOptionPane.WARNING_MESSAGE);
+//													JOptionPane.showMessageDialog(getInstance(), "El Usuario Ya Accedio El Día de Hoy!", "Denegado", JOptionPane.WARNING_MESSAGE);
 													return;
 												}
 												else
