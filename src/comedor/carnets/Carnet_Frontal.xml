@@ -2,10 +2,10 @@
 <carnet>
 	<image background="\System-Comedor\fondoCarnet.png" background-point="Point2D.Double[224.0,151.0]" background-scale="1.0" />
 	<elemento id="codigo_barra" type="CodigoBarra">
-		<locationX>-280</locationX>
+		<locationX>-210</locationX>
 		<locationY>300</locationY>
 		<width>983</width>
-		<height>80</height>
+		<height>70</height>
 		<text>$codigo_barra{01010101}</text>
 		<transparencia>0.0</transparencia>
 	</elemento>

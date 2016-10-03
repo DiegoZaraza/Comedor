@@ -3,6 +3,7 @@ package comedor.carnets;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -15,11 +16,13 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import com.itextpdf.text.Font;
 import com.leyer.JKStatusBar;
+import comedor.bd.LogEjecucion;
 
 public class GUICarnets extends JFrame
 {
 	private static final long serialVersionUID = 1L;
-
+	static LogEjecucion log = new LogEjecucion();
+	
 	public GUICarnets()
 	{
 		setTitle("Edicion de Carnet");
@@ -60,21 +63,25 @@ public class GUICarnets extends JFrame
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} 
-		catch (ClassNotFoundException e1) 
+		catch (ClassNotFoundException e) 
 		{
-			e1.printStackTrace();
+			e.printStackTrace();
+			log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 		} 
-		catch (InstantiationException e1) 
+		catch (InstantiationException e) 
 		{
-			e1.printStackTrace();
+			e.printStackTrace();
+			log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 		} 
-		catch (IllegalAccessException e1) 
+		catch (IllegalAccessException e) 
 		{
-			e1.printStackTrace();
+			e.printStackTrace();
+			log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 		}
-		catch (UnsupportedLookAndFeelException e1) 
+		catch (UnsupportedLookAndFeelException e) 
 		{
-			e1.printStackTrace();
+			e.printStackTrace();
+			log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 		}
 
 		EventQueue.invokeLater(
@@ -90,6 +97,7 @@ public class GUICarnets extends JFrame
 						catch (Exception e) 
 						{
 							e.printStackTrace();
+							log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 						}
 					}
 				});

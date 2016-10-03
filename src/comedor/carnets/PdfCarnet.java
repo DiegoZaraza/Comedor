@@ -23,13 +23,16 @@ public class PdfCarnet
 		try
 		{
 			Document document = new Document();
-
+			
+			Thread.sleep(1000);
+			
 			if(mODE == 1)
 			{
 				PdfWriter.getInstance(document, new FileOutputStream(fileName));
 				Rectangle one = new Rectangle(242.60f, 153.1f);
 				document.setPageSize(one);
 				document.setMargins(-1, 0, -1, 0);
+				
 				document.open();
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ImageIO.write(c, "png", baos);
@@ -40,7 +43,6 @@ public class PdfCarnet
 				imagen.scaleAbsoluteWidth(154.54f);
 				imagen.scaleAbsoluteHeight(243.99f);
 				imagen.setUseVariableBorders(true);
-				//			  imagen.setBorderWidth(150);
 				imagen.rotate();
 				imagen.setRotationDegrees(90);
 				document.add(imagen);
@@ -65,15 +67,16 @@ public class PdfCarnet
 			}
 			
 			/** SE AGREGA EL CIERRE DEL DOCUMENTO YA QUE AL QUEDAR ABIERTO NO SE REALIZA LA IMPRESION DEL MISMO */
-			document.close();
-
+//			document.close();
+			
 			if(principal.getBaseDeDatos().isImpresoraCarnetConfigurada())
 				new Impresora(principal).printCarnet(new File(fileName).toString());
 			else
 				if(Desktop.isDesktopSupported())
 					Desktop.getDesktop().open(new File(fileName));
 				else
-					JOptionPane.showMessageDialog(null, "Accion no Soportada!","No Soportado!",JOptionPane.WARNING_MESSAGE);	
+					JOptionPane.showMessageDialog(null, "Accion no Soportada!","No Soportado!",JOptionPane.WARNING_MESSAGE);
+			
 			document.close();
 		}catch(Exception e){
 			e.printStackTrace();
