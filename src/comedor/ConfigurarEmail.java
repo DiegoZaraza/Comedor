@@ -27,9 +27,6 @@ import java.awt.Font;
 import java.net.URL;
 
 public class ConfigurarEmail extends JInternalFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JPasswordField passwordField;

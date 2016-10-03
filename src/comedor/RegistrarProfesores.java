@@ -419,7 +419,6 @@ public class RegistrarProfesores extends JInternalFrame
 		JLabel lblDocumento = new JLabel("Documento:");
 
 		comboBoxTipoDoc = new JKComboBox();
-		//		comboBoxTipoDoc.addItem("");
 		comboBoxTipoDoc.addItem("NIF");
 		comboBoxTipoDoc.addItem("NIE");
 
@@ -594,13 +593,11 @@ public class RegistrarProfesores extends JInternalFrame
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
 				if(actualizar){
 					if(arg0.getKeyCode() == KeyEvent.VK_BACK_SPACE){
 						clear();
@@ -624,50 +621,19 @@ public class RegistrarProfesores extends JInternalFrame
 
 										@Override
 										public synchronized void run() {
-											// TODO Auto-generated method stub
-											//							System.out.println(h);
-
-
-
-											//								lblNewLabel_7.setVisible(true);
-											//								lblNewLabel_7.setBusy(true);
-											//								if(!h.equalsIgnoreCase("0")){
-											//									
-											//									actualizar = true;
-											////									btnNewButton.setText("Actualizar");
-											////									btnNewButton.setIcon(new ImageIcon(getClass().getResource("/resource/update.png")));
-											//									
-											//									principal.getBaseDeDatos().getDatosAlumno(textField_2.getText(),getInstance());
-											////									lblNewLabel_7.setBusy(false);
-											////									lblNewLabel_7.setVisible(false);
-											//									found=true;
-											////									setVisible(true);
-											//								}else{
-
 											int y=JOptionPane.showConfirmDialog(principal, "<html><body>Ya registrado<br>Desea cargar sus Datos?</body></html>","Existente",JOptionPane.INFORMATION_MESSAGE);
 
 											if(y == JOptionPane.OK_OPTION){
 												actualizar = true;
-												//										btnNewButton.setText("Actualizar");
 												btnNewButton.setEnabled(false);
 												btnNewButton_3.setEnabled(true);
-												//										btnNewButton.setIcon(new ImageIcon(getClass().getResource("/resource/update.png")));
 												synchronized (this) {
 													principal.getBaseDeDatos().getDatosProfesor(h.toUpperCase(),getInstance());
-
-													//											024338213G
 												}
-												//										principal.getBaseDeDatos().getDatosProfesor(h.toUpperCase(),getInstance());
-												//										lblNewLabel_7.setBusy(false);
-												//										lblNewLabel_7.setVisible(false);
 												found=true;
 											}else{
 
 											}
-											//								}
-
-
-
 										}
 
 									};
@@ -678,15 +644,12 @@ public class RegistrarProfesores extends JInternalFrame
 						}
 
 					}catch(Exception e){
-						//						e.printStackTrace();
 					}
 				}
 			}
 
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 		textArea_1 = new JTextArea();
@@ -728,11 +691,8 @@ public class RegistrarProfesores extends JInternalFrame
 	}
 	public void setFoto(byte[] bytes){
 		if(bytes!=null){
-			//			System.out.println("FOTO > "+bytes.length);
 			jkPanel.setBackground(new ImageIcon(bytes));
 			panel_3.updateUI();
-			//			panel_3.validate();
-			//			jkPanel.validate();
 		}
 	}
 	public void setFoto(BufferedImage image, File fileFotox) {
@@ -749,7 +709,5 @@ public class RegistrarProfesores extends JInternalFrame
 	}
 	public void setID(String id) {
 		this.id_actualizar = id;
-		// TODO Auto-generated method stub
-
 	}
 }

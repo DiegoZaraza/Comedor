@@ -50,6 +50,7 @@ import org.xml.sax.SAXException;
 //import scep_unefm.internalsFrame.SQLEditor;
 
 
+
 import com.leyer.JKActiveSyntethica;
 import com.leyer.JKComboBox;
 
@@ -63,6 +64,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 
 public class DialogoLogin extends JDialog implements WindowListener 
 {
@@ -240,6 +242,24 @@ public class DialogoLogin extends JDialog implements WindowListener
 		{
 			e.printStackTrace();
 		}
+
+		try 
+		{
+//			File fileLog = new File("System-Comedor" + File.separator + "LogEjecución.txt");
+
+			//CARGA EL ARCHIVO
+			PrintStream Salida;
+
+			Salida = new PrintStream(new FileOutputStream("System-Comedor" + File.separator + "LogEjecución.txt", true));
+			//ENVIA REGISTRO AL SCRIPT
+			Salida.println("Ejecución Aplicativo");
+			Salida.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
 	}
 
 	private ComedorGUI principal;
@@ -536,7 +556,7 @@ public class DialogoLogin extends JDialog implements WindowListener
 					g.drawImage(image, getWidth()-20, centerPoint - 1, this);
 				}
 			};
-			
+
 			textField_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			textField_1.setMargin(new Insets(0, image.getWidth() + 1, 0, 0));
 		}
@@ -635,7 +655,7 @@ public class DialogoLogin extends JDialog implements WindowListener
 		principal.setLocationRelativeTo(null);
 		setLocationRelativeTo(principal);
 	}
-	
+
 	private void load() throws ParserConfigurationException, SAXException, IOException 
 	{
 		File fXmlFile = new File("System-Comedor" + File.separator + "configBD.xml");
@@ -654,7 +674,7 @@ public class DialogoLogin extends JDialog implements WindowListener
 			String pass = listc.item(2).getTextContent();
 
 			BD bd = new BD(principal, new String(Base64.decode(user)), new String(Base64.decode(pass)), ip, null);
-			
+
 			if(bd.isActive())
 			{
 				menuItem.setEnabled(false);
@@ -662,31 +682,31 @@ public class DialogoLogin extends JDialog implements WindowListener
 			}
 		}
 	}
-	
+
 	@Override
 	public void windowActivated(WindowEvent arg0) { }
-	
+
 	@Override
 	public void windowClosed(WindowEvent arg0) { }
-	
+
 	@Override
 	public void windowClosing(WindowEvent arg0) 
 	{
 		System.exit(0);
 	}
-	
+
 	@Override
 	public void windowDeactivated(WindowEvent arg0) { }
-	
+
 	@Override
 	public void windowDeiconified(WindowEvent arg0) { }
-	
+
 	@Override
 	public void windowIconified(WindowEvent arg0) { }
-	
+
 	@Override
 	public void windowOpened(WindowEvent arg0) { }
-	
+
 	public void relaodRoles() 
 	{
 		principal.getBaseDeDatos().getRoles(comboBox,arrayList);

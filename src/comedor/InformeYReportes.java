@@ -389,21 +389,18 @@ public class InformeYReportes extends JInternalFrame implements Runnable
 						"Seleccionar", JOptionPane.QUESTION_MESSAGE,null, bigList, "Titan").toString();
 
 				if(selected!=null){
-
-
-
-					String bigList1[] = { "3 Dias", "2 Dias"};
-
-					String selected1 = JOptionPane.showInputDialog(principal, "Seleccionar",
-							"Seleccionar", JOptionPane.QUESTION_MESSAGE,null, bigList1, "Titan").toString();
-
-
-					final String dias= selected1.split(" ")[0];
 					if(selected.equalsIgnoreCase("Usuarios Comedor")){
 						new Thread(new Runnable() {
 
 							@Override
 							public void run() {
+								String bigList1[] = { "3 Dias", "2 Dias"};
+
+								String selected1 = JOptionPane.showInputDialog(principal, "Seleccionar",
+										"Seleccionar", JOptionPane.QUESTION_MESSAGE,null, bigList1, "Titan").toString();
+
+
+								final String dias= selected1.split(" ")[0];
 								// TODO Auto-generated method stub
 								progressBar.setIndeterminate(true);
 								progressBar.setString("Procesando...");
@@ -426,39 +423,35 @@ public class InformeYReportes extends JInternalFrame implements Runnable
 								progressBar.setString("Finalizado.");
 							}
 						}).start();
-						//					}else{
-						////						PDF_Listado_NoUsuarios
-						//						new Thread(new Runnable() {
-						//							
-						//							@Override
-						//							public void run() {
-						//								// TODO Auto-generated method stub
-						//								progressBar.setIndeterminate(true);
-						//								progressBar.setString("Procesando...");
-						//						
-						//									ArrayList<Persona> x = principal.getBaseDeDatos().getNoUsuariosComedor(principal.getBaseDeDatos().getCursoActual());
-						//									
-						//									try {
-						//										new PDF_Listado_NoUsuarios(principal, x);
-						//									} catch (FileNotFoundException e) {
-						//										e.printStackTrace();
-						//										JOptionPane.showMessageDialog(principal, e.getMessage(),e.getLocalizedMessage(),JOptionPane.ERROR_MESSAGE);
-						//									} catch (DocumentException e) {
-						//										// TODO Auto-generated catch block
-						//										e.printStackTrace();
-						//										JOptionPane.showMessageDialog(principal, e.getMessage(),e.getLocalizedMessage(),JOptionPane.ERROR_MESSAGE);
-						//				
-						//									}
-						//									
-						//									progressBar.setIndeterminate(false);
-						//									progressBar.setString("Finalizado.");
-						//							}
-						//					    }).start();
-						//						
-						//						
-						//						
+					}
+					else{
+						new Thread(new Runnable() {
 
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								progressBar.setIndeterminate(true);
+								progressBar.setString("Procesando...");
 
+								ArrayList<Persona> x = principal.getBaseDeDatos().getNoUsuariosComedor
+										(principal.getBaseDeDatos().getCursoActual());
+
+								try {
+									new PDF_Listado_Usuarios(principal, x);
+								} catch (FileNotFoundException e) {
+									e.printStackTrace();
+									JOptionPane.showMessageDialog(principal, e.getMessage(),e.getLocalizedMessage(),JOptionPane.ERROR_MESSAGE);
+								} catch (DocumentException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+									JOptionPane.showMessageDialog(principal, e.getMessage(),e.getLocalizedMessage(),JOptionPane.ERROR_MESSAGE);
+
+								}
+
+								progressBar.setIndeterminate(false);
+								progressBar.setString("Finalizado.");
+							}
+						}).start();
 					}
 				}
 			}

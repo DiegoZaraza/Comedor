@@ -521,6 +521,7 @@ public class ComedorGUI extends JFrame
 															javax.swing.LayoutStyle.ComponentPlacement.RELATED,
 															15, 1000).addComponent(jLabel4)
 															.addContainerGap()));
+			
 			desktop.setLayer(jcMousePanel1,javax.swing.JLayeredPane.PALETTE_LAYER);
 		}
 		desktop.add(jcMousePanel1);
@@ -676,10 +677,7 @@ public class ComedorGUI extends JFrame
 																	if(getBaseDeDatos().verificarSiExiste(g))
 																	{
 																		if(getBaseDeDatos().verificarAsistencia(g))
-																		{
-//																			JOptionPane.showMessageDialog(getInstance(), "El Usuario Ya Accedio El Día de Hoy!", "Denegado", JOptionPane.WARNING_MESSAGE);
 																			return;
-																		}
 																		else
 																		{
 																			int t = JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?", "Ticked Necesario", JOptionPane.INFORMATION_MESSAGE);
@@ -739,8 +737,6 @@ public class ComedorGUI extends JFrame
 																a.loadDatos();
 
 																n = true;
-
-																System.out.println("Encontrado - 1");
 
 																synchronized (this) 
 																{
@@ -830,7 +826,6 @@ public class ComedorGUI extends JFrame
 																			/** Se agrega la función VerificarAsistencia para que un usuario no pase el mismo día varias veces**/
 																			if(getBaseDeDatos().verificarAsistencia(g))
 																			{
-																				JOptionPane.showMessageDialog(getInstance(), "Ya Tuvo Acceso Este Día", "Denegado", JOptionPane.WARNING_MESSAGE);
 																				return;
 																			}
 																			else
@@ -849,6 +844,7 @@ public class ComedorGUI extends JFrame
 																		else
 																		{
 																			int x = JOptionPane.showConfirmDialog(getInstance(), "<html><body>No se encuentro Registrado.<br>Desea Registrar?</body></html>", "No Registrado", JOptionPane.WARNING_MESSAGE);
+																			
 																			if(x == JOptionPane.OK_OPTION)
 																			{
 																				if(a == null)
@@ -897,9 +893,8 @@ public class ComedorGUI extends JFrame
 																}
 																catch(Exception e) { }
 
-																System.out.println("Encontrado - 2");
-
 																a = null;
+																
 																synchronized (this) 
 																{
 																	setEscontrado(true);
@@ -934,7 +929,6 @@ public class ComedorGUI extends JFrame
 				jcMousePanel111.setVisible(true);
 
 				desktop.add(jcMousePanel111);
-
 			}
 
 			jcMousePanel111.setLayout(new GridLayout());
@@ -947,9 +941,11 @@ public class ComedorGUI extends JFrame
 				jcMousePanel11112.setLayout(new FlowLayout(FlowLayout.CENTER));
 				fieldNombre = new JTextField(10);
 				tableBusqueda = new JKTable();
+				
 				JLabel label = new JLabel("Busqueda Por Nombre:");
 				JKCoreBar coreBar = new JKCoreBar(JKCoreBar.MODE_1);
 				JKMenu jkMenu = new JKMenu("Busqueda Por Nombre", JKCoreBar.MODE_1);
+				
 				label.setHorizontalAlignment(SwingConstants.CENTER);
 				coreBar.add(jkMenu);
 				JPanel jPanel = new JPanel(new BorderLayout());
@@ -1209,10 +1205,7 @@ public class ComedorGUI extends JFrame
 											if(getBaseDeDatos().verificarSiExiste(g))
 											{
 												if(getBaseDeDatos().verificarAsistencia(g))
-												{
-//													JOptionPane.showMessageDialog(getInstance(), "El Usuario Ya Accedio El Día de Hoy!", "Denegado", JOptionPane.WARNING_MESSAGE);
 													return;
-												}
 												else
 												{
 													int t = JOptionPane.showConfirmDialog(getInstance(), "Posee Ticked?", "Ticked Necesario", JOptionPane.INFORMATION_MESSAGE);
@@ -1252,10 +1245,10 @@ public class ComedorGUI extends JFrame
 									}
 
 									String alergias = getBaseDeDatos().verificarAlergias(g);
-									
+
 									if(!alergias.equals(""))
 										JOptionPane.showMessageDialog(getInstance(), "El Usuario tiene la siguiente restricción: " + alergias, "Advertencia", JOptionPane.WARNING_MESSAGE);
-									
+
 									updateAsistencias();
 									fieldCode.setText("");
 									if(a == null)

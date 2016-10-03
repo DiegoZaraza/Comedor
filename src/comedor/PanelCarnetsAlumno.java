@@ -44,8 +44,10 @@ import com.leyer.JKCoreBar;
 import com.leyer.JKMenu;
 import com.leyer.JKTable;
 
+import comedor.bd.LogEjecucion;
 import comedor.carnets.Carnet;
 import comedor.pdfs.Persona;
+
 import javax.swing.ImageIcon;
 
 public class PanelCarnetsAlumno extends JPanel implements Runnable 
@@ -60,6 +62,8 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 	private JPanel panel3;
 	private JRadioButton b1;
 	private JRadioButton b2;
+
+	LogEjecucion log = new LogEjecucion();
 
 	public PanelCarnetsAlumno(final ComedorGUI principal, final ImpresionCarnets impresionCarnets) 
 	{
@@ -115,78 +119,81 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 											@Override
 											public void run()
 											{
-												progressBar.setString("Generando Carnets...");
-												progressBar.setIndeterminate(true);
-
-												Carnet carnetFrontal = new Carnet(1, PanelCarnetsAlumno.this.principal);
-												String nia = table.getValueAt(table.getSelectedRow(), 1).toString();
-
-												String g[] = xml.split(">");
-
-												Hashtable <String, String> hashtable = new Hashtable<>();
-												Persona s  =  principal.getBaseDeDatos().getAlumno(nia);
-
-												hashtable.put("fechaNacimiento", "" + s.getFechaNacimiento());
-												hashtable.put("grupo", s.getGrupo());
-												hashtable.put("curso", principal.getBaseDeDatos().getCursoActual());
-												hashtable.put("nia", s.getNia());
-
-												if(s.isFotoVerificada())
-												{
-													hashtable.put("foto", "System-Comedor" + File.separator + "Fotos" + File.separator + s.getNia() + ".jpg");
-												}
-												else
-												{
-													JOptionPane.showMessageDialog(principal, "Este alumno no posee Foto", "Sin Foto", JOptionPane.WARNING_MESSAGE);
-													progressBar.setIndeterminate(false);
-													progressBar.setString("Fallido!");
-													return;
-												}
-
-												hashtable.put("documento", s.getDocumento());
-												hashtable.put("nombre", "" + s.getNombreCompleto());
-												hashtable.put("codigo_barra", s.getNia());	
-
-												String xmlFinal = "";
-
-												for(int index = 0; index < g.length; index++)
-												{
-													String ja = g[index] + ">";
-
-													if(ja.startsWith("<image background = "))
-													{
-														String p1 = ja.substring(0, ja.indexOf(" = ") + 2);
-
-														p1 += new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "fondoCarnet.png";
-														String p2 = ja.substring(ja.indexOf("background-point") - 2, ja.length());
-														xmlFinal += "" + p1 + p2 + "\n";
-														continue;
-													}
-
-													Enumeration<String> x  =  hashtable.keys();
-
-													while(x.hasMoreElements())
-													{
-														String m = x.nextElement();
-
-														if(ja.indexOf("$"+m) != -1)
-														{
-															String primero = ja.substring(0, ja.indexOf("{") + 1);
-															String segundo = ja.substring(ja.lastIndexOf("}"), ja.length());
-															ja = primero+hashtable.get(m) + segundo;
-														}
-													}	
-													xmlFinal += "" + ja + "\n";
-												}
-
 												try
 												{
+													progressBar.setString("Generando Carnets...");
+													progressBar.setIndeterminate(true);
+
+													Carnet carnetFrontal = new Carnet(1, PanelCarnetsAlumno.this.principal);
+													String nia = table.getValueAt(table.getSelectedRow(), 1).toString();
+
+													String g[] = xml.split(">");
+
+													Hashtable <String, String> hashtable = new Hashtable<>();
+													Persona s  =  principal.getBaseDeDatos().getAlumno(nia);
+
+													hashtable.put("fechaNacimiento", "" + s.getFechaNacimiento());
+													hashtable.put("grupo", s.getGrupo());
+													hashtable.put("curso", principal.getBaseDeDatos().getCursoActual());
+													hashtable.put("nia", s.getNia());
+
+													if(s.isFotoVerificada())
+													{
+														hashtable.put("foto", "System-Comedor" + File.separator + "Fotos" + File.separator + s.getNia() + ".jpg");
+													}
+													else
+													{
+														JOptionPane.showMessageDialog(principal, "Este alumno no posee Foto", "Sin Foto", JOptionPane.WARNING_MESSAGE);
+														progressBar.setIndeterminate(false);
+														progressBar.setString("Fallido!");
+														return;
+													}
+
+													hashtable.put("documento", s.getDocumento());
+													hashtable.put("nombre", "" + s.getNombreCompleto());
+													hashtable.put("codigo_barra", s.getNia());	
+
+													String xmlFinal = "";
+
+													for(int index = 0; index < g.length; index++)
+													{
+														String ja = g[index] + ">";
+
+														if(ja.startsWith("<image background = "))
+														{
+															String p1 = ja.substring(0, ja.indexOf(" = ") + 2);
+
+															p1 += new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "fondoCarnet.png";
+															String p2 = ja.substring(ja.indexOf("background-point") - 2, ja.length());
+															xmlFinal += "" + p1 + p2 + "\n";
+															continue;
+														}
+
+														Enumeration<String> x  =  hashtable.keys();
+
+														while(x.hasMoreElements())
+														{
+															String m = x.nextElement();
+
+															if(ja.indexOf("$"+m) != -1)
+															{
+																String primero = ja.substring(0, ja.indexOf("{") + 1);
+																String segundo = ja.substring(ja.lastIndexOf("}"), ja.length());
+																ja = primero+hashtable.get(m) + segundo;
+															}
+														}	
+														xmlFinal += "" + ja + "\n";
+													}
+
+
 													File file = new File("System-Comedor" + File.separator + "Temp" + File.separator + hashtable.get("documento") + ".xml");
 
 													Writer w  =  new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
 													w.write(xmlFinal);
 													w.flush();
 													w.close();
+
+													Thread.sleep(1000);
 
 													carnetFrontal.setPreferredSize(new Dimension(844,455));
 													carnetFrontal.setBorder(BorderFactory.createEmptyBorder(0, 0, 13, 85));
@@ -203,7 +210,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 															Thread.sleep(2000);
 															if(!isVistaPrevias())
 																progressBar.setString("Imprimiendo...");
-															
+
 															progressBar.setIndeterminate(false);
 															progressBar.setString("Completado!");
 
@@ -220,6 +227,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 												catch(Exception e)
 												{
 													e.printStackTrace();
+													log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 												}
 											}
 										}).start();
@@ -307,6 +315,15 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 												{	
 													for(int index = 0; index < jTabbedPane.getTabCount();index++)
 													{
+														try 
+														{
+															Thread.sleep(2000);
+														} 
+														catch (InterruptedException e) 
+														{
+															e.printStackTrace();
+															log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
+														}
 														Carnet carnet = (Carnet)jTabbedPane.getComponentAt(index);
 
 														if(!isVistaPrevias())
@@ -323,7 +340,6 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 												max = -1;
 												count = 0;
 											}
-
 										}
 									}
 								};
@@ -350,7 +366,6 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 									new Thread(
 											new Runnable() 
 											{
-
 												@Override
 												public synchronized void run() 
 												{
@@ -447,6 +462,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 													}
 													catch(Exception e){
 														e.printStackTrace();
+														log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 													}
 												}
 											}).start();
@@ -466,12 +482,12 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 						@Override
 						public void mouseClicked(MouseEvent arg0) { }
 					});
-			
+
 			JScrollPane jScrollPane = new JScrollPane(table2);
 			jkMenu2.add(jScrollPane);
 			coreBar2.setPreferredSize(new Dimension(130,24));
 		}
-		
+
 		x.add(coreBar2);
 		progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
@@ -503,6 +519,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 				impresionCarnets.dispose();
 			}
 		});
+
 		new Thread(this).start();
 		add(panel4, BorderLayout.SOUTH);
 		button.setPreferredSize(new Dimension(0, 25));
@@ -529,7 +546,10 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 			panel3.add(jTabbedPane,BorderLayout.CENTER);
 			panel3.updateUI();
 		}
-		catch(Exception e){ }
+		catch(Exception e)
+		{ 
+			log.grabarArchivo(e.getMessage() + "," + e.getLocalizedMessage());
+		}
 	}
 
 	public synchronized void addTab(String documento,Carnet carnet)
@@ -573,15 +593,18 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 			catch (IOException e) 
 			{
 				e.printStackTrace();
+				log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 			}
 		}
 		catch (UnsupportedEncodingException e) 
 		{
 			e.printStackTrace();
+			log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 		}
 		catch (FileNotFoundException e) 
 		{
 			e.printStackTrace();
+			log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 		}	
 	}
 }

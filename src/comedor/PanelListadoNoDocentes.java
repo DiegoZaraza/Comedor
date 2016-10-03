@@ -44,8 +44,6 @@ public class PanelListadoNoDocentes extends JPanel implements Runnable{
 		jkTable.addColumn("Nombres");
 		jkTable.addColumn("Apellido 1");
 		jkTable.addColumn("Apellido 2");
-//		jkTable.addColumn("Grupo");
-//		jkTable.addColumn("Email");
 		JScrollPane jScrollPane = new JScrollPane(jkTable);
 
 		jkTable.activeIconsToRows(jkTable.getColumn("Foto"));
@@ -59,8 +57,7 @@ public class PanelListadoNoDocentes extends JPanel implements Runnable{
 			
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
+			
 			}
 			@Override
 			public void keyReleased(KeyEvent arg0) {
@@ -74,13 +71,9 @@ public class PanelListadoNoDocentes extends JPanel implements Runnable{
 			}
 		});
 		field.setBorder(BorderFactory.createTitledBorder(""));
-//		jkTable.setFont(new Font("arial",Font.PLAIN,13));
 		jPanel.add(field);
 		jPanel.setBorder(BorderFactory.createTitledBorder("Buscador"));
 		add(jPanel,BorderLayout.NORTH);
-		
-//		jkTable.getColumn("Grupo").setPreferredWidth(158);
-//		jkTable.getColumn("Grupo").setWidth(158);
 		
 		jkTable.setRowHeight(60);
 		
@@ -99,16 +92,6 @@ public class PanelListadoNoDocentes extends JPanel implements Runnable{
 		jkTable.getColumn("Apellido 2").setPreferredWidth(140);
 		jkTable.getColumn("Apellido 2").setWidth(140);
 		
-		
-//		jkTable.getColumn("Email").setPreferredWidth(170);
-//		jkTable.getColumn("Email").setWidth(170);
-//		
-		
-
-//		jkTable.getColumn("Telefono").setPreferredWidth(8);
-//		jkTable.getColumn("Telefono").setWidth(8);
-		
-		
 		JPopupMenu jPopupMenu = new JPopupMenu();
 		JMenuItem itemcOPY = new JMenuItem("Copiar Documento");
 		itemcOPY.setIcon(new ImageIcon(getClass().getResource("/resource/copy.png")));
@@ -117,7 +100,6 @@ public class PanelListadoNoDocentes extends JPanel implements Runnable{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				if(jkTable.getSelectedRow()!=-1){
 					String nia=jkTable.getValueAt(jkTable.getSelectedRow(), 1).toString();
 					StringSelection arg1 = new StringSelection(nia);

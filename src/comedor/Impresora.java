@@ -16,16 +16,23 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Sides;
 
+import comedor.bd.LogEjecucion;
+
 public class Impresora 
 {
+	LogEjecucion log = new LogEjecucion();
+	
 	public List<PrintService> getImpresoras()
 	{
 		List<PrintService> x;
-		
+
 		DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.PAGEABLE;
 		PrintRequestAttributeSet patts = new HashPrintRequestAttributeSet();
 		patts.add(Sides.ONE_SIDED);
 		PrintService[] ps = PrintServiceLookup.lookupPrintServices(flavor, patts);
+
+		for (PrintService printService : ps) 
+			log.grabarArchivo(printService.getName());
 		
 		x = Arrays.asList(ps);
 
@@ -34,28 +41,28 @@ public class Impresora
 
 	public void printCarnet(String pdf)
 	{
-		PrintService[] ps = PrintServiceLookup.lookupPrintServices(null, null);
-
-		System.out.println("Archivo Imprimir = " + pdf);
-
-		if (ps.length == 0) { }
-
-		PrintService myService = null;
-
-		for (PrintService printService : ps) 
-		{
-			if (printService.getName().equals(principal.getBaseDeDatos().getImpresoraCarnet())) 
-			{
-				myService = printService;
-				break;
-			}
-		}
-
-		FileInputStream fis;
 		try 
 		{
+			PrintService[] ps = PrintServiceLookup.lookupPrintServices(null, null);
+
+			if (ps.length == 0) { }
+
+			PrintService myService = null;
+
+			for (PrintService printService : ps) 
+			{
+				log.grabarArchivo(printService.getName());
+				
+				if (printService.getName().equals(principal.getBaseDeDatos().getImpresoraCarnet())) 
+				{
+					myService = printService;
+					break;
+				}
+			}
+
+			FileInputStream fis;
+
 			fis = new FileInputStream(pdf);
-//			fis = new FileInputStream("D:\\Java\\Comedor\\System-Comedor\\Temp\\021012026P.pdf");
 			Doc pdfDoc = new SimpleDoc(fis, DocFlavor.INPUT_STREAM.AUTOSENSE, null);
 			DocPrintJob printJob = myService.createPrintJob();
 
@@ -65,10 +72,12 @@ public class Impresora
 		catch (IOException e) 
 		{
 			e.printStackTrace();
+			log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 		} 
 		catch (PrintException e) 
 		{
 			e.printStackTrace();
+			log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 		}      
 	}
 
@@ -78,24 +87,32 @@ public class Impresora
 
 		if (ps.length == 0) {}
 		PrintService myService = null;
-		for (PrintService printService : ps) {
-			if (printService.getName().equals(principal.getBaseDeDatos().getImpresoraEstandar())) {
+		for (PrintService printService : ps)
+		{
+			if (printService.getName().equals(principal.getBaseDeDatos().getImpresoraEstandar())) 
+			{
 				myService = printService;
 				break;
 			}
 		}
-		try{
+		try
+		{
 			FileInputStream fis = new FileInputStream(pdf);
 			Doc pdfDoc = new SimpleDoc(fis, DocFlavor.INPUT_STREAM.AUTOSENSE, null);
 			DocPrintJob printJob = myService.createPrintJob();
 			printJob.print(pdfDoc, new HashPrintRequestAttributeSet());
 			fis.close();        
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
+			log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 		}
 	}
 	private ComedorGUI principal;
-	public Impresora(ComedorGUI comedorGUI){
+	
+	public Impresora(ComedorGUI comedorGUI)
+	{
 		this.principal= comedorGUI;
 	}
 }

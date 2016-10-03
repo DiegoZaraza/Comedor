@@ -53,52 +53,9 @@ public class RegistrarNoDocentes extends JInternalFrame {
 		return this;
 	}
 	private JKPanel jkPanel;
-	
-//	comboBoxTipoDoc = tipo doc
-//			textField = documento
-//			textField_1 = nombre
-//			textField_2 = apellido1
-//			textField_3 = apellido2
-//			comboBox_1 = sexo
-//			textField_4 = email
-//			textField_5 = cuenta bancaria 
-//			textArea_1 = alergias
-	
-	
-//	public String getCuentaBancaria(){
-//		return textField_5.getText();
-//	}
-//	public void setCuentaBancaria(String n){
-//		textField_5.setText(n);
-//	}
-//	
-//	public String getAlergias(){
-//		return textArea_1.getText();
-//	}
-//	public void setAlergias(String nombre){
-//		textArea_1.setText(nombre);
-//	}
-//	
-	
-//	public String getEmail(){
-//		return textField_4.getText();
-//	}
-//	public void setEmail(String n){
-//		textField_4.setText(n);
-//	}
-	
+
 	private boolean actualizar = false;
-//	public String getSexo(){
-//		return comboBox_1.getSelectedItem().toString();
-//	}
-//	public void setSexo(String s){
-//		if(s!=null)
-//		if(s.equalsIgnoreCase("M")){
-//			comboBox_1.setSelectedIndex(0);
-//		}else{
-//			comboBox_1.setSelectedIndex(1);
-//		}
-//	}
+
 	
 	public String getApellido2(){
 		return textField_3.getText();
@@ -145,7 +102,6 @@ public class RegistrarNoDocentes extends JInternalFrame {
 		textField_1.setText(nombre);
 	}
 	private BufferedImage foto;
-//	private File fileFoto;
 	private JButton btnNewButton_3;
 	private JPanel panel_3;
 	private JButton btnNewButton;
@@ -154,13 +110,12 @@ public class RegistrarNoDocentes extends JInternalFrame {
 		return foto;
 	}
 	public void clear(){
-//		textArea_1.setText("");
+
 		textField.setText("");
 		textField_1.setText("");
 		textField_2.setText("");
 		textField_3.setText("");
-//		textField_4.setText("");
-//		textField_5.setText("");
+
 		panel_3.removeAll();
 		jkPanel = new JKPanel();
 		panel_3.add(jkPanel);
@@ -209,7 +164,7 @@ public class RegistrarNoDocentes extends JInternalFrame {
 				dispose();
 			}
 		});
-//		getContentPane().
+
 		btnNewButton_1.setIcon(new ImageIcon(RegistrarNoDocentes.class.getResource("/resource/close1.png")));
 		panel_1.add(btnNewButton_1);
 		
@@ -218,14 +173,13 @@ public class RegistrarNoDocentes extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				Pass a = new Pass();
 				a.setDocumento(getDocumento());
-//				a.setEmail1(getEmail());
+
 				a.setNombre(getNombre());
 				a.setApellido1(getApellido1());
 				a.setApellido2(getApellido2());
-//				a.setSexo(getSexo());
+
 				a.setTipo_doc(getTipoDoc());
-//				a.setAlergias(getAlergias());
-//				a.setCuenta(getCuentaBancaria());
+
 	
 				String curso=principal.getBaseDeDatos().getCursoActual();
 				boolean b=principal.getBaseDeDatos().registrarNoDocente(a,curso);
@@ -259,13 +213,13 @@ public class RegistrarNoDocentes extends JInternalFrame {
 				
 				
 				a.setDocumento(getDocumento());
-//				a.setEmail1(getEmail());
+
 				a.setNombre(getNombre());
 				a.setApellido1(getApellido1());
 				a.setApellido2(getApellido2());
-//				a.setSexo(getSexo());
+
 				a.setTipo_doc(getTipoDoc());
-//				a.setAlergias(getAlergias());
+
 				
 				String cursoActual=principal.getBaseDeDatos().getCursoActual();
 
@@ -283,18 +237,7 @@ public class RegistrarNoDocentes extends JInternalFrame {
 				
 				
 				
-//				a.setf
-				
-//				boolean b=principal.getBaseDeDatos().registrarProf(a);
-//				if(b){	
-//					System.out.println("doc: "+getDocumento());
-//					principal.getBaseDeDatos().addFoto(getDocumento(),fileFoto);
-//					JOptionPane.showMessageDialog(principal, "Se ha registrado correctamente!","Exito al Registrar!",JOptionPane.INFORMATION_MESSAGE);
-//					dispose();
-//				}else{
-//					JOptionPane.showMessageDialog(principal, "No se ha podido procesar el registro!","Error",JOptionPane.INFORMATION_MESSAGE);
-//					return;
-//				}
+
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -397,7 +340,7 @@ public class RegistrarNoDocentes extends JInternalFrame {
 		JLabel lblDocumento = new JLabel("Documento:");
 		
 		comboBoxTipoDoc = new JKComboBox();
-//		comboBoxTipoDoc.addItem("");
+
 		comboBoxTipoDoc.addItem("NIF");
 		comboBoxTipoDoc.addItem("NIE");
 		

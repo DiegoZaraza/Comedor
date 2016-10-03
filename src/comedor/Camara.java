@@ -130,7 +130,7 @@ public class Camara extends JDialog implements Runnable,WindowListener
 					ImageIO.setUseCache(true);
 					/** AJUSTE IMAGEN DE IMPRERIOS */
 					image = image.getSubimage((image.getWidth() / 2) - 240, (image.getHeight() / 2) - 320, 480, 640);
-					
+
 					ImageIO.write(image, "PNG", fileFotox);
 					principal.getBaseDeDatos().insertFotos(fileFotox);
 
