@@ -4742,7 +4742,7 @@ public class BD extends JKDataBase
 		// TODO Auto-generated method stub
 		try{
 
-			ResultSet x = executeQuery("select fecha_alta from fechas_altas_bajas,id_fechas where curso='"+getCursoActual()+"'");
+			ResultSet x = executeQuery("SELECT fecha_alta, nia, id_fechas FROM fechas_altas_bajas where curso='"+getCursoActual()+"'");
 			int total_remesas_emitidas=0;
 			float valor_total_remesas=0;
 			float total_generado=0;
@@ -4773,9 +4773,7 @@ public class BD extends JKDataBase
 						while(v.next()){
 							valor_total_remesas_comision+=(v.getFloat(1)+v.getFloat(2));
 						}
-					}
-
-
+					} 
 				}
 			}
 			new PDF_BalancesEconomicos(principal,total_generado,valor_total_remesas,valor_total_remesas_comision, total_remesas_emitidas);
