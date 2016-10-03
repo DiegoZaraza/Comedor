@@ -66,6 +66,12 @@ public class PDF_BalancesEconomicos {
 				document.add(texto22);
 				document.add(new Paragraph("\n"));
 
+				texto22 = new Paragraph("Valor del total de  en estado pagado o pagado con comision: "+df.format(valor_total_remesas_comision)+"€", FontFactory.getFont("arial",11,
+						Font.NORMAL, BaseColor.BLACK));
+				texto22.setAlignment(Chunk.ALIGN_LEFT);
+				document.add(texto22);
+				document.add(new Paragraph("\n"));
+				
 				document.close();
 
 				if(principal.getBaseDeDatos().getImpresionDirecta()){
