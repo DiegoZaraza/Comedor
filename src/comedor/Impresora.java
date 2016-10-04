@@ -26,10 +26,10 @@ public class Impresora
 	{
 		List<PrintService> x;
 
-		DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.PAGEABLE;
-		PrintRequestAttributeSet patts = new HashPrintRequestAttributeSet();
-		patts.add(Sides.ONE_SIDED);
-		PrintService[] ps = PrintServiceLookup.lookupPrintServices(flavor, patts);
+//		DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.PAGEABLE;
+//		PrintRequestAttributeSet patts = new HashPrintRequestAttributeSet();
+//		patts.add(Sides.ONE_SIDED);
+		PrintService[] ps = PrintServiceLookup.lookupPrintServices(null, null);
 
 		for (PrintService printService : ps) 
 			log.grabarArchivo(printService.getName());
@@ -111,6 +111,9 @@ public class Impresora
 	}
 	private ComedorGUI principal;
 	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public Impresora(ComedorGUI comedorGUI)
 	{
 		this.principal= comedorGUI;

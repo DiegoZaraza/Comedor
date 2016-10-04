@@ -956,6 +956,12 @@ public class Carnet extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				BufferedImage c = getScreenShot(imageView1);
 
 				if(mode == 2)

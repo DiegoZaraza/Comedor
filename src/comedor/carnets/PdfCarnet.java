@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JOptionPane;
 
 import com.itextpdf.text.Document;
@@ -24,8 +25,6 @@ public class PdfCarnet
 		{
 			Document document = new Document();
 			
-			Thread.sleep(1000);
-			
 			if(mODE == 1)
 			{
 				PdfWriter.getInstance(document, new FileOutputStream(fileName));
@@ -36,6 +35,7 @@ public class PdfCarnet
 				document.open();
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ImageIO.write(c, "png", baos);
+				ImageIO.write(c, "png", new FileOutputStream("c:\\Nueva Carpeta\\"+Math.random()+".jpg"));
 				baos.flush();
 				byte[] imageInByte = baos.toByteArray();
 				baos.close();
@@ -56,6 +56,7 @@ public class PdfCarnet
 				document.open();
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ImageIO.write(c, "png", baos );
+				ImageIO.write(c, "png", new FileOutputStream("c:\\Nueva Carpeta\\"+Math.random()+".jpg"));
 				baos.flush();
 				byte[] imageInByte = baos.toByteArray();
 				baos.close();
@@ -67,7 +68,9 @@ public class PdfCarnet
 			}
 			
 			/** SE AGREGA EL CIERRE DEL DOCUMENTO YA QUE AL QUEDAR ABIERTO NO SE REALIZA LA IMPRESION DEL MISMO */
-//			document.close();
+			document.close();
+			
+			Thread.sleep(1000);
 			
 			if(principal.getBaseDeDatos().isImpresoraCarnetConfigurada())
 				new Impresora(principal).printCarnet(new File(fileName).toString());
@@ -77,7 +80,7 @@ public class PdfCarnet
 				else
 					JOptionPane.showMessageDialog(null, "Accion no Soportada!","No Soportado!",JOptionPane.WARNING_MESSAGE);
 			
-			document.close();
+//			document.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}

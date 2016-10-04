@@ -95,7 +95,7 @@ public class Camara extends JDialog implements Runnable,WindowListener
 									panelWebCam.setDisplayDebugInfo(true);
 									panelWebCam.setImageSizeDisplayed(true);
 									panelWebCam.setMirrored(true);;
-									add(panelWebCam,BorderLayout.CENTER);
+									getContentPane().add(panelWebCam,BorderLayout.CENTER);
 									panelWebCam.updateUI();
 								}
 							}
@@ -111,8 +111,8 @@ public class Camara extends JDialog implements Runnable,WindowListener
 			comboBox.addItem(f.getName());
 		}
 
-		setLayout(new BorderLayout());
-		add(comboBox,BorderLayout.NORTH);
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(comboBox,BorderLayout.NORTH);
 		JPanel panelx = new JPanel(new GridLayout());
 		button = new JButton("Tomar Foto");
 		button.setIcon(new ImageIcon(DialogoLogin.class.getResource("/resource/camara.png")));
@@ -172,7 +172,7 @@ public class Camara extends JDialog implements Runnable,WindowListener
 		panelx.add(button2);
 		panelx.add(button);
 		panelx.setPreferredSize(new Dimension(0, 40));
-		add(panelx, BorderLayout.SOUTH);
+		getContentPane().add(panelx, BorderLayout.SOUTH);
 		webcam = Webcam.getDefault();
 
 		if(webcam==null)
@@ -200,7 +200,7 @@ public class Camara extends JDialog implements Runnable,WindowListener
 		panelWebCam.setImageSizeDisplayed(true);
 		panelWebCam.setMirrored(true);
 
-		add(panelWebCam,BorderLayout.CENTER);
+		getContentPane().add(panelWebCam,BorderLayout.CENTER);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		setSize(300,400);
@@ -253,7 +253,7 @@ public class Camara extends JDialog implements Runnable,WindowListener
 											panelWebCam.setDisplayDebugInfo(true);
 											panelWebCam.setImageSizeDisplayed(true);
 											panelWebCam.setMirrored(true);;
-											add(panelWebCam,BorderLayout.CENTER);
+											getContentPane().add(panelWebCam,BorderLayout.CENTER);
 											panelWebCam.updateUI();
 										}
 									}
@@ -269,8 +269,8 @@ public class Camara extends JDialog implements Runnable,WindowListener
 			comboBox.addItem(f.getName());
 		}
 
-		setLayout(new BorderLayout());
-		add(comboBox, BorderLayout.NORTH);
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(comboBox, BorderLayout.NORTH);
 
 		JPanel panelx = new JPanel(new GridLayout());
 		button = new JButton("Tomar Foto");
@@ -331,7 +331,7 @@ public class Camara extends JDialog implements Runnable,WindowListener
 		panelx.add(button2);
 		panelx.add(button);
 		panelx.setPreferredSize(new Dimension(0, 40));
-		add(panelx, BorderLayout.SOUTH);
+		getContentPane().add(panelx, BorderLayout.SOUTH);
 		webcam = Webcam.getDefault();
 
 		if(!webcam.isOpen())
@@ -353,7 +353,7 @@ public class Camara extends JDialog implements Runnable,WindowListener
 		panelWebCam.setImageSizeDisplayed(true);
 		panelWebCam.setMirrored(true);
 
-		add(panelWebCam, BorderLayout.CENTER);
+		getContentPane().add(panelWebCam, BorderLayout.CENTER);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setSize(300, 400);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -363,54 +363,58 @@ public class Camara extends JDialog implements Runnable,WindowListener
 		new Thread(this).start();
 	}
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public Camara(final ComedorGUI principal, final RegistrarAlumno internalAlumno) 
 	{
 		super(principal, true);
-		this.principal  =principal;
+		this.principal = principal;
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JDialog.setDefaultLookAndFeelDecorated(true);
 		list = Webcam.getWebcams();
 
 		comboBox = new JKComboBox();
 
-		comboBox.addActionListener(new ActionListener() 
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				new Thread(
-						new Runnable() 
-						{
-							@Override
-							public void run() 
-							{
-								if(panelWebCam != null)
+		comboBox.addActionListener(
+				new ActionListener() 
+				{
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						new Thread(
+								new Runnable() 
 								{
-									remove(panelWebCam);
-
-									try
+									@Override
+									public void run() 
 									{
-										Webcam.shutdown();
-										Thread.sleep(3000);
+										if(panelWebCam != null)
+										{
+											remove(panelWebCam);
+
+											try
+											{
+												Webcam.shutdown();
+												Thread.sleep(3000);
+											}
+											catch(Exception e){};
+
+											webcam = list.get(comboBox.getSelectedIndex());
+											//											webcam.setViewSize(WebcamResolution.HD720.getSize());
+
+											panelWebCam = new WebcamPanel(webcam);
+
+											panelWebCam.setFPSDisplayed(true);
+											panelWebCam.setDisplayDebugInfo(true);
+											panelWebCam.setImageSizeDisplayed(true);
+											panelWebCam.setMirrored(true);;
+											getContentPane().add(panelWebCam,BorderLayout.CENTER);
+											panelWebCam.updateUI();
+										}
 									}
-									catch(Exception e){};
-
-									webcam = list.get(comboBox.getSelectedIndex());
-									webcam.setViewSize(WebcamResolution.VGA.getSize());
-
-									panelWebCam = new WebcamPanel(webcam);
-
-									panelWebCam.setFPSDisplayed(true);
-									panelWebCam.setDisplayDebugInfo(true);
-									panelWebCam.setImageSizeDisplayed(true);
-									panelWebCam.setMirrored(true);;
-									add(panelWebCam,BorderLayout.CENTER);
-									panelWebCam.updateUI();
-								}
-							}
-						}).start();
-			}
-		});
+								}).start();
+					}
+				});
 
 		Iterator<Webcam> iter = list.iterator();
 
@@ -420,8 +424,8 @@ public class Camara extends JDialog implements Runnable,WindowListener
 			comboBox.addItem(f.getName());
 		}
 
-		setLayout(new BorderLayout());
-		add(comboBox, BorderLayout.NORTH);
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(comboBox, BorderLayout.NORTH);
 
 		JPanel panelx = new JPanel(new GridLayout());
 		button=new JButton("Tomar Foto");
@@ -439,6 +443,15 @@ public class Camara extends JDialog implements Runnable,WindowListener
 						{				
 							fileFotox = new File("System-Comedor" + File.separator + "Fotos" + File.separator + "" + internalAlumno.getNia() + ".jpg");
 							ImageIO.setUseCache(true);
+
+							/** AJUSTE IMAGEN DE IMPRESION */
+							
+							System.out.println(image.getWidth() + "-" + image.getHeight());
+							int ancho = (image.getWidth() * 480) / 1280;
+							int alto = (image.getHeight() * 640) / 720;
+
+							image = image.getSubimage((image.getWidth()/2) - (ancho / 2), (image.getHeight() / 2) - (alto / 2), ancho, alto);
+
 							ImageIO.write(image, "PNG", fileFotox);
 							principal.getBaseDeDatos().insertFotos(fileFotox);
 							internalAlumno.setFoto(image, new File("System-Comedor" + File.separator + "Fotos" + File.separator + "" + internalAlumno.getNia() + ".jpg"));
@@ -480,17 +493,17 @@ public class Camara extends JDialog implements Runnable,WindowListener
 		panelx.add(button2);
 		panelx.add(button);
 		panelx.setPreferredSize(new Dimension(0,40));
-		add(panelx,BorderLayout.SOUTH);
+		getContentPane().add(panelx,BorderLayout.SOUTH);
 		webcam = Webcam.getDefault();
 
-		if(!webcam.isOpen())
-			webcam.setViewSize(WebcamResolution.VGA.getSize());
-		else
+		if(webcam.isOpen())
+//			webcam.setViewSize(WebcamResolution.HD720.getSize());
+//		else
 			try
 		{
 				webcam.close();
 				webcam = Webcam.getDefault();
-				webcam.setViewSize(WebcamResolution.VGA.getSize());
+//				webcam.setViewSize(WebcamResolution.HD720.getSize());
 		}
 		catch(Exception e){}
 
@@ -501,7 +514,7 @@ public class Camara extends JDialog implements Runnable,WindowListener
 		panelWebCam.setImageSizeDisplayed(true);
 		panelWebCam.setMirrored(true);
 
-		add(panelWebCam,BorderLayout.CENTER);
+		getContentPane().add(panelWebCam,BorderLayout.CENTER);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setSize(300,400);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

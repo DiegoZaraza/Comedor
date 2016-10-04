@@ -2508,7 +2508,7 @@ public class BD extends JKDataBase
 				try {
 					FileInputStream fileInputStream1 = new FileInputStream(file);
 					//						System.out.println();
-					resize(fileInputStream1, new FileOutputStream(file.getParentFile()+File.separator+"T"+file.getName()), 480, 640,file);
+//					resize(fileInputStream1, new FileOutputStream(file.getParentFile()+File.separator+"T"+file.getName()), 480, 640,file);
 					fileInputStream1.close();
 					file2=new File(file.getParentFile()+File.separator+"T"+file.getName());
 					fileInputStream = new FileInputStream(file2);
@@ -2615,21 +2615,27 @@ public class BD extends JKDataBase
 		progressBar.setIndeterminate(false);
 		progressBar.setString("Finalizado");
 	}
-	public void resize(FileInputStream fileInputStream, 
-			FileOutputStream fileOutputStream, int width, int height, File file) throws Exception {
-		BufferedImage src = ImageIO.read(fileInputStream);
-		BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = dest.createGraphics();
-		AffineTransform at = AffineTransform.getScaleInstance((double)width / src.getWidth(), (double)height / src.getHeight());
-		g.drawRenderedImage(src, at);
-		ImageIO.write(dest, "JPG", fileOutputStream);
-
-		FileOutputStream outputStream=new FileOutputStream(new File("System-Comedor"+File.separator+"Fotos"+File.separator+file.getName()));
-		ImageIO.write(dest, "JPG", outputStream);
-		outputStream.flush();
-		fileOutputStream.close();
-
-	}
+	
+//	public void resize(FileInputStream fileInputStream, FileOutputStream fileOutputStream, int width, int height, File file) throws Exception 
+//	{
+//		System.out.println("Entre");
+//		BufferedImage src = ImageIO.read(fileInputStream);
+////		BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+//		
+//		src = src.getSubimage((src.getWidth() / 2) - 320, (src.getHeight() / 2) - 240, 640, 480);
+//		
+//		
+////		Graphics2D g = dest.createGraphics();
+////		AffineTransform at = AffineTransform.getScaleInstance((double)width / src.getWidth(), (double)height / src.getHeight());
+////		g.drawRenderedImage(src, at);
+//		ImageIO.write(src, "JPG", fileOutputStream);
+//
+//		FileOutputStream outputStream=new FileOutputStream(new File("System-Comedor"+File.separator+"Fotos"+File.separator+file.getName()));
+//		ImageIO.write(src, "JPG", outputStream);
+//		outputStream.flush();
+//		fileOutputStream.close();
+//
+//	}
 	public void resize2(FileInputStream fileInputStream, 
 			FileOutputStream fileOutputStream, int width, int height, File file,String n) throws Exception {
 		BufferedImage src = ImageIO.read(fileInputStream);
@@ -2658,7 +2664,7 @@ public class BD extends JKDataBase
 			{
 				FileInputStream fileInputStream1 = new FileInputStream(file);
 
-				resize(fileInputStream1, new FileOutputStream(file.getParentFile() + File.separator + "T" + file.getName()), 480, 640, file);
+//				resize(fileInputStream1, new FileOutputStream(file.getParentFile() + File.separator + "T" + file.getName()), 480, 640, file);
 				fileInputStream1.close();
 				file2 = new File(file.getParentFile() + File.separator + "T" + file.getName());
 				file2.delete();

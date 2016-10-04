@@ -193,21 +193,26 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 													w.flush();
 													w.close();
 
-													Thread.sleep(1000);
+													Thread.sleep(2000);
 
 													carnetFrontal.setPreferredSize(new Dimension(844,455));
 													carnetFrontal.setBorder(BorderFactory.createEmptyBorder(0, 0, 13, 85));
 													carnetFrontal.setModo(2);
 													carnetFrontal.setPathCarnet(new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "Temp" + File.separator + "" + s.getDocumento() + ".pdf");
-													jTabbedPane.addTab(""+s.getDocumento(), carnetFrontal);
+													jTabbedPane.addTab("" + s.getDocumento(), carnetFrontal);
 
+													Thread.sleep(1000);
+													
 													carnetFrontal.loadConfiguration(file);
 
+													Thread.sleep(1000);
+													
 													while(true)
 													{
 														if(carnetFrontal.isReady())
 														{
 															Thread.sleep(2000);
+															
 															if(!isVistaPrevias())
 																progressBar.setString("Imprimiendo...");
 
@@ -222,6 +227,8 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 														{
 															Thread.sleep(2000);
 														}
+														
+														Thread.sleep(2000);
 													}
 												}
 												catch(Exception e)
