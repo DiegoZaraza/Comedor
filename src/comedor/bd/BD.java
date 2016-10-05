@@ -1847,25 +1847,31 @@ public class BD extends JKDataBase
 		}
 		return false;
 	}
-	public void getAlumnos(String codigoGrupo,JKTable table,JLabel label) {
-		// TODO Auto-generated method stub
-		try{
-			try{
+	
+	public void getAlumnos(String codigoGrupo, JKTable table, JLabel label)
+	{
+		try
+		{
+			try
+			{
 				table.clearTable();
-			}catch(Exception e){
-
 			}
-			String curso=principal.getBaseDeDatos().getCursoActual();
-			ResultSet x = executeQuery("select nia,documento,apellido1,apellido2,nombres from alumnos where grupo='"+codigoGrupo+"' and curso='"+curso+"' order by apellido1");
-			while(x.next()){
-				table.addRow(x.getString(1),x.getString(2),x.getString(3)+" "+x.getString(4)+", "+x.getString(5));
-				label.setText(""+table.getRowCount());
+			catch(Exception e){	}
+			
+			String curso = principal.getBaseDeDatos().getCursoActual();
+			
+			ResultSet x = executeQuery("SELECT nia, documento, apellido1, apellido2, nombres FROM alumnos WHERE grupo = '" + codigoGrupo + "' AND curso = '" + curso + "' ORDER BY apellido1");
+			while(x.next())
+			{
+				table.addRow(x.getString("apellido1") + " " + x.getString("apellido2") + ", " + x.getString("nombres"), x.getString("nia"));
+				label.setText("" + table.getRowCount());
 			}
-		}catch(Exception e){
+		}catch(Exception e)
+		{
 			e.printStackTrace();
 		}
-
 	}
+	
 	public ArrayList<Persona> getAlumnos(String codigoGrupo,String cursoActual) {
 		// TODO Auto-generated method stub
 		ArrayList<Persona> alumnos=new ArrayList<>();
@@ -3070,9 +3076,6 @@ public class BD extends JKDataBase
 			String curso = principal.getBaseDeDatos().getCursoActual();
 
 			ResultSet x = executeQuery("SELECT count(*) FROM asistencias " 
-					+ "WHERE (nia='" + g + "' or documento='" + g + "') AND curso='" + curso + "' AND fecha = '" + new Date(new java.util.Date().getTime()) + "';");
-
-			System.out.println("SELECT count(*) FROM asistencias " 
 					+ "WHERE (nia='" + g + "' or documento='" + g + "') AND curso='" + curso + "' AND fecha = '" + new Date(new java.util.Date().getTime()) + "';");
 
 			while(x.next())
