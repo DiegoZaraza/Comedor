@@ -144,13 +144,13 @@ public class BD extends JKDataBase
 	{
 		try
 		{
-			ResultSet x= executeQuery("SELECT * FROM centro WHERE codigo_centro = '" + codigo + "' AND curso = '" + curso + "'");
+			ResultSet x = executeQuery("SELECT * FROM centro WHERE codigo_centro = '" + codigo + "' AND curso = '" + curso + "'");
 
 			while(x.next())
 				return false;
 
 			boolean b=executeUpdate("INSERT INTO centro(codigo_centro, denominacion, curso) VALUES('" + codigo + "', '" + denominacion + "', '" + curso + "');");
-			return b;
+			return b; 
 
 		}
 		catch(Exception e)
@@ -167,7 +167,7 @@ public class BD extends JKDataBase
 			ResultSet x = executeQuery("SELECT codigo_centro, denominacion, telefono, fax, domicilio,id_centro FROM centro;");
 
 			while(x.next())
-				return x.getString(2);
+				return x.getString("denominacion");
 		}
 		catch(Exception e)
 		{
@@ -186,15 +186,15 @@ public class BD extends JKDataBase
 			String telefono = "Sin Definir";
 			String fax = "Sin Definir";
 
-			ResultSet x = executeQuery("SELECT codigo_centro, denominacion, telefono, fax, domicilio,id_centro FROM centro;");
+			ResultSet x = executeQuery("SELECT codigo_centro, denominacion, telefono, fax, domicilio, id_centro FROM centro;");
 
 			while(x.next())
 			{
-				codigoCentro = x.getString(1);
-				denominacion = x.getString(2);
-				domicilio = x.getString(5);
-				telefono=x.getString(3);
-				fax = x.getString(4);
+				codigoCentro = x.getString("codigo_centro");
+				denominacion = x.getString("denominacion");
+				domicilio = x.getString("domicilio");
+				telefono = x.getString("telefono");
+				fax = x.getString("fax");
 			}
 
 			labelDatosCentro.setText("<html>Codigo de Centro: <font color='blue'>" +
@@ -218,7 +218,7 @@ public class BD extends JKDataBase
 				executeUpdate("DELETE FROM grups WHERE codigo = '" + a.getCodigo() + "' and curso = '" + curso + "'");
 
 			return executeUpdate("INSERT INTO grups(codigo, nombre, ensenanza, linea, turno, modalidad,  aula, capacidad, tutor_ppal, tutor_sec, oficial,curso)" 
-					+ "VALUES ('" + a.getCodigo() + "', '" + a.getNombre() + "', '" + a.getEnsenanza() + "', '" + a.getLinea() + "', '" + a.getTurno() + "',"
+					+ " VALUES ('" + a.getCodigo() + "', '" + a.getNombre() + "', '" + a.getEnsenanza() + "', '" + a.getLinea() + "', '" + a.getTurno() + "',"
 					+ " '" + a.getModalidad() + "', '" + a.getAula() + "', '" + a.getCapacidad() + "', '" + a.getTutor_ppal() + "'," 
 					+ " '" + a.getTutor_sec() + "', '" + a.getOficial() + "','" + curso + "');");
 		}
@@ -233,8 +233,8 @@ public class BD extends JKDataBase
 	{
 		try
 		{
-			String curso=principal.getBaseDeDatos().getCursoActual();
-			executeUpdate("DELETE FROM familiars WHERE alumno='" + c + "' AND curso='" + curso + "'");
+			String curso = principal.getBaseDeDatos().getCursoActual();
+			executeUpdate("DELETE FROM familiars WHERE alumno = '" + c + "' AND curso = '" + curso + "'");
 		}
 		catch(Exception e)
 		{
@@ -247,9 +247,9 @@ public class BD extends JKDataBase
 		try
 		{
 			String curso = principal.getBaseDeDatos().getCursoActual();
-			executeUpdate("INSERT INTO familiars(alumno, nombre, apellido1, tipo_doc, documento, es_tutor,telefono,direccion,parentesco,apellido2,curso) " 
-					+ "VALUES ('"+a.getAlumno()+"', '"+a.getNombre()+"', '" + a.getApellido1() + "', '" + a.getTipo_doc() + "', '" + a.getDocumento() 
-					+ "', '" + a.getEs_tutor() + "','sin informacion','sin informacion','" + a.getParentesco() + "','" + a.getApellido2() + "','" + curso + "');");
+			executeUpdate("INSERT INTO familiars(alumno, nombre, apellido1, tipo_doc, documento, es_tutor, telefono, direccion, parentesco, apellido2, curso) " 
+					+ "VALUES ('" + a.getAlumno() + "', '" + a.getNombre() + "', '" + a.getApellido1() + "', '" + a.getTipo_doc() + "', '" + a.getDocumento() 
+					+ "', '" + a.getEs_tutor() + "', 'sin informacion', 'sin informacion','" + a.getParentesco() + "', '" + a.getApellido2() + "', '" + curso + "');");
 		}
 		catch(Exception e)
 		{
@@ -3518,53 +3518,70 @@ public class BD extends JKDataBase
 		return false;
 	}
 
-	public void getRemesas(String id, JKTable tableRemesas,ArrayList<String> arrayList) {
-		try{
-			try{
+	
+	public void getRemesas(String id, JKTable tableRemesas,ArrayList<String> arrayList) 
+	{
+		try
+		{
+			try
+			{
 				arrayList.clear();
 				tableRemesas.clearTable();
-			}catch(Exception e){
-
 			}
-			ResultSet x = executeQuery("SELECT id_remesa, nia, curso, nro_remesa, valor_remesa" +
-					", estado, id_fechas,generada,valor_comision FROM remesas where id_fechas = '"+id+"'  order by nro_remesa;");
-			while(x.next()){
-				arrayList.add(x.getString(1));
-				String estado = x.getString(6);
+			catch(Exception e){ }
+			
+			ResultSet x = executeQuery("SELECT id_remesa, nia, curso, nro_remesa, valor_remesa, estado, id_fechas, generada, valor_comision "
+					+ "FROM remesas WHERE id_fechas = '" + id + "' ORDER BY nro_remesa;");
+			
+			while(x.next())
+			{
+				arrayList.add(x.getString("id_remesa"));
+				String estado = x.getString("estado");
+				
 				JLabel jLabel = new JLabel();
-				if(estado.equalsIgnoreCase("PENDIENTE")){
-					jLabel.setIcon(new ImageIcon(getClass()
-							.getResource("/resource/1xc.png")));
+				
+				if(estado.equalsIgnoreCase("PENDIENTE"))
+				{
+					jLabel.setIcon(new ImageIcon(getClass().getResource("/resource/1xc.png")));
 					jLabel.setText("Pendiente");
-				}else{
-					if(estado.equalsIgnoreCase("PAGADO")){
-						jLabel.setIcon(new ImageIcon(getClass()
-								.getResource("/resource/n41.png")));
+				}
+				else
+				{
+					if(estado.equalsIgnoreCase("PAGADO"))
+					{
+						jLabel.setIcon(new ImageIcon(getClass().getResource("/resource/n41.png")));
 						jLabel.setText("Pagado");
-					}else{
-						jLabel.setIcon(new ImageIcon(getClass()
-								.getResource("/resource/n41.png")));
-						jLabel.setText("<html><body>Pagado con Comision ("+x.getString(9)+")</body></html>");
+					}
+					else
+					{
+						jLabel.setIcon(new ImageIcon(getClass().getResource("/resource/n41.png")));
+						jLabel.setText("<html><body>Pagado con Comision (" + x.getString("valor_comision") + ")</body></html>");
 					}
 				}
 
-
-				if(x.getString(8).equalsIgnoreCase("No")){
+				if(x.getString("generada").equalsIgnoreCase("No"))
+				{
 					new DecimalFormat("###.##");
-					//				    arrayList.add(""+df1.format(Float.parseFloat(x.getString(5)))+"");
-					ResultSet i= executeQuery("select id_remesa,valor_remesa from remesas where id_fechas='"+id+"' and nro_remesa='"+(x.getInt(4)-1)+"' and estado='PENDIENTE'");
-					boolean h= false;
-					float t=0;
-					while(i.next()){
+					ResultSet i = executeQuery("SELECT id_remesa, valor_remesa FROM remesas "
+							+ " WHERE id_fechas = '" + id + "' AND nro_remesa = '" + (x.getInt("nro_remesa") - 1) + "' AND estado = 'PENDIENTE'");
+					
+					boolean h = false;
+					float t = 0;
+					
+					while(i.next())
+					{
 						String sql="UPDATE remesas "+
-								" SET deuda='"+i.getFloat(2)+"' "+
-								" WHERE id_remesa='"+i.getString(1)+"'";
+								" SET deuda='"+ i.getFloat("valor_remesa") + "' " + 
+								" WHERE id_remesa = '" + i.getString("id_remesa") + "'";
+						
 						executeUpdate(sql);
-						t=i.getFloat(2);
-						h=true;
+						t = i.getFloat("valor_remesa");
+						h = true;
 					}
-					if(h){
-						try{
+					if(h)
+					{
+						try
+						{
 							String sql="UPDATE remesas "+
 									" SET generada='Si', valor_remesa='"+(t+x.getFloat(5))+"'"+
 									" WHERE id_remesa='"+x.getString(1)+"'";
@@ -4858,8 +4875,8 @@ public class BD extends JKDataBase
 
 	}
 
-	public void updateJuevesComedor(String text) {
-		// TODO Auto-generated method stub
+	public void updateJuevesComedor(String text) 
+	{
 		try{
 
 		}catch(Exception e){
@@ -4874,7 +4891,7 @@ public class BD extends JKDataBase
 			String sql = "";
 			String retorno = "";
 			String curso = principal.getBaseDeDatos().getCursoActual();
-			sql = "SELECT informe_medico FROM alumnos WHERE nia = '" + g + "' and curso='" + curso + "'";
+			sql = "SELECT informe_medico FROM alumnos WHERE nia = '" + g + "' AND curso = '" + curso + "'";
 
 			ResultSet x = executeQuery(sql);
 			
@@ -4882,7 +4899,9 @@ public class BD extends JKDataBase
 				retorno = x.getString("informe_medico");
 			
 			return retorno;
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return null;

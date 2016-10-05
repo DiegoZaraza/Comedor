@@ -30,11 +30,9 @@ public class PdfCarnet
 				Rectangle one = new Rectangle(242.60f, 153.1f);
 				document.setPageSize(one);
 				document.setMargins(-1, 0, -1, 0);
-				
 				document.open();
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ImageIO.write(c, "png", baos);
-//				ImageIO.write(c, "png", new FileOutputStream("c:\\Nueva Carpeta\\"+Math.random()+".jpg"));
 				baos.flush();
 				byte[] imageInByte = baos.toByteArray();
 				baos.close();
@@ -55,7 +53,6 @@ public class PdfCarnet
 				document.open();
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ImageIO.write(c, "png", baos );
-//				ImageIO.write(c, "png", new FileOutputStream("c:\\Nueva Carpeta\\"+Math.random()+".jpg"));
 				baos.flush();
 				byte[] imageInByte = baos.toByteArray();
 				baos.close();
@@ -78,9 +75,9 @@ public class PdfCarnet
 					Desktop.getDesktop().open(new File(fileName));
 				else
 					JOptionPane.showMessageDialog(null, "Accion no Soportada!","No Soportado!",JOptionPane.WARNING_MESSAGE);
-			
-//			document.close();
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 	}

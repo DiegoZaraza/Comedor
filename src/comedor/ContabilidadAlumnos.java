@@ -45,12 +45,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JSeparator;
 import javax.swing.UIManager;
 
-public class ContabilidadAlumnos extends JInternalFrame implements Runnable{
-
-	
-	/**
-	 * 
-	 */
+public class ContabilidadAlumnos extends JInternalFrame implements Runnable
+{
 	private static final long serialVersionUID = 1L;
 	private ComedorGUI principal;
 	private JKTable table;
