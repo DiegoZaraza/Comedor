@@ -1281,7 +1281,7 @@ public class BD extends JKDataBase
 		{
 			String sql = "";
 			String curso = principal.getBaseDeDatos().getCursoActual();
-			sql = "SELECT * FROM profes WHERE documento = '" + doc + "' OR apellido1 = '" + doc
+			sql = "SELECT * FROM profes WHERE (documento = '" + doc + "' OR apellido1 = '" + doc
 			        + "')  AND curso = '" + curso + "'";
 
 			ResultSet x = executeQuery(sql);
@@ -1302,7 +1302,7 @@ public class BD extends JKDataBase
 		{
 			String sql = "";
 			String curso = principal.getBaseDeDatos().getCursoActual();
-			sql = "SELECT * FROM pas WHERE documento = '" + doc + "' OR apellido1 = '" + doc
+			sql = "SELECT * FROM pas WHERE (documento = '" + doc + "' OR apellido1 = '" + doc
 			        + "') AND curso = '" + curso + "'";
 
 			ResultSet x = executeQuery(sql);
@@ -1374,42 +1374,23 @@ public class BD extends JKDataBase
 			        + "banco, sucursal, digito_control, cuenta, titular_surtituido, "
 			        + "motivo, horas_preparacion, horas_computo_mens, fecha_antiguedad, "
 			        + "claustro, tipo_docente, iban, foto, alergias,apellido2, referencia_mandato "
-			        + " FROM profes where documento='" + doc + "' and curso='" + curso + "'");
+			        + " FROM profes WHERE (documento='" + doc + "' OR apellido1 = '" + doc + "') AND curso='" + curso + "'");
 			while (x.next())
 			{
+				
+				registrarProfesores.setNombre(x.getString("nombre"));
+				registrarProfesores.setApellido1(x.getString("apellido1"));
+				registrarProfesores.setApellido2(x.getString("apellido2"));
+				registrarProfesores.setReferencia(x.getString("referencia_mandato"));
+				registrarProfesores.setEmail(x.getString("email1"));
+				registrarProfesores.setDocumento(x.getString("documento"));
+				registrarProfesores.setTipoDoc(x.getString("tipo_doc"));
+				registrarProfesores.setSexo(x.getString("sexo"));
+				registrarProfesores.setFoto(x.getBytes("foto"));
 
-				registrarProfesores.setNombre(x.getString(2));
-				registrarProfesores.setApellido1(x.getString(3));
-				registrarProfesores.setApellido2(x.getString(46));
-				registrarProfesores.setReferencia(x.getString(47));
-				registrarProfesores.setEmail(x.getString(25));
-				registrarProfesores.setDocumento(x.getString(5));
-				registrarProfesores.setTipoDoc(x.getString(4));
-				registrarProfesores.setSexo(x.getString(6));
-				registrarProfesores.setFoto(x.getBytes(44));
-
-				registrarProfesores.setCuentaBancaria(x.getString(35));
-				registrarProfesores.setAlergias(x.getString(45));
-				registrarProfesores.setID(x.getString(1));
-
-				// registrarProfesores.setApellido1(x.getString(2));
-				// registrarProfesores.setGrupo(x.getString(4));
-				// registrarProfesores.setTutor(getTutorDeGrupo(x.getString(4)));
-				// try{
-				// registrarProfesores.setFoto(x.getBytes(5));
-				// }catch(Exception e){
-				//
-				// }
-				// registrarProfesores.setSexo(x.getString(7));
-				// registrarProfesores.setEmail(x.getString(8));
-				// registrarProfesores.setTelefono1(x.getString(9));
-				// registrarProfesores.setApellido2(x.getString(10));
-				// registrarProfesores.setExpediente(x.getString(11));
-				// registrarProfesores.setSIP(x.getString(12));
-				// registrarProfesores.setFechaNacimiento(x.getString(13));
-				// registrarProfesores.setTelefono2(x.getString(14));
-				// registrarProfesores.setDocumento(x.getString(15));
-				// registrarProfesores.setTipoDoc(x.getString(16));
+				registrarProfesores.setCuentaBancaria(x.getString("cuenta"));
+				registrarProfesores.setAlergias(x.getString("alergias"));
+				registrarProfesores.setID(x.getString("id_profes"));
 			}
 		}
 		catch (Exception e)
@@ -1430,23 +1411,23 @@ public class BD extends JKDataBase
 			        + "municipio, localidad, cod_postal, telefono1, telefono2, telefono3,"
 			        + "horas_puesto, horas_dedicadas, funcion, tipo_trabajador, fecha_nac, "
 			        + "organismo, banco, sucursal, digito_control, cuenta, claustro, "
-			        + "iban,foto,apellido2 FROM pas where documento='"
-			        + doc
+			        + "iban,foto,apellido2 FROM pas where (documento='"
+			        + doc + " OR apellido1 = '" + doc + "') "
 			        + "' and curso='"
 			        + curso + "'");
 			while (x.next())
 			{
-				registrarProfesores.setNombre(x.getString(2));
-				registrarProfesores.setApellido1(x.getString(3));
-				registrarProfesores.setApellido2(x.getString(34));
+				registrarProfesores.setNombre(x.getString("nombre"));
+				registrarProfesores.setApellido1(x.getString("apellido1"));
+				registrarProfesores.setApellido2(x.getString("apellido2"));
 				// registrarProfesores.setEmail(x.getString(25));
-				registrarProfesores.setDocumento(x.getString(5));
-				registrarProfesores.setTipoDoc(x.getString(4));
+				registrarProfesores.setDocumento(x.getString("documento"));
+				registrarProfesores.setTipoDoc(x.getString("tipo_doc"));
 				// registrarProfesores.setSexo(x.getString(6));
-				registrarProfesores.setFoto(x.getBytes(33));
+				registrarProfesores.setFoto(x.getBytes("foto"));
 				// registrarProfesores.setCuentaBancaria(x.getString(35));
 				// registrarProfesores.setAlergias(x.getString(45));
-				registrarProfesores.setID(x.getString(1));
+				registrarProfesores.setID(x.getString("id_pas"));
 
 				// registrarProfesores.setApellido1(x.getString(2));
 				// registrarProfesores.setGrupo(x.getString(4));
