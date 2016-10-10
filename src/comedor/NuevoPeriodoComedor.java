@@ -285,6 +285,7 @@ public class NuevoPeriodoComedor extends JDialog
 				{
 					String lunesMartes = "Si";
 					String jueves = "";
+					
 					if(getTipoUsuario().startsWith("2"))
 						jueves = "No";
 					else

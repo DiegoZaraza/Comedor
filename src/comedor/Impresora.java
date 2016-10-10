@@ -13,9 +13,6 @@ import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.SimpleDoc;
 import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.Sides;
-
 import comedor.bd.LogEjecucion;
 
 public class Impresora 
@@ -25,10 +22,6 @@ public class Impresora
 	public List<PrintService> getImpresoras()
 	{
 		List<PrintService> x;
-
-//		DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.PAGEABLE;
-//		PrintRequestAttributeSet patts = new HashPrintRequestAttributeSet();
-//		patts.add(Sides.ONE_SIDED);
 		PrintService[] ps = PrintServiceLookup.lookupPrintServices(null, null);
 
 		for (PrintService printService : ps) 
@@ -109,11 +102,9 @@ public class Impresora
 			log.grabarArchivo(e.getMessage()+ "," + e.getLocalizedMessage());
 		}
 	}
+
 	private ComedorGUI principal;
-	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
+
 	public Impresora(ComedorGUI comedorGUI)
 	{
 		this.principal= comedorGUI;
