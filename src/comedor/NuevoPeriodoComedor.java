@@ -335,8 +335,9 @@ public class NuevoPeriodoComedor extends JDialog
 
 				if(v == JOptionPane.OK_OPTION)
 				{
-					principal.getBaseDeDatos().eliminarPeriodoComedor(id);
-					boolean n = principal.getBaseDeDatos().addFechas(getfechaAlta(), getfechaBaja(), nia, getTipoBeca(), getTipoUsuario(), isAsiduo(), "No", "No", isSalida());
+					
+					principal.getBaseDeDatos().eliminarPeriodoComedor(id, NuevoPeriodoComedor);
+					boolean n = principal.getBaseDeDatos().addFechas(getfechaAlta(), getfechaBaja(), nia, getTipoBeca(), getTipoUsuario(), isAsiduo(), getAutLunesMar(), getAutJueves(), isSalida());
 					
 					if(n)
 					{
@@ -367,9 +368,33 @@ public class NuevoPeriodoComedor extends JDialog
 			getDatos();
 	}
 
+	String autLunesMar;
+	
+	public void setAutLunesMar(String autLunesMar)
+	{
+		this.autLunesMar = autLunesMar;
+	}
+
+	String autJueves;
+	
+	public String getAutJueves()
+	{
+		return autJueves;
+	}
+
+	public void setAutJueves(String autJueves)
+	{
+		this.autJueves = autJueves;
+	}
+
+	public String getAutLunesMar()
+	{
+		return autLunesMar;
+	}
+
 	private void getDatos() 
 	{
-		principal.getBaseDeDatos().getDatosPeriodo(id,this);
+		principal.getBaseDeDatos().getDatosPeriodo(id, this);
 
 		if(isAsiduo().equals("No"))
 		{
