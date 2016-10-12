@@ -3837,43 +3837,33 @@ public class BD extends JKDataBase
 		}
 	}
 	
-	public void eliminarPeriodoComedor(String id, NuevoPeriodoComedor nuevoPeridoComedor)
+	public void eliminarPeriodoComedor(String id)
 	{
 		try
 		{
-			ResultSet x = executeQuery("SELECT autorizados_lunes_martes, autorizados_jueves FROM fechas_altas_bajas where id_fechas='" + id + "'");
-			
-			while (x.next())
-			{
-				nuevoPeridoComedor.setAutJueves(x.getString("autorizados_jueves"));
-				nuevoPeridoComedor.setAutLunesMar(x.getString("autorizados_lunes_martes"));
-			}
-			
 			executeUpdate("DELETE FROM fechas_altas_bajas WHERE id_fechas='" + id + "'");
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public void getDatosPeriodo(String id, NuevoPeriodoComedor nuevoPeridoComedor)
 	{
-		// TODO Auto-generated method stub
 		try
 		{
 			ResultSet x = executeQuery("SELECT nia, fecha_alta, fecha_baja, id_fechas, curso, beca, tipo_usuario,  asiduo, permiso_salida FROM fechas_altas_bajas where id_fechas='" + id + "'");
 			while (x.next())
 			{
-				nuevoPeridoComedor.setFechAlta(x.getString(2));
-				nuevoPeridoComedor.setFechBaja(x.getString(3));
-				// System.out.println("MSAKMDS");
-				nuevoPeridoComedor.setBeca(x.getString(6));
-				nuevoPeridoComedor.setAsiduo(x.getString(8));
-				nuevoPeridoComedor.setTipoUsuario(x.getString(7));
-				nuevoPeridoComedor.setSalida(x.getString(9));
+				nuevoPeridoComedor.setFechAlta(x.getString("fecha_alta"));
+				nuevoPeridoComedor.setFechBaja(x.getString("fecha_baja"));
+				nuevoPeridoComedor.setBeca(x.getString("beca"));
+				nuevoPeridoComedor.setAsiduo(x.getString("asiduo"));
+				nuevoPeridoComedor.setTipoUsuario(x.getString("tipo_usuario"));
+				nuevoPeridoComedor.setSalida(x.getString("permiso_salida"));
+				nuevoPeridoComedor.setAutJueves(x.getString("autorizados_jueves"));
+				nuevoPeridoComedor.setAutLunesMar(x.getString("autorizados_lunes_martes"));
 			}
 		}
 		catch (Exception e)

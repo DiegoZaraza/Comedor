@@ -336,7 +336,7 @@ public class NuevoPeriodoComedor extends JDialog
 				if(v == JOptionPane.OK_OPTION)
 				{
 					
-					principal.getBaseDeDatos().eliminarPeriodoComedor(id, NuevoPeriodoComedor);
+					principal.getBaseDeDatos().eliminarPeriodoComedor(id);
 					boolean n = principal.getBaseDeDatos().addFechas(getfechaAlta(), getfechaBaja(), nia, getTipoBeca(), getTipoUsuario(), isAsiduo(), getAutLunesMar(), getAutJueves(), isSalida());
 					
 					if(n)
