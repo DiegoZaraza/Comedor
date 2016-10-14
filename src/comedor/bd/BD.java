@@ -4741,7 +4741,49 @@ public class BD extends JKDataBase
 	{
 		try
 		{
-			ResultSet x = executeQuery(
+			ResultSet x = null;
+			
+			String fecha = new Date(date.getTime()).toString();
+			String fecha2 = new Date(date.getTime()).toString();
+			System.out.println(fecha);
+			
+			String array[] = fecha.split("-");
+			int v = 0;
+
+			v = Integer.parseInt(array[2]);
+			v = v - 1;
+
+			String k = "";
+
+			if(v <= 9)
+				k = "0" + v;
+			else
+				k = "" + v;
+
+			String nueva = "" + array[0] + "-" + array[1] + "-" + k;
+
+			SimpleDateFormat dateFormat=new SimpleDateFormat("EEEEE");
+//			SimpleDateFormat dateFormat2=new SimpleDateFormat("yyyy-MM-dd");
+//			Date dat = dateFormat2.parse(fecha);
+			String dia = dateFormat.format(new Date(date.getTime()));
+			
+//			System.out.println(date + " - " + date2);
+			
+			if(fecha.equals(fecha2))
+			{
+				if(dia.equals("jueves"))
+				{
+					x = executeQuery("SELECT * FROM fechas_altas_bajas "
+						+ "WHERE nia NOT IN( SELECT nia FROM asistencias WHERE fecha = '" + fecha + "') AND curso = '" + getCursoActual() + "' AND autorizados_jueves = 'Si'");
+					
+					System.out.println("SELECT * FROM fechas_altas_bajas "
+							+ "WHERE nia NOT IN( SELECT nia FROM asistencias WHERE fecha = '" + fecha + "') AND curso = '" + getCursoActual() + "' AND autorizados_jueves = 'Si'");
+				}
+			else if(dia.equals("lunes") || dia.equals("martes"))
+				x = executeQuery("SELECT * FROM fechas_altas_bajas WHERE nia not in( SELECT nia FROM asistencias where fecha = '" + fecha + "') AND curso = '" + getCursoActual() + "' AND autorizados_lunes_martes = 'Si'");
+			}
+			else
+			x = executeQuery(
 					"SELECT id_faltas, nia, curso, fecha, fecha_text " + "FROM faltas WHERE (fecha >= '" + new Date(date.getTime()) + "' AND fecha <='" + new Date(date2.getTime()) + "' ) AND curso='" + getCursoActual() + "'");
 			
 			Hashtable<String, Integer> hashtable = new Hashtable<>();
