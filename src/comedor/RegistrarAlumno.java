@@ -60,7 +60,7 @@ import java.util.Random;
 
 import javax.swing.SwingConstants;
 
-public class RegistrarAlumno extends JInternalFrame implements MouseListener 
+public class RegistrarAlumno extends JInternalFrame implements MouseListener
 {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
@@ -83,14 +83,14 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		return this;
 	}
 
-	private boolean found=false;
+	private boolean found = false;
 
-	public synchronized boolean isFound() 
+	public synchronized boolean isFound()
 	{
 		return found;
 	}
 
-	public synchronized void setFound(boolean found) 
+	public synchronized void setFound(boolean found)
 	{
 		this.found = found;
 	}
@@ -104,7 +104,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	private JKTable tableFechas;
 	private ArrayList<String> listFechas;
 
-	public RegistrarAlumno(final ComedorGUI principal,String c, boolean b) 
+	public RegistrarAlumno(final ComedorGUI principal, String c, boolean b)
 	{
 		setTitle("Registro y Actualizacion de Datos de Alumnos");
 		this.principal = principal;
@@ -118,7 +118,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void paintComponent(Graphics g) 
+			public void paintComponent(Graphics g)
 			{
 				setOpaque(false);
 				g.drawImage(new ImageIcon(getClass().getResource("/resource/e2.jpg")).getImage(), 0, 0, getWidth(), getHeight(), null);
@@ -128,19 +128,13 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 
 		groupLayout.setHorizontalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE)
-				.addComponent(panel_7, GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE)
-				);
+		        groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel_8, GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE)
+		                .addComponent(panel_7, GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE));
 
-		groupLayout.setVerticalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-						.addComponent(panel_8, GroupLayout.PREFERRED_SIZE, 488, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panel_7, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				);
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+		        .addGroup(groupLayout.createSequentialGroup().addComponent(panel_8, GroupLayout.PREFERRED_SIZE, 488, GroupLayout.PREFERRED_SIZE)
+		                .addPreferredGap(ComponentPlacement.RELATED).addComponent(panel_7, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+		                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, " Datos del Alumno", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -159,7 +153,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		lblNia.setHorizontalAlignment(SwingConstants.CENTER);
 
 		String g = "";
-		if(!c.equalsIgnoreCase("0"))
+		if (!c.equalsIgnoreCase("0"))
 			g = c;
 		else
 			g = "";
@@ -169,73 +163,72 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		lblNewLabel_7 = new JXBusyLabel();
 		lblNewLabel_7.setVisible(false);
 
-		textField_2.addKeyListener(new KeyListener() 
+		textField_2.addKeyListener(new KeyListener()
 		{
 			@Override
-			public void keyTyped(KeyEvent arg0) { }
+			public void keyTyped(KeyEvent arg0)	{ }
 
 			@Override
-			public void keyReleased(KeyEvent arg0) 
+			public void keyReleased(KeyEvent arg0)
 			{
-				if(!isFound())
+				if (!isFound())
 				{
 					arg0.consume();
-					new Thread(
-							new Runnable() 
+					new Thread(new Runnable()
+					{
+						@Override
+						public synchronized void run()
+						{
+							final String h = textField_2.getText();
+
+							setFound((found = principal.getBaseDeDatos().verificarSiExiste(h)));
+
+							if (isFound())
 							{
+								lblNewLabel_7.setVisible(true);
+								lblNewLabel_7.setBusy(true);
 
-								@Override
-								public synchronized void run() 
+								if (!h.equalsIgnoreCase("0"))
 								{
-									final String h = textField_2.getText();
-									
-									setFound((found = principal.getBaseDeDatos().verificarSiExiste(h)));
+									actualizar = true;
+									btnNewButton.setText("Actualizar");
+									btnNewButton.setIcon(new ImageIcon(getClass().getResource("/resource/update.png")));
 
-									if(isFound()) 
+									principal.getBaseDeDatos().getDatosAlumno(textField_2.getText(), getInstance());
+									lblNewLabel_7.setBusy(false);
+									lblNewLabel_7.setVisible(false);
+									found = true;
+									setFound(true);
+									principal.getBaseDeDatos().getFechasPeriodo(getNia(), tableFechas, listFechas);
+								}
+								else
+								{
+									int y = JOptionPane.showConfirmDialog(principal,
+		                                    "<html><body>Alumno ya registrado<br>Desea cargar sus Datos?</body></html>", "Existente",
+		                                    JOptionPane.INFORMATION_MESSAGE);
+
+									if (y == JOptionPane.OK_OPTION)
 									{
-										lblNewLabel_7.setVisible(true);
-										lblNewLabel_7.setBusy(true);
-
-										if(!h.equalsIgnoreCase("0"))
-										{
-											actualizar = true;
-											btnNewButton.setText("Actualizar");
-											btnNewButton.setIcon(new ImageIcon(getClass().getResource("/resource/update.png")));
-
-											principal.getBaseDeDatos().getDatosAlumno(textField_2.getText(),getInstance());
-											lblNewLabel_7.setBusy(false);
-											lblNewLabel_7.setVisible(false);
-											found=true;
-											setFound(true);
-											principal.getBaseDeDatos().getFechasPeriodo(getNia(),tableFechas,listFechas);
-										}
-										else
-										{
-											int y = JOptionPane.showConfirmDialog(principal, "<html><body>Alumno ya registrado<br>Desea cargar sus Datos?</body></html>","Existente",JOptionPane.INFORMATION_MESSAGE);
-
-											if(y == JOptionPane.OK_OPTION)
-											{
-												actualizar = true;
-												btnNewButton.setText("Actualizar");
-												btnNewButton.setIcon(new ImageIcon(getClass().getResource("/resource/update.png")));
-												principal.getBaseDeDatos().getDatosAlumno(textField_2.getText(),getInstance());
-												panel_4.updateUI();
-												panel_4.validate();
-												lblNewLabel_7.setBusy(false);
-												lblNewLabel_7.setVisible(false);
-												setFound(true);
-												principal.getBaseDeDatos().getFechasPeriodo(getNia(),tableFechas,listFechas);
-											}
-											else { }
-										}
+										actualizar = true;
+										btnNewButton.setText("Actualizar");
+										btnNewButton.setIcon(new ImageIcon(getClass().getResource("/resource/update.png")));
+										principal.getBaseDeDatos().getDatosAlumno(textField_2.getText(), getInstance());
+										panel_4.updateUI();
+										panel_4.validate();
+										lblNewLabel_7.setBusy(false);
+										lblNewLabel_7.setVisible(false);
+										setFound(true);
+										principal.getBaseDeDatos().getFechasPeriodo(getNia(), tableFechas, listFechas);
 									}
 								}
-							}).start();
+							}
+						}
+					}).start();
 				}
 			}
 
 			@Override
-			public void keyPressed(KeyEvent arg0) { }
+			public void keyPressed(KeyEvent arg0){ }
 		});
 
 		JLabel lblGrupo = new JLabel("Grupo:");
@@ -248,17 +241,16 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		comboBox.setFont(new Font("arial", Font.BOLD, 12));
 
 		new ArrayList<>();
-		comboBox.addActionListener(
-				new ActionListener() 
-				{
-					@Override
-					public void actionPerformed(ActionEvent arg0) { }
-				});
+		comboBox.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0){ }
+		});
 
 		JLabel lblSexo = new JLabel("Sexo:");
 
 		comboBoxSexo = new JKComboBox();
-		comboBoxSexo.setFont(new Font("arial", Font.BOLD,12));
+		comboBoxSexo.setFont(new Font("arial", Font.BOLD, 12));
 
 		comboBoxSexo.addItem("H");
 		comboBoxSexo.addItem("F");
@@ -273,7 +265,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		JLabel lblTelf = new JLabel("Telefono 1:");
 
 		textFieldTelefono1 = new JTextField();
-		PromptSupport.setPrompt("Telefono", textFieldTelefono1 );
+		PromptSupport.setPrompt("Telefono", textFieldTelefono1);
 		textFieldTelefono1.setBorder(BorderFactory.createTitledBorder(""));
 		textFieldTelefono1.setColumns(10);
 
@@ -330,29 +322,29 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 
 		JButton btnAgregarFamiliar = new JButton("Agregar Familiar");
 
-		btnAgregarFamiliar.addActionListener(
-				new ActionListener() 
+		btnAgregarFamiliar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				String bigList[] = { "Madre", "Padre", "Otro" };
+				Object s = JOptionPane.showInputDialog(getInstance(), "Seleccionar", "Seleccionar", JOptionPane.QUESTION_MESSAGE, null, bigList,
+		                "Titan");
+
+				if (s != null)
 				{
-					public void actionPerformed(ActionEvent arg0) 
-					{	
-						String bigList[] = { "Madre", "Padre", "Otro"};
-						Object s = JOptionPane.showInputDialog(getInstance(), "Seleccionar", "Seleccionar", JOptionPane.QUESTION_MESSAGE, null, bigList, "Titan");
+					String parentesco = "";
 
-						if(s!=null)
-						{
-							String parentesco = "";
+					if (s.toString().equalsIgnoreCase("Madre"))
+						parentesco = "1";
+					else if (s.toString().equalsIgnoreCase("Padre"))
+						parentesco = "2";
+					else
+						parentesco = "3";
 
-							if(s.toString().equalsIgnoreCase("Madre"))
-								parentesco = "1";
-							else if(s.toString().equalsIgnoreCase("Padre"))
-								parentesco = "2";
-							else
-								parentesco = "3";
-
-							addFamiliar(parentesco, "", "", "", "", "1", getNia(), null, "");
-						}
-					}
-				});
+					addFamiliar(parentesco, "", "", "", "", "1", getNia(), null, "");
+				}
+			}
+		});
 
 		btnAgregarFamiliar.setIcon(new ImageIcon(RegistrarAlumno.class.getResource("/resource/newElement.png")));
 
@@ -360,17 +352,17 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		panel_4 = new JPanel(new GridLayout());
 		panel_4.add(jkPanel);
 		panel_4.setOpaque(false);
-		panel_4.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Foto del Alumno", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_4.setBorder(
+		        new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Foto del Alumno", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		btnNewButton_1 = new JButton("Tomar Foto");
-		btnNewButton_1.addActionListener(
-				new ActionListener() 
-				{
-					public void actionPerformed(ActionEvent arg0) 
-					{
-						new Camara(principal, getInstance());
-					}
-				});
+		btnNewButton_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				new Camara(principal, getInstance());
+			}
+		});
 
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton_1.setIcon(new ImageIcon(RegistrarAlumno.class.getResource("/resource/1.png")));
@@ -380,9 +372,9 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		panel_9.setOpaque(false);
 		JButton btnBuscarFoto = new JButton("Buscar Foto");
 
-		btnBuscarFoto.addActionListener(new ActionListener() 
+		btnBuscarFoto.addActionListener(new ActionListener()
 		{
-			public void actionPerformed(ActionEvent arg0) 
+			public void actionPerformed(ActionEvent arg0)
 			{
 				JFileChooser chooser = new JFileChooser();
 				javax.swing.filechooser.FileFilter filtro2 = new FileNameExtensionFilter("Imagenes (jpg, jpeg, png)", "jpg", "png", "jpeg");
@@ -392,7 +384,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 
 				int n = chooser.showOpenDialog(principal);
 
-				if (n == JFileChooser.APPROVE_OPTION) 
+				if (n == JFileChooser.APPROVE_OPTION)
 				{
 					fileFoto = chooser.getSelectedFile();
 					jkPanel.setBackground(new ImageIcon(chooser.getSelectedFile().getPath()));
@@ -428,83 +420,74 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		JButton btnNewButton_4 = new JButton("Nuevo Periodo");
 		btnNewButton_4.setIcon(new ImageIcon(RegistrarAlumno.class.getResource("/resource/newElement.png")));
 
-		btnNewButton_4.addActionListener(
-				new ActionListener() 
-				{
-					public void actionPerformed(ActionEvent arg0) 
-					{
-						new NuevoPeriodoComedor(principal, getNia(), false, "").setVisible(true);	
-						principal.getBaseDeDatos().getFechasPeriodo(getNia(), tableFechas, listFechas);
-					}
-				});
+		btnNewButton_4.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				new NuevoPeriodoComedor(principal, getNia(), false, "").setVisible(true);
+				principal.getBaseDeDatos().getFechasPeriodo(getNia(), tableFechas, listFechas);
+			}
+		});
 
 		panel_5.add(btnNewButton_4);
 		JButton btnNewButton_5 = new JButton("Actualizar");
 
-		btnNewButton_5.addActionListener(
-				new ActionListener() 
+		btnNewButton_5.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				if (tableFechas.getSelectedRow() != -1)
 				{
-					public void actionPerformed(ActionEvent e) 
-					{
-						if(tableFechas.getSelectedRow() != -1)
-						{
-							String id = listFechas.get(tableFechas.getSelectedRow());
+					String id = listFechas.get(tableFechas.getSelectedRow());
 
-							new NuevoPeriodoComedor(principal, getNia(), true, id).setVisible(true);
-							principal.getBaseDeDatos().getFechasPeriodo(getNia(), tableFechas, listFechas);
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(principal, "Debe seleccionar un Periodo!", "Seleccion Vacia", JOptionPane.WARNING_MESSAGE);
-							return;
-						}
-					}
-				});
+					new NuevoPeriodoComedor(principal, getNia(), true, id).setVisible(true);
+					principal.getBaseDeDatos().getFechasPeriodo(getNia(), tableFechas, listFechas);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(principal, "Debe seleccionar un Periodo!", "Seleccion Vacia", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+			}
+		});
 
 		panel_5.add(btnNewButton_5);
 
 		GroupLayout gl_panel_8 = new GroupLayout(panel_8);
 
-		gl_panel_8.setHorizontalGroup(
-				gl_panel_8.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_8.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_panel_8.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_panel_8.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panel_8.createSequentialGroup()
-												.addGroup(gl_panel_8.createParallelGroup(Alignment.LEADING, false)
-														.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(btnBuscarFoto, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))
-														.addPreferredGap(ComponentPlacement.RELATED)
-														.addComponent(panel_9, GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))
-														.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE))
-														.addContainerGap())
-				);
+		gl_panel_8.setHorizontalGroup(gl_panel_8.createParallelGroup(Alignment.LEADING)
+		        .addGroup(gl_panel_8.createSequentialGroup().addContainerGap()
+		                .addGroup(gl_panel_8.createParallelGroup(Alignment.LEADING, false)
+		                        .addComponent(panel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		                        .addComponent(panel, GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE))
+		        .addPreferredGap(ComponentPlacement.RELATED)
+		        .addGroup(gl_panel_8
+		                .createParallelGroup(
+		                        Alignment.LEADING)
+		                .addGroup(gl_panel_8.createSequentialGroup()
+		                        .addGroup(gl_panel_8.createParallelGroup(Alignment.LEADING, false)
+		                                .addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		                                .addComponent(btnBuscarFoto, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		                                .addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))
+		                .addPreferredGap(ComponentPlacement.RELATED).addComponent(panel_9, GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))
+		                .addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)).addContainerGap()));
 
-		gl_panel_8.setVerticalGroup(
-				gl_panel_8.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel_8.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_panel_8.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_panel_8.createParallelGroup(Alignment.LEADING, false)
-										.addGroup(gl_panel_8.createSequentialGroup()
-												.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(btnBuscarFoto, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
-												.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addComponent(panel_9, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE))
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addGroup(gl_panel_8.createParallelGroup(Alignment.LEADING, false)
-														.addComponent(panel_3, 0, 0, Short.MAX_VALUE)
-														.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
-														.addGap(22))
-				);
+		gl_panel_8.setVerticalGroup(gl_panel_8.createParallelGroup(Alignment.TRAILING)
+		        .addGroup(gl_panel_8.createSequentialGroup().addContainerGap().addGroup(gl_panel_8
+		                .createParallelGroup(
+		                        Alignment.TRAILING)
+		                .addGroup(gl_panel_8.createParallelGroup(Alignment.LEADING, false)
+		                        .addGroup(gl_panel_8.createSequentialGroup()
+		                                .addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+		                                .addPreferredGap(ComponentPlacement.RELATED)
+		                                .addComponent(btnBuscarFoto, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+		                                .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		                                .addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+		                .addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		                .addComponent(panel_9, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE))
+		        .addPreferredGap(ComponentPlacement.RELATED).addGroup(gl_panel_8.createParallelGroup(Alignment.LEADING, false)
+		                .addComponent(panel_3, 0, 0, Short.MAX_VALUE).addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
+		        .addGap(22)));
 
 		JLabel lblNewLabel_1 = new JLabel("Persona de contacto de la familia:");
 
@@ -535,55 +518,43 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 
 		GroupLayout gl_panel_9 = new GroupLayout(panel_9);
 
-		gl_panel_9.setHorizontalGroup(
-				gl_panel_9.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel_9.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_panel_9.createParallelGroup(Alignment.LEADING)
-								.addComponent(panel_10, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-								.addComponent(lblNewLabel_1)
-								.addComponent(textField_9, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-								.addGroup(gl_panel_9.createSequentialGroup()
-										.addComponent(lblCuentaBamcaria)
-										.addPreferredGap(ComponentPlacement.RELATED, 152, GroupLayout.PREFERRED_SIZE))
-										.addComponent(textFieldCuenta, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-										.addGroup(gl_panel_9.createSequentialGroup()
-												.addComponent(lblNewLabel_5)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(textField_10, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
-												.addComponent(lblNewLabel_4)
-												.addGroup(gl_panel_9.createSequentialGroup()
-														.addComponent(lblReferenciaDeMandato)
-														.addPreferredGap(ComponentPlacement.RELATED)
-														.addComponent(textFieldReferenciaMandato, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)))
-														.addContainerGap())
-				);
+		gl_panel_9.setHorizontalGroup(gl_panel_9.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel_9.createSequentialGroup().addContainerGap()
+		        .addGroup(gl_panel_9.createParallelGroup(Alignment.LEADING).addComponent(panel_10, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+		                .addComponent(lblNewLabel_1).addComponent(textField_9, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+		                .addGroup(gl_panel_9.createSequentialGroup().addComponent(lblCuentaBamcaria).addPreferredGap(ComponentPlacement.RELATED, 152,
+		                        GroupLayout.PREFERRED_SIZE))
+		                .addComponent(textFieldCuenta, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+		                .addGroup(gl_panel_9.createSequentialGroup().addComponent(lblNewLabel_5).addPreferredGap(ComponentPlacement.RELATED)
+		                        .addComponent(textField_10, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
+		                .addComponent(lblNewLabel_4)
+		                .addGroup(gl_panel_9.createSequentialGroup().addComponent(lblReferenciaDeMandato).addPreferredGap(ComponentPlacement.RELATED)
+		                        .addComponent(textFieldReferenciaMandato, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)))
+		        .addContainerGap()));
 
-		gl_panel_9.setVerticalGroup(
-				gl_panel_9.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_9.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(lblNewLabel_1)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(lblCuentaBamcaria)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(textFieldCuenta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(gl_panel_9.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblReferenciaDeMandato)
-								.addComponent(textFieldReferenciaMandato, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGap(12)
-								.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(panel_10, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_panel_9.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(lblNewLabel_5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(textField_10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addContainerGap(21, Short.MAX_VALUE))
-				);
+		gl_panel_9
+		        .setVerticalGroup(
+		                gl_panel_9
+		                        .createParallelGroup(
+		                                Alignment.LEADING)
+		                        .addGroup(
+		                                gl_panel_9.createSequentialGroup().addContainerGap().addComponent(lblNewLabel_1)
+		                                        .addPreferredGap(ComponentPlacement.RELATED)
+		                                        .addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                                GroupLayout.PREFERRED_SIZE)
+		                                        .addPreferredGap(ComponentPlacement.RELATED).addComponent(lblCuentaBamcaria)
+		                                        .addPreferredGap(ComponentPlacement.RELATED)
+		                                        .addComponent(textFieldCuenta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                                GroupLayout.PREFERRED_SIZE)
+		        .addPreferredGap(ComponentPlacement.RELATED)
+		        .addGroup(gl_panel_9.createParallelGroup(Alignment.BASELINE).addComponent(lblReferenciaDeMandato)
+		                .addComponent(textFieldReferenciaMandato, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		        .addGap(12).addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+		        .addPreferredGap(ComponentPlacement.RELATED).addComponent(panel_10, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+		        .addPreferredGap(ComponentPlacement.RELATED)
+		        .addGroup(gl_panel_9.createParallelGroup(Alignment.LEADING, false)
+		                .addComponent(lblNewLabel_5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		                .addComponent(textField_10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		        .addContainerGap(21, Short.MAX_VALUE)));
 
 		panel_10.setLayout(new GridLayout(0, 1, 0, 0));
 
@@ -599,49 +570,51 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		JButton btnNewButton_2 = new JButton("Cerrar");
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 11));
 
-		btnNewButton_2.addActionListener(
-				new ActionListener() 
-				{
-					public void actionPerformed(ActionEvent arg0) 
-					{
-						dispose();
+		btnNewButton_2.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				dispose();
 
-						if(mode)
-							principal.activeScanner();
-					}
-				});
+				if (mode)
+					principal.activeScanner();
+			}
+		});
 
 		JButton btnNewButton_3 = new JButton("Incidencias");
 		btnNewButton_3.setIcon(new ImageIcon(RegistrarAlumno.class.getResource("/resource/ina.png")));
 
-		btnNewButton_3.addActionListener(
-				new ActionListener() 
-				{
-					public void actionPerformed(ActionEvent arg0) 
-					{
-						new DialogoIncidencias(getInstance(), principal, getNia()).setVisible(true);
-					}
-				});
+		btnNewButton_3.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				new DialogoIncidencias(getInstance(), principal, getNia()).setVisible(true);
+			}
+		});
 
 		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panel_7.add(btnNewButton_3);
 
 		JButton btnFaltas = new JButton("Faltas");
 		btnFaltas.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnFaltas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnFaltas.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 
-				final JDialog dialog= new JDialog(principal,true);
+				final JDialog dialog = new JDialog(principal, true);
 				dialog.setTitle("Faltas");
-				JPanel panel= new JPanel(new GridLayout());
+				JPanel panel = new JPanel(new GridLayout());
 				JButton button = new JButton("Cerrar");
 
 				button.setIcon(new ImageIcon(RegistrarAlumno.class.getResource("/resource/close1.png")));
 				final JKTable jkTable = new JKTable();
-				button.addActionListener(new ActionListener() {
+				button.addActionListener(new ActionListener()
+				{
 
 					@Override
-					public void actionPerformed(ActionEvent arg0) {
+					public void actionPerformed(ActionEvent arg0)
+					{
 						// TODO Auto-generated method stub
 						dialog.dispose();
 					}
@@ -651,68 +624,65 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 				final ArrayList<String> arrayList = new ArrayList<>();
 				jButton.setIcon(new ImageIcon(RegistrarAlumno.class.getResource("/resource/newElement.png")));
 
-				jButton.addActionListener( 
-						new ActionListener() 
+				jButton.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent arg0)
+					{
+						if (jkTable.getSelectedRow() != -1)
 						{
-							@Override
-							public void actionPerformed(ActionEvent arg0) 
+
+							final String id = "" + arrayList.get(jkTable.getSelectedRow());
+
+							final JDialog frame = new JDialog(principal, true);
+							frame.getContentPane().setLayout(new GridLayout());
+							JPanel panelx = new JPanel(new BorderLayout());
+							panelx.setBorder(BorderFactory.createTitledBorder("Observacion"));
+
+							final JTextArea area = new JTextArea();
+							area.setLineWrap(true);
+							area.setWrapStyleWord(true);
+							JScrollPane scrollPane = new JScrollPane(area);
+							panelx.add(scrollPane, BorderLayout.CENTER);
+
+							JPanel panela = new JPanel(new GridLayout());
+							JButton b1 = new JButton("Cancelar");
+							JButton b2 = new JButton("Aceptar");
+							b1.addActionListener(new ActionListener()
 							{
-								if(jkTable.getSelectedRow() != -1)
+								@Override
+								public void actionPerformed(ActionEvent arg0)
 								{
-
-									final String id = "" + arrayList.get(jkTable.getSelectedRow());
-
-									final JDialog frame = new JDialog(principal,true);
-									frame.getContentPane().setLayout(new GridLayout());
-									JPanel panelx = new JPanel(new BorderLayout());
-									panelx.setBorder(BorderFactory.createTitledBorder("Observacion"));
-
-									final JTextArea area = new JTextArea();
-									area.setLineWrap(true);
-									area.setWrapStyleWord(true);
-									JScrollPane scrollPane = new JScrollPane(area);
-									panelx.add(scrollPane,BorderLayout.CENTER);
-
-									JPanel panela = new JPanel(new GridLayout());
-									JButton b1 = new JButton("Cancelar");
-									JButton b2 = new JButton("Aceptar");
-									b1.addActionListener(
-											new ActionListener()
-											{
-												@Override
-												public void actionPerformed(ActionEvent arg0)  
-												{
-													frame.dispose();
-												}
-											});
-									b2.addActionListener(
-											new ActionListener() 
-											{
-												@Override
-												public void actionPerformed(ActionEvent arg0) 
-												{
-													String observacion = area.getText();
-													principal.getBaseDeDatos().addObservacionFalta(id,observacion);
-													principal.getBaseDeDatos().getFaltasPorAlumno(getNia(),jkTable,arrayList);
-													frame.dispose();
-												}
-											});
-									panela.add(b1);
-									panela.add(b2);
-									panelx.add(panela, BorderLayout.SOUTH);
-									frame.getContentPane().add(panelx);
-
-									frame.setSize(300, 200);
-									frame.setLocationRelativeTo(principal);
-									frame.setVisible(true);
+									frame.dispose();
 								}
-								else
+							});
+							b2.addActionListener(new ActionListener()
+							{
+								@Override
+								public void actionPerformed(ActionEvent arg0)
 								{
-									JOptionPane.showMessageDialog(principal, "Debe seleccionar una Falta!", "sin seleccion", JOptionPane.WARNING_MESSAGE);
-									return;
+									String observacion = area.getText();
+									principal.getBaseDeDatos().addObservacionFalta(id, observacion);
+									principal.getBaseDeDatos().getFaltasPorAlumno(getNia(), jkTable, arrayList);
+									frame.dispose();
 								}
-							}
-						});
+							});
+							panela.add(b1);
+							panela.add(b2);
+							panelx.add(panela, BorderLayout.SOUTH);
+							frame.getContentPane().add(panelx);
+
+							frame.setSize(300, 200);
+							frame.setLocationRelativeTo(principal);
+							frame.setVisible(true);
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(principal, "Debe seleccionar una Falta!", "sin seleccion", JOptionPane.WARNING_MESSAGE);
+							return;
+						}
+					}
+				});
 
 				panel.add(button);
 				panel.add(jButton);
@@ -734,12 +704,12 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 				jkTable.getColumn("Dia").setWidth(6);
 				jkTable.setRowHeight(40);
 
-				principal.getBaseDeDatos().getFaltasPorAlumno(getNia(),jkTable,arrayList);
+				principal.getBaseDeDatos().getFaltasPorAlumno(getNia(), jkTable, arrayList);
 				JScrollPane jScrollPane = new JScrollPane(jkTable);
 				panelCenter.add(jScrollPane);
 
-				dialog.getContentPane().add(panelCenter,BorderLayout.CENTER);
-				dialog.getContentPane().add(panel,BorderLayout.SOUTH);
+				dialog.getContentPane().add(panelCenter, BorderLayout.CENTER);
+				dialog.getContentPane().add(panel, BorderLayout.SOUTH);
 				dialog.setSize(700, 300);
 				dialog.setLocationRelativeTo(principal);
 				dialog.setVisible(true);
@@ -753,80 +723,85 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 
 		btnNewButton = new JButton("Registrar");
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton.addActionListener(
-				new ActionListener() 
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				if (actualizar)
 				{
-					public void actionPerformed(ActionEvent arg0) 
+					if (getNia().length() <= 0)
 					{
-						if(actualizar)
-						{
-							if(getNia().length() <= 0)
-							{
-								JOptionPane.showMessageDialog(getInstance(), "Debe ingresar el NIA!","Vacio",JOptionPane.WARNING_MESSAGE);
-								return;
-							}
-
-							if(getNombres().length() <= 0)
-							{
-								JOptionPane.showMessageDialog(getInstance(), "Debe ingresar el nombre!","Vacio",JOptionPane.WARNING_MESSAGE);
-								return;
-							}
-							if(getApellido1().length()<=0){
-								JOptionPane.showMessageDialog(getInstance(), "Debe ingresar el apellido!", "Vacio", JOptionPane.WARNING_MESSAGE);
-								return;
-							}
-							boolean b = principal.getBaseDeDatos().actualizarDatosAlumno(getNia(), getNombres(), getApellido1(), getFoto(), getGrupo(), fileFoto, getSexo(), getEmail(), getTelefono1(), getTelefono2(), getfechaNacimiento().toString(), getDocumento(), getSIP(), getExpediente(), getApellido2(), getTipoDoc(), getCurso(), getPersonaDeContacto(), getCuentaBancaria(), getInformedico(), getMedicamentos(), getReferenciaMandato());
-
-							if(b)
-							{
-								for(int index = 0; index < arrayListFamiliar.size(); index++)
-									principal.getBaseDeDatos().actualizarFamiliar(arrayListFamiliar.get(index));
-
-								JOptionPane.showMessageDialog(getInstance(), "Se han actualizado los datos correctamente!","Exio al Actualizar!",JOptionPane.INFORMATION_MESSAGE);
-
-								dispose();
-
-								if(mode)
-									principal.activeScanner();
-							}
-							else
-								JOptionPane.showMessageDialog(getInstance(), "ha ocurrido un error al actualizar!","Error al actualizar",JOptionPane.ERROR_MESSAGE);
-
-							return;
-						}	
-
-						if(getNia().length() <= 0)
-						{
-							JOptionPane.showMessageDialog(getInstance(), "Debe ingresar el NIA!","Vacio",JOptionPane.WARNING_MESSAGE);
-							return;
-						}
-
-						if(getNombres().length() <= 0)
-						{
-							JOptionPane.showMessageDialog(getInstance(), "Debe ingresar el nombre!", "Vacio", JOptionPane.WARNING_MESSAGE);
-							return;
-						}
-
-						if(getApellido1().length() <= 0)
-						{
-							JOptionPane.showMessageDialog(getInstance(), "Debe ingresar el apellido!", "Vacio", JOptionPane.WARNING_MESSAGE);
-							return;
-						}
-
-						boolean nia = principal.getBaseDeDatos().newAlumno(getNia(), getNombres(), getApellido1(), getFoto(),
-								getGrupo(), fileFoto, getSexo(), getEmail(), getTelefono1(), getTelefono2(), getfechaNacimiento().toString(),
-								getDocumento(), getSIP(), getExpediente(), getApellido2(), getTipoDoc(), getCurso(), getReferenciaMandato());
-
-						if(nia)
-						{
-							for(int index = 0; index < arrayListFamiliar.size(); index++)
-								principal.getBaseDeDatos().actualizarFamiliar(arrayListFamiliar.get(index));
-
-							JOptionPane.showMessageDialog(principal, "Se ha registrado Correctamente!","Exito!",JOptionPane.INFORMATION_MESSAGE);
-							dispose();
-						}
+						JOptionPane.showMessageDialog(getInstance(), "Debe ingresar el NIA!", "Vacio", JOptionPane.WARNING_MESSAGE);
+						return;
 					}
-				});
+
+					if (getNombres().length() <= 0)
+					{
+						JOptionPane.showMessageDialog(getInstance(), "Debe ingresar el nombre!", "Vacio", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+					if (getApellido1().length() <= 0)
+					{
+						JOptionPane.showMessageDialog(getInstance(), "Debe ingresar el apellido!", "Vacio", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+					boolean b = principal.getBaseDeDatos().actualizarDatosAlumno(getNia(), getNombres(), getApellido1(), getFoto(), getGrupo(),
+		                    fileFoto, getSexo(), getEmail(), getTelefono1(), getTelefono2(), getfechaNacimiento().toString(), getDocumento(),
+		                    getSIP(), getExpediente(), getApellido2(), getTipoDoc(), getCurso(), getPersonaDeContacto(), getCuentaBancaria(),
+		                    getInformedico(), getMedicamentos(), getReferenciaMandato());
+
+					if (b)
+					{
+						for (int index = 0; index < arrayListFamiliar.size(); index++)
+							principal.getBaseDeDatos().actualizarFamiliar(arrayListFamiliar.get(index));
+
+						JOptionPane.showMessageDialog(getInstance(), "Se han actualizado los datos correctamente!", "Exio al Actualizar!",
+		                        JOptionPane.INFORMATION_MESSAGE);
+
+						dispose();
+
+						if (mode)
+							principal.activeScanner();
+					}
+					else
+						JOptionPane.showMessageDialog(getInstance(), "ha ocurrido un error al actualizar!", "Error al actualizar",
+		                        JOptionPane.ERROR_MESSAGE);
+
+					return;
+				}
+
+				if (getNia().length() <= 0)
+				{
+					JOptionPane.showMessageDialog(getInstance(), "Debe ingresar el NIA!", "Vacio", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+
+				if (getNombres().length() <= 0)
+				{
+					JOptionPane.showMessageDialog(getInstance(), "Debe ingresar el nombre!", "Vacio", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+
+				if (getApellido1().length() <= 0)
+				{
+					JOptionPane.showMessageDialog(getInstance(), "Debe ingresar el apellido!", "Vacio", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+
+				boolean nia = principal.getBaseDeDatos().newAlumno(getNia(), getNombres(), getApellido1(), getFoto(), getGrupo(), fileFoto, getSexo(),
+		                getEmail(), getTelefono1(), getTelefono2(), getfechaNacimiento().toString(), getDocumento(), getSIP(), getExpediente(),
+		                getApellido2(), getTipoDoc(), getCurso(), getReferenciaMandato());
+
+				if (nia)
+				{
+					for (int index = 0; index < arrayListFamiliar.size(); index++)
+						principal.getBaseDeDatos().actualizarFamiliar(arrayListFamiliar.get(index));
+
+					JOptionPane.showMessageDialog(principal, "Se ha registrado Correctamente!", "Exito!", JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+				}
+			}
+		});
 
 		btnNewButton.setIcon(new ImageIcon(RegistrarAlumno.class.getResource("/resource/41.png")));
 		panel_7.add(btnNewButton);
@@ -835,7 +810,6 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 
 		textField_2.setBorder(BorderFactory.createTitledBorder(""));
 		PromptSupport.setPrompt("00000000", textField_2);
-
 
 		textField.setBorder(BorderFactory.createTitledBorder(""));
 		PromptSupport.setPrompt("Nombres", textField);
@@ -857,175 +831,141 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		tabbedPane.setPreferredSize(new Dimension(0, 300));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 
-		gl_panel_1.setHorizontalGroup(
-				gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE)
-				.addComponent(btnAgregarFamiliar, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE)
-				);
+		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+		        .addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE)
+		        .addComponent(btnAgregarFamiliar, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE));
 
-		gl_panel_1.setVerticalGroup(
-				gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-						.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnAgregarFamiliar))
-				);
+		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1.createSequentialGroup()
+		        .addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE).addComponent(btnAgregarFamiliar)));
 
 		panel_1.setLayout(gl_panel_1);
 		panel.setOpaque(false);
 		GroupLayout gl_panel = new GroupLayout(panel);
 
-		gl_panel.setHorizontalGroup(
-				gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel.createSequentialGroup()
-										.addComponent(lblGrupo)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(comboBox, GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE))
-										.addGroup(gl_panel.createSequentialGroup()
-												.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-														.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-														.addComponent(lblApellidos)
-														.addComponent(lblApellido)
-														.addComponent(lblNia, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE))
-														.addGap(6)
-														.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-																.addComponent(textField_2)
-																.addComponent(textFieldApellido2)
-																.addComponent(textField)
-																.addComponent(textFieldApellido1, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
-																.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-																		.addGroup(gl_panel.createSequentialGroup()
-																				.addGap(8)
-																				.addComponent(lblNewLabel_8)
-																				.addPreferredGap(ComponentPlacement.RELATED)
-																				.addComponent(textFieldFechaNacimiento, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
-																				.addGroup(gl_panel.createSequentialGroup()
-																						.addPreferredGap(ComponentPlacement.RELATED)
-																						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-																								.addComponent(lblTipoDoc, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																								.addComponent(lblDocumento, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-																								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-																										.addGroup(gl_panel.createSequentialGroup()
-																												.addPreferredGap(ComponentPlacement.RELATED)
-																												.addComponent(textFieldDocumento, GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
-																												.addGroup(gl_panel.createSequentialGroup()
-																														.addGap(5)
-																														.addComponent(comboBox_1, 0, 125, Short.MAX_VALUE))))
-																														.addGroup(gl_panel.createSequentialGroup()
-																																.addGap(10)
-																																.addComponent(lblNewLabel_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																																.addGap(13)
-																																.addComponent(lblCurso)
-																																.addPreferredGap(ComponentPlacement.RELATED)
-																																.addComponent(textFieldCurso, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))))
-																																.addGroup(gl_panel.createSequentialGroup()
-																																		.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-																																				.addComponent(lblNewLabelExpediente)
-																																				.addComponent(lblNewLabel_9)
-																																				.addComponent(lblSexo))
-																																				.addPreferredGap(ComponentPlacement.RELATED)
-																																				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-																																						.addGroup(gl_panel.createSequentialGroup()
-																																								.addComponent(textFieldExpediente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																																								.addPreferredGap(ComponentPlacement.RELATED)
-																																								.addComponent(lblTelf)
-																																								.addPreferredGap(ComponentPlacement.RELATED)
-																																								.addComponent(textFieldTelefono1, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
-																																								.addGroup(gl_panel.createSequentialGroup()
-																																										.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-																																												.addComponent(comboBoxSexo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																																												.addComponent(textFieldSip))
-																																												.addPreferredGap(ComponentPlacement.RELATED)
-																																												.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-																																														.addComponent(lblEmail, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																																														.addComponent(lblTelefono_1, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE))
-																																														.addPreferredGap(ComponentPlacement.RELATED)
-																																														.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-																																																.addComponent(textFieldEmail, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-																																																.addComponent(textFieldTelefono2, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))))))
-																																																.addContainerGap())
-				);
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		        .addGroup(gl_panel.createSequentialGroup().addContainerGap()
+		                .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		                        .addGroup(gl_panel.createSequentialGroup().addComponent(lblGrupo).addPreferredGap(ComponentPlacement.RELATED)
+		                                .addComponent(comboBox, GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE))
+		                .addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		                        .addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE).addComponent(lblApellidos)
+		                        .addComponent(lblApellido).addComponent(lblNia, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE))
+		                        .addGap(6)
+		                        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false).addComponent(textField_2)
+		                                .addComponent(textFieldApellido2).addComponent(textField)
+		                                .addComponent(textFieldApellido1, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
+		                        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		                                .addGroup(gl_panel.createSequentialGroup().addGap(8).addComponent(lblNewLabel_8).addPreferredGap(
+		                                        ComponentPlacement.RELATED)
+		                                .addComponent(textFieldFechaNacimiento, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
+		                                .addGroup(gl_panel.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
+		                                        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+		                                                .addComponent(lblTipoDoc, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		                                                .addComponent(lblDocumento, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                                        Short.MAX_VALUE))
+		                                        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		                                                .addGroup(gl_panel.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
+		                                                        .addComponent(textFieldDocumento, GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
+		                                                .addGroup(gl_panel.createSequentialGroup().addGap(5).addComponent(comboBox_1, 0, 125,
+		                                                        Short.MAX_VALUE))))
+		                                .addGroup(gl_panel.createSequentialGroup().addGap(10)
+		                                        .addComponent(lblNewLabel_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                                GroupLayout.PREFERRED_SIZE)
+		                                        .addGap(13).addComponent(lblCurso).addPreferredGap(ComponentPlacement.RELATED)
+		                                        .addComponent(textFieldCurso, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))))
+		                .addGroup(gl_panel.createSequentialGroup()
+		                        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addComponent(lblNewLabelExpediente)
+		                                .addComponent(lblNewLabel_9).addComponent(lblSexo))
+		                        .addPreferredGap(ComponentPlacement.RELATED)
+		                        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		                                .addGroup(gl_panel.createSequentialGroup()
+		                                        .addComponent(textFieldExpediente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                                GroupLayout.PREFERRED_SIZE)
+		                                        .addPreferredGap(ComponentPlacement.RELATED).addComponent(lblTelf)
+		                                        .addPreferredGap(ComponentPlacement.RELATED)
+		                                        .addComponent(textFieldTelefono1, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
+		                                .addGroup(gl_panel.createSequentialGroup()
+		                                        .addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+		                                                .addComponent(comboBoxSexo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                                        Short.MAX_VALUE)
+		                                                .addComponent(textFieldSip))
+		                                        .addPreferredGap(ComponentPlacement.RELATED)
+		                                        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+		                                                .addComponent(lblEmail, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		                                                .addComponent(lblTelefono_1, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE))
+		                                        .addPreferredGap(ComponentPlacement.RELATED)
+		                                        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		                                                .addComponent(textFieldEmail, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+		                                                .addComponent(textFieldTelefono2, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))))))
+		        .addContainerGap()));
 
-		gl_panel.setVerticalGroup(
-				gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_panel.createSequentialGroup()
-										.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-												.addComponent(lblNewLabel_7, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-												.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-														.addComponent(lblNia)
-														.addComponent(textField_2)))
-														.addGap(11))
-														.addGroup(gl_panel.createSequentialGroup()
-																.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-																		.addComponent(lblCurso, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																		.addComponent(textFieldCurso, Alignment.LEADING))
-																		.addGap(15)))
-																		.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-																				.addComponent(lblNewLabel)
-																				.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																				.addComponent(lblNewLabel_8)
-																				.addComponent(textFieldFechaNacimiento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-																				.addPreferredGap(ComponentPlacement.RELATED)
-																				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-																						.addComponent(lblApellidos)
-																						.addComponent(textFieldApellido1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																						.addComponent(lblTipoDoc)
-																						.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-																						.addPreferredGap(ComponentPlacement.RELATED)
-																						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-																								.addComponent(lblApellido)
-																								.addComponent(textFieldApellido2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																								.addComponent(lblDocumento)
-																								.addComponent(textFieldDocumento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-																								.addPreferredGap(ComponentPlacement.RELATED)
-																								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-																										.addComponent(lblNewLabelExpediente)
-																										.addComponent(textFieldExpediente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																										.addComponent(lblTelf)
-																										.addComponent(textFieldTelefono1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-																										.addPreferredGap(ComponentPlacement.RELATED)
-																										.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-																												.addComponent(lblNewLabel_9)
-																												.addComponent(textFieldSip, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																												.addComponent(lblTelefono_1)
-																												.addComponent(textFieldTelefono2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-																												.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																												.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-																														.addComponent(lblSexo)
-																														.addComponent(textFieldEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																														.addComponent(lblEmail)
-																														.addComponent(comboBoxSexo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-																														.addPreferredGap(ComponentPlacement.RELATED)
-																														.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-																																.addComponent(lblGrupo)
-																																.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-																																.addContainerGap())
-				);
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		        .addGroup(gl_panel.createSequentialGroup().addContainerGap()
+		                .addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+		                        .addGroup(gl_panel.createSequentialGroup()
+		                                .addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+		                                        .addComponent(lblNewLabel_7, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+		                                        .addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblNia)
+		                                                .addComponent(textField_2)))
+		                                .addGap(11))
+		                .addGroup(gl_panel.createSequentialGroup()
+		                        .addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+		                                .addComponent(lblCurso, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                        Short.MAX_VALUE)
+		                                .addComponent(textFieldCurso, Alignment.LEADING))
+		                        .addGap(15)))
+		                .addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
+		                        .addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		                        .addComponent(lblNewLabel_8).addComponent(textFieldFechaNacimiento, GroupLayout.PREFERRED_SIZE,
+		                                GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		        .addPreferredGap(ComponentPlacement.RELATED)
+		        .addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblApellidos)
+		                .addComponent(textFieldApellido1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		                .addComponent(lblTipoDoc)
+		                .addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		        .addPreferredGap(ComponentPlacement.RELATED)
+		        .addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblApellido)
+		                .addComponent(textFieldApellido2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		                .addComponent(lblDocumento)
+		                .addComponent(textFieldDocumento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		        .addPreferredGap(ComponentPlacement.RELATED)
+		        .addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabelExpediente)
+		                .addComponent(textFieldExpediente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		                .addComponent(lblTelf)
+		                .addComponent(textFieldTelefono1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		        .addPreferredGap(ComponentPlacement.RELATED)
+		        .addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel_9)
+		                .addComponent(textFieldSip, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		                .addComponent(lblTelefono_1)
+		                .addComponent(textFieldTelefono2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		        .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		        .addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblSexo)
+		                .addComponent(textFieldEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		                .addComponent(lblEmail)
+		                .addComponent(comboBoxSexo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		        .addPreferredGap(ComponentPlacement.RELATED).addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addComponent(lblGrupo)
+		                .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		        .addContainerGap()));
 
 		panel.setLayout(gl_panel);
-		principal.getBaseDeDatos().getFechasPeriodo(getNia(),tableFechas,listFechas);
+		principal.getBaseDeDatos().getFechasPeriodo(getNia(), tableFechas, listFechas);
 		addMouseListener(this);
 	}
 
 	private ArrayList<PanelFamiliar> arrayListFamiliar = new ArrayList<>();
 
-	public synchronized void addFamiliar(String parentesco, String nombre, String apellido1, String apellido2, String documento,
-			String tipo_doc, String alumno, String id, String es)
+	public synchronized void addFamiliar(String parentesco, String nombre, String apellido1, String apellido2, String documento, String tipo_doc,
+	        String alumno, String id, String es)
 	{
 		PanelFamiliar panelFamiliar = new PanelFamiliar(parentesco, nombre, apellido1, apellido2, documento, tipo_doc, alumno, id, es);
 		arrayListFamiliar.add(panelFamiliar);
 		String tipo = "";
 
-		if(parentesco == null)
-			tipo="Otro";
-		else if(parentesco.equalsIgnoreCase("1"))
+		if (parentesco == null)
+			tipo = "Otro";
+		else if (parentesco.equalsIgnoreCase("1"))
 			tipo = "Madre";
-		else if(parentesco.equalsIgnoreCase("2"))
+		else if (parentesco.equalsIgnoreCase("2"))
 			tipo = "Padre";
 		else
 			tipo = "Otro";
@@ -1038,14 +978,14 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		jkPanel.setBackground(new ImageIcon(bufferedImage));
 	}
 
-	public String getNia ()
+	public String getNia()
 	{
 		return textField_2.getText().toUpperCase();
 	}
 
-	public void setNia (String n)
+	public void setNia(String n)
 	{
-		textField_2.setText( n);
+		textField_2.setText(n);
 	}
 
 	public String getNombres()
@@ -1058,32 +998,32 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		textField.setText(n);
 	}
 
-	public String getApellido1 ()
+	public String getApellido1()
 	{
 		return textFieldApellido1.getText();
 	}
 
-	public String getApellido2 ()
+	public String getApellido2()
 	{
 		return textFieldApellido2.getText();
 	}
 
-	public void setApellido2 (String n)
+	public void setApellido2(String n)
 	{
 		textFieldApellido2.setText(n);
 	}
 
-	public String getDocumento ()
+	public String getDocumento()
 	{
 		return textFieldDocumento.getText();
 	}
 
-	public void setDocumento (String n)
+	public void setDocumento(String n)
 	{
 		textFieldDocumento.setText(n);
 	}
 
-	public void setApellido1 (String n)
+	public void setApellido1(String n)
 	{
 		textFieldApellido1.setText(n);
 	}
@@ -1096,7 +1036,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	private BufferedImage foto;
 	private File fileFoto;
 
-	public BufferedImage getFoto() 
+	public BufferedImage getFoto()
 	{
 		return foto;
 	}
@@ -1137,35 +1077,38 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		lblNewLabel_7.setVisible(false);
 		found = true;
 
-		new Thread(
-				new Runnable() 
+		new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				try
 				{
-					@Override
-					public void run() 
-					{
-						try 
-						{
-							/** SE AGREGA WHILE PARA MANTENER LA VENTANA ACTIVA MIENTRAS SE DIGITA
-							 ** UN NUENO NUMERO DE DOCUMENTO **/
-							while(principal.getScanned().length() == 0)
-								Thread.sleep(2500);
-							
-							dispose();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}).start();
+					/**
+					 * SE AGREGA WHILE PARA MANTENER LA VENTANA ACTIVA MIENTRAS
+					 * SE DIGITA UN NUENO NUMERO DE DOCUMENTO
+					 **/
+					while (principal.getScanned().length() == 0)
+						Thread.sleep(2500);
+
+					dispose();
+				}
+				catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
-	public Date getfechaNacimiento() 
+	public Date getfechaNacimiento()
 	{
-		try 
+		try
 		{
 			new Date(textFieldFechaNacimiento.getDateEditor().getDate().getTime());
-		} 
-		catch (Exception c) 
+		}
+		catch (Exception c)
 		{
 			return new Date(new java.util.Date().getTime());
 		}
@@ -1176,19 +1119,19 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	{
 		SimpleDateFormat dateFormat = null;
 
-		if(fechaAlta != null)
+		if (fechaAlta != null)
 		{
-			if(fechaAlta.indexOf("-") != -1)
+			if (fechaAlta.indexOf("-") != -1)
 				dateFormat = new SimpleDateFormat("yyy-MM-dd");
 			else
 				dateFormat = new SimpleDateFormat("dd/MM/yyy");
 
-			try 
+			try
 			{
 				textFieldFechaNacimiento.setDate(dateFormat.parse(fechaAlta));
 
-			} 
-			catch (ParseException e) 
+			}
+			catch (ParseException e)
 			{
 				e.printStackTrace();
 			}
@@ -1197,7 +1140,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 
 	public String getTipoDoc()
 	{
-		if(comboBox_1.getSelectedItem().toString().equalsIgnoreCase("NIF"))
+		if (comboBox_1.getSelectedItem().toString().equalsIgnoreCase("NIF"))
 			return "N";
 		else
 			return "E";
@@ -1205,14 +1148,15 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 
 	public void setTipoDoc(String n)
 	{
-		if(n!=null)
+		if (n != null)
 		{
-			if(n.equalsIgnoreCase("N"))
+			if (n.equalsIgnoreCase("N"))
 				comboBox_1.setSelectedIndex(0);
 			else
 				comboBox_1.setSelectedIndex(1);
 		}
 	}
+
 	public String getMedicamentos()
 	{
 		return textField_10.getText();
@@ -1244,7 +1188,7 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		panel_4.updateUI();
 	}
 
-	public void setFoto(BufferedImage image, File fileFotox) 
+	public void setFoto(BufferedImage image, File fileFotox)
 	{
 		this.foto = image;
 		this.fileFoto = fileFotox;
@@ -1252,11 +1196,11 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		jkPanel.repaint();
 	}
 
-	public void setGrupo(String codigoGrupo) 
+	public void setGrupo(String codigoGrupo)
 	{
-		for(int index=0; index<arrayListgrupos.size();index++)
+		for (int index = 0; index < arrayListgrupos.size(); index++)
 		{
-			if(arrayListgrupos.get(index).equalsIgnoreCase(codigoGrupo))
+			if (arrayListgrupos.get(index).equalsIgnoreCase(codigoGrupo))
 				comboBox.setSelectedIndex(index);
 		}
 	}
@@ -1278,10 +1222,10 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 
 	public void setSexo(String sex)
 	{
-		if(sex == null)
+		if (sex == null)
 			sex = "M";
 
-		if(sex.equalsIgnoreCase("H"))
+		if (sex.equalsIgnoreCase("H"))
 			comboBoxSexo.setSelectedIndex(0);
 		else
 			comboBoxSexo.setSelectedIndex(1);
@@ -1327,7 +1271,9 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		textFieldEmail.setText(email);
 	}
 
-	public void setTutor(String tutorDeGrupo) { }
+	public void setTutor(String tutorDeGrupo)
+	{
+	}
 
 	private JTextField textFieldEmail;
 	private JTextField textFieldTelefono1;
@@ -1341,7 +1287,9 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 	private JTextField textFieldCurso;
 	private JTextField textFieldReferenciaMandato;
 
-	public void setIDOtrosDatos(String id) { }
+	public void setIDOtrosDatos(String id)
+	{
+	}
 
 	public String getCurso()
 	{
@@ -1353,31 +1301,39 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		textFieldCurso.setText(curso);
 	}
 
-	public void setMedicamentos(String medicamentos) 
+	public void setMedicamentos(String medicamentos)
 	{
 		textField_10.setText(medicamentos);
 	}
 
-	public void setEnabledNIA(boolean b) 
+	public void setEnabledNIA(boolean b)
 	{
 		textField_2.setEditable(b);
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) { }
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) { }
-
-	@Override
-	public void mouseExited(MouseEvent arg0) { }
-
-	@Override
-	public void mousePressed(MouseEvent arg0) { }
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) 
+	public void mouseClicked(MouseEvent arg0)
 	{
-		principal.setNoCerrar(true);	
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0)
+	{
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0)
+	{
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0)
+	{
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0)
+	{
+		principal.setNoCerrar(true);
 	}
 }

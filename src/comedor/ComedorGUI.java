@@ -355,7 +355,7 @@ public class ComedorGUI extends JFrame
 								}
 							});
 
-							dialog.add(progressBar,BorderLayout.NORTH);
+							dialog.getContentPane().add(progressBar,BorderLayout.NORTH);
 							dialog.setFont(new Font("arial", Font.BOLD, 11));
 							dialog.getContentPane().add(button, BorderLayout.SOUTH);
 
@@ -419,7 +419,35 @@ public class ComedorGUI extends JFrame
 			getBaseDeDatos().getCursos(menuz);
 
 		bar.add(menuz);
+		
+		mnBecas = new JMenu("Becas");
+		mnBecas.setFont(new Font("Tahoma", Font.BOLD, 12));
+		bar.add(mnBecas);
 		bar.add(menuAbout);
+		
+		mnBecas.addMouseListener(
+				new MouseListener() 
+				{
+					@Override
+					public void mouseReleased(MouseEvent arg0) 
+					{
+						new About(getInstance()).setVisible(true);
+					}
+
+					@Override
+					public void mousePressed(MouseEvent arg0) { }
+
+					@Override
+					public void mouseExited(MouseEvent arg0) { }
+
+					@Override
+					public void mouseEntered(MouseEvent arg0) { }
+
+					@Override
+					public void mouseClicked(MouseEvent arg0) { }
+				});
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		y = (int )Toolkit.getDefaultToolkit().getScreenSize().height;
 		x = (int)Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -599,7 +627,16 @@ public class ComedorGUI extends JFrame
 													public synchronized void run() 
 													{
 														String g = "";
-														g = getScanned();
+														
+														try
+														{
+															g = getScanned();
+														}
+														catch (InterruptedException e1)
+														{
+															e1.printStackTrace();
+														}
+														
 														boolean n = false;
 
 														if(g.length() >= 9)
@@ -636,9 +673,7 @@ public class ComedorGUI extends JFrame
 																	boolean z = false;
 
 																	if(dia.equalsIgnoreCase("lunes") || dia.equalsIgnoreCase("martes"))
-																	{
 																		z = getBaseDeDatos().verificarSiEstaAutorizadoLunesMartes(g);
-																	}
 																	else if(dia.equalsIgnoreCase("jueves"))
 																		z = getBaseDeDatos().verificarSiEstaAutorizadoJueves(g);
 
@@ -647,7 +682,6 @@ public class ComedorGUI extends JFrame
 																		JOptionPane.showMessageDialog(getInstance(), "No Autorizado!","Denegado",JOptionPane.WARNING_MESSAGE);
 																		return;
 																	}
-
 																	getBaseDeDatos().addAsistencia(g,"No");
 																}
 															}
@@ -1690,8 +1724,9 @@ public class ComedorGUI extends JFrame
 				});
 	}
 
-	public synchronized String getScanned() 
+	public synchronized String getScanned() throws InterruptedException 
 	{
+		Thread.sleep(100);
 		return fieldCode.getText();
 	}
 
@@ -1708,6 +1743,7 @@ public class ComedorGUI extends JFrame
 	private String dia;
 	private String nAutorizados = "0";
 	private boolean noCerrar = false;
+	private JMenu mnBecas;
 
 	public boolean isNoCerrar() 
 	{
