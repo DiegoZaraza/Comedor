@@ -1076,30 +1076,29 @@ public class RegistrarAlumno extends JInternalFrame implements MouseListener
 		lblNewLabel_7.setBusy(false);
 		lblNewLabel_7.setVisible(false);
 		found = true;
-
-		new Thread(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				try
-				{
-					/**
-					 * SE AGREGA WHILE PARA MANTENER LA VENTANA ACTIVA MIENTRAS
-					 * SE DIGITA UN NUENO NUMERO DE DOCUMENTO
-					 **/
-					while (principal.getScanned().length() == 0)
-						Thread.sleep(2500);
-
-					dispose();
-				}
-				catch (InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}).start();
+//		new Thread(new Runnable()
+//		{
+//			@Override
+//			public void run()
+//			{
+//				try
+//				{
+//					/**
+//					 * SE AGREGA WHILE PARA MANTENER LA VENTANA ACTIVA MIENTRAS
+//					 * SE DIGITA UN NUENO NUMERO DE DOCUMENTO
+//					 **/
+//					while (principal.getScanned().length() == 0)
+//						Thread.sleep(2500);
+//
+//					dispose();
+//				}
+//				catch (InterruptedException e)
+//				{
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		}).start();
 	}
 
 	public Date getfechaNacimiento()

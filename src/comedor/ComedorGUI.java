@@ -777,7 +777,7 @@ public class ComedorGUI extends JFrame
 																	setEscontrado(true);
 																}
 
-																a = null;
+//																a = null;
 																fieldCode.requestFocus();
 															}
 
@@ -927,7 +927,7 @@ public class ComedorGUI extends JFrame
 																}
 																catch(Exception e) { }
 
-																a = null;
+//																a = null;
 																
 																synchronized (this) 
 																{
@@ -1270,7 +1270,7 @@ public class ComedorGUI extends JFrame
 													{
 														setEscontrado(true);
 													}
-													a = null;
+//													a = null;
 												}
 												else
 													return;
@@ -1300,7 +1300,7 @@ public class ComedorGUI extends JFrame
 									}
 									catch(Exception e) { }
 
-									a = null;
+//									a = null;
 									synchronized (this) 
 									{
 										setEscontrado(true);
@@ -1726,7 +1726,12 @@ public class ComedorGUI extends JFrame
 
 	public synchronized String getScanned() throws InterruptedException 
 	{
-		Thread.sleep(100);
+		if(a != null)
+		{
+			a.dispose();
+			a = null;
+		}
+		
 		return fieldCode.getText();
 	}
 
