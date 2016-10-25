@@ -42,14 +42,12 @@ public class NuevoPeriodoComedor extends JDialog
 	private JRadioButton asiduoNo;
 	private JRadioButton PuedeSalirNo;
 	private JRadioButton PuedeSalirSi;
-	private JRadioButton beca100;
-	private JRadioButton beca70;
-	private JRadioButton pagoHabitual;
 	private ComedorGUI principal;
 	private JButton btnActualizar;
 	private String id = null;
 	private JLabel label;
-
+	public JKComboBox cmbBecas;
+	
 	public NuevoPeriodoComedor(ComedorGUI comedorGUI, final String nia, final boolean actualizar, final String id)
 	{
 		super(comedorGUI, true);
@@ -80,17 +78,7 @@ public class NuevoPeriodoComedor extends JDialog
 			buttonGroup.add(asiduoSi);
 
 			JLabel lblTipoDeBeca = new JLabel("Tipo de Beca:");
-
-			beca100 = new JRadioButton("100%");
-			beca100.setSelected(true);
-			beca70 = new JRadioButton("70%");
-			ButtonGroup buttonGroup2 = new ButtonGroup();
-			buttonGroup2.add(beca100);
-			buttonGroup2.add(beca70);
-
-			pagoHabitual = new JRadioButton("Pago Habitual");
-			buttonGroup2.add(pagoHabitual);
-
+			
 			JLabel lblTipoDeUsuario = new JLabel("Tipo de Usuario:");
 
 			comboBoxDias = new JKComboBox();
@@ -130,57 +118,85 @@ public class NuevoPeriodoComedor extends JDialog
 					PuedeSalirNo.setVisible(true);
 				}
 			});
-
+			
+			cmbBecas = new JKComboBox();
+			
+			principal.getBaseDeDatos().consultarBeca(this);
+			
 			GroupLayout gl_panel = new GroupLayout(panel);
-			gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel
-			        .createParallelGroup(
-			                Alignment.LEADING)
-			        .addGroup(gl_panel.createSequentialGroup().addGap(18)
-			                .addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false).addComponent(lblFechaDeAlta)
-			                        .addComponent(lblTipoDeUsuario, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-			                                Short.MAX_VALUE)
-			                        .addComponent(lblFechaDeBaja, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-			                                Short.MAX_VALUE))
-			                .addGap(4)
-			                .addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-			                        .addComponent(textFieldDateAlta, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-			                        .addComponent(textFieldDateBaja, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-			                        .addComponent(comboBoxDias, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-			        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-			                .addGroup(gl_panel.createSequentialGroup().addContainerGap().addComponent(lblUsuarioComedor).addGap(4)
-			                        .addComponent(asiduoSi).addGap(2).addComponent(asiduoNo).addGap(18)
-			                        .addComponent(label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-			                        .addPreferredGap(ComponentPlacement.UNRELATED)
-			                        .addComponent(PuedeSalirSi, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-			                        .addPreferredGap(ComponentPlacement.UNRELATED)
-			                        .addComponent(PuedeSalirNo, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-			                        .addPreferredGap(ComponentPlacement.RELATED))
-			                .addGroup(gl_panel.createSequentialGroup().addGap(31).addComponent(lblTipoDeBeca).addGap(4).addComponent(beca100)
-			                        .addComponent(beca70, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-			                        .addComponent(pagoHabitual, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE))))
-			        .addGap(43)));
-
-			gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup().addGap(11)
-			        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-			                .addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(label).addComponent(PuedeSalirSi)
-			                        .addComponent(PuedeSalirNo))
-			                .addGroup(gl_panel.createSequentialGroup().addGap(4).addComponent(lblUsuarioComedor)).addComponent(asiduoSi)
-			                .addComponent(asiduoNo))
-			        .addPreferredGap(ComponentPlacement.RELATED)
-			        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-			                .addGroup(gl_panel.createSequentialGroup().addGap(4).addComponent(lblTipoDeBeca)).addComponent(beca100)
-			                .addComponent(beca70).addComponent(pagoHabitual))
-			        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-			                .addGroup(gl_panel.createSequentialGroup().addGap(5).addComponent(lblTipoDeUsuario))
-			                .addGroup(gl_panel.createSequentialGroup().addGap(2).addComponent(comboBoxDias, GroupLayout.PREFERRED_SIZE,
-			                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-			        .addPreferredGap(ComponentPlacement.UNRELATED)
-			        .addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblFechaDeAlta).addComponent(textFieldDateAlta,
-			                GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-			        .addPreferredGap(ComponentPlacement.RELATED)
-			        .addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblFechaDeBaja).addComponent(textFieldDateBaja,
-			                GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-			        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+			gl_panel.setHorizontalGroup(
+				gl_panel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panel.createSequentialGroup()
+								.addGap(18)
+								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(lblFechaDeAlta)
+									.addComponent(lblTipoDeUsuario, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblFechaDeBaja, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addGap(4)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(textFieldDateAlta, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(textFieldDateBaja, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(comboBoxDias, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(lblUsuarioComedor)
+									.addGap(4)
+									.addComponent(asiduoSi)
+									.addGap(2)
+									.addComponent(asiduoNo)
+									.addGap(18)
+									.addComponent(label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(PuedeSalirSi, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(PuedeSalirNo, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(31)
+									.addComponent(lblTipoDeBeca)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(cmbBecas, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))))
+						.addGap(43))
+			);
+			gl_panel.setVerticalGroup(
+				gl_panel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panel.createSequentialGroup()
+						.addGap(11)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(label)
+								.addComponent(PuedeSalirSi)
+								.addComponent(PuedeSalirNo))
+							.addGroup(gl_panel.createSequentialGroup()
+								.addGap(4)
+								.addComponent(lblUsuarioComedor))
+							.addComponent(asiduoSi)
+							.addComponent(asiduoNo))
+						.addGap(4)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblTipoDeBeca)
+							.addComponent(cmbBecas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGap(5)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panel.createSequentialGroup()
+								.addGap(5)
+								.addComponent(lblTipoDeUsuario))
+							.addGroup(gl_panel.createSequentialGroup()
+								.addGap(2)
+								.addComponent(comboBoxDias, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblFechaDeAlta)
+							.addComponent(textFieldDateAlta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblFechaDeBaja)
+							.addComponent(textFieldDateBaja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+			);
 			panel.setLayout(gl_panel);
 		}
 
@@ -210,13 +226,13 @@ public class NuevoPeriodoComedor extends JDialog
 		});
 		panel_2.add(btnNewButton_1);
 
-		JButton btnNewButton = new JButton("Aceptar");
+		JButton btnAceptar = new JButton("Aceptar");
 
 		if (actualizar)
-			btnNewButton.setEnabled(false);
+			btnAceptar.setEnabled(false);
 
-		btnNewButton.setIcon(new ImageIcon(NuevoPeriodoComedor.class.getResource("/resource/A1-init.png")));
-		btnNewButton.addActionListener(new ActionListener()
+		btnAceptar.setIcon(new ImageIcon(NuevoPeriodoComedor.class.getResource("/resource/A1-init.png")));
+		btnAceptar.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
@@ -322,10 +338,10 @@ public class NuevoPeriodoComedor extends JDialog
 
 		btnActualizar.setPreferredSize(new Dimension(120, 24));
 		panel_2.add(btnActualizar);
-		panel_2.add(btnNewButton);
+		panel_2.add(btnAceptar);
 
 		btnNewButton_1.setPreferredSize(new Dimension(120, 24));
-		btnNewButton.setPreferredSize(new Dimension(120, 24));
+		btnAceptar.setPreferredSize(new Dimension(120, 24));
 		contentPanel.setLayout(gl_contentPanel);
 		setLocationRelativeTo(comedorGUI);
 
@@ -425,22 +441,12 @@ public class NuevoPeriodoComedor extends JDialog
 
 	public void setBeca(String t)
 	{
-		if (t.startsWith("100"))
-			beca100.setSelected(true);
-		else if (t.startsWith("70"))
-			beca70.setSelected(true);
-		else
-			pagoHabitual.setSelected(true);
+		cmbBecas.setSelectedItem(t);
 	}
 
 	public String getTipoBeca()
 	{
-		if (beca100.isSelected())
-			return "100";
-		else if (beca70.isSelected())
-			return "70";
-		else
-			return "0";
+		return cmbBecas.getSelected();
 	}
 
 	public void setAsiduo(String b)

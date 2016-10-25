@@ -186,7 +186,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 													}
 
 
-													File file = new File("System-Comedor" + File.separator + "Temp" + File.separator + hashtable.get("documento") + ".xml");
+													File file = new File("System-Comedor" + File.separator + "Temp" + File.separator + hashtable.get("nia") + ".xml");
 
 													Writer w  =  new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
 													w.write(xmlFinal);
@@ -198,8 +198,8 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 													carnetFrontal.setPreferredSize(new Dimension(844,455));
 													carnetFrontal.setBorder(BorderFactory.createEmptyBorder(0, 0, 13, 85));
 													carnetFrontal.setModo(2);
-													carnetFrontal.setPathCarnet(new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "Temp" + File.separator + "" + s.getDocumento() + ".pdf");
-													jTabbedPane.addTab("" + s.getDocumento(), carnetFrontal);
+													carnetFrontal.setPathCarnet(new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "Temp" + File.separator + "" + s.getNia() + ".pdf");
+													jTabbedPane.addTab("" + s.getNia(), carnetFrontal);
 
 													Thread.sleep(1000);
 													
@@ -430,7 +430,7 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 
 													try
 													{
-														File file = new File("System-Comedor" + File.separator + "Temp" + File.separator + hashtable.get("documento") + ".xml");
+														File file = new File("System-Comedor" + File.separator + "Temp" + File.separator + hashtable.get("nia") + ".xml");
 
 														Writer w  =  new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
 														w.write(xmlFinal);
@@ -440,11 +440,11 @@ public class PanelCarnetsAlumno extends JPanel implements Runnable
 														carnetFrontal.setPreferredSize(new Dimension(844, 455));
 														carnetFrontal.setBorder(BorderFactory.createEmptyBorder(0, 0, 13, 85));
 														carnetFrontal.setModo(2);
-														carnetFrontal.setPathCarnet(new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "Temp" + File.separator + "" + s.getDocumento() + ".pdf");
+														carnetFrontal.setPathCarnet(new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2).toString() + "" + File.separator + "System-Comedor" + File.separator + "Temp" + File.separator + "" + s.getNia() + ".pdf");
 
 														synchronized (this) 
 														{
-															addTab(s.getDocumento(), carnetFrontal);	
+															addTab(s.getNia(), carnetFrontal);	
 														}
 
 														carnetFrontal.loadConfiguration(file);
