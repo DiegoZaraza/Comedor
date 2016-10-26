@@ -1529,9 +1529,12 @@ public class ComedorGUI extends JFrame
 		try
 		{
 			Calendar calendar = Calendar.getInstance();
-			SimpleDateFormat dateFormato = new SimpleDateFormat("yyyy-MM-dd");
-			Date dato = dateFormato.parse("2016-09-11");
 			java.sql.Date date = new java.sql.Date(new Date().getTime());
+			
+			calendar.setTimeInMillis(date.getTime());
+			calendar.add(Calendar.DATE, -7);			
+			Date dato = new java.sql.Date(calendar.getTimeInMillis());
+			
 			java.sql.Date date3 = new java.sql.Date(dato.getTime());
 			
 			while(date.getTime() >= date3.getTime())

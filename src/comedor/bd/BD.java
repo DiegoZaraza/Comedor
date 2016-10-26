@@ -6113,9 +6113,10 @@ public class BD extends JKDataBase
 		return retorno;
 	}
 
-	public void consultarBecas(AgregarBecas beca, String TipoBeca)
+	public boolean consultarBecas(AgregarBecas beca, String TipoBeca)
 	{
 		ResultSet x;
+		boolean retorno = false;
 		try
 		{
 			x = executeQuery("SELECT * FROM becas WHERE tipo_beca = '" + TipoBeca + "'");
@@ -6124,6 +6125,7 @@ public class BD extends JKDataBase
 			{
 				beca.setValorBeca(x.getFloat("valor_beca"));
 				beca.setPagoUnico(x.getString("pago_unico"));
+				retorno = true;
 			}
 		}
 		catch (SQLException e)
@@ -6131,6 +6133,7 @@ public class BD extends JKDataBase
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return retorno;
 	}
 
 	public boolean updateBecas(String TipoBeca, float ValorBeca, String PagoUnico)
