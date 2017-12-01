@@ -1,0 +1,267 @@
+import json
+import datetime
+import sys
+
+def checkFile(cobolOutput, initPos, finishPos, nomCampo, tipoCampo, resultEsp, casoJira):
+    file1 = open(cobolOutput)
+    nomarchivo = cobolOutput.split("\\")
+
+    print nomarchivo[len(nomarchivo)-1]
+
+    list = []
+    listID = []
+    print initPos, finishPos
+
+    for line in file1:
+        cadena = ''
+        indice = int(initPos) - 1
+        while indice < int(finishPos):
+            cadena += str(line[indice])
+            indice += 1
+
+        indice = 1
+        list.append(cadena)
+        cadena = ''
+        while indice < 12:
+            cadena += str(line[indice])
+            indice += 1
+        listID.append(cadena)
+
+    retorno = ""
+
+    if casoJira == 'EEC-40':
+        for x in range(0, len(list)):
+            if x == 0:
+                resultEsp = "ENCABEZADO"
+                resultado = "ENCABEZADO"
+            else:
+                if str(list[x]).isdigit():
+                    if int(list[x]) >= 1 and int(list[x]) <= 4:
+                        if int(list[x]) == 2:
+                            if int(listID[x]) >= 600000000 and int(listID[x]) <= 799999999:
+                                resultado = "Sin Error"
+                            elif int(listID[x]) >= 6000000000 and int(listID[x]) <= 7999999999:
+                                resultado = "Sin Error"
+                            else:
+                                resultado = "{0102}"
+                        elif int(list[x]) == 3:
+                            if int(listID[x]) >= 800000000 and int(listID[x]) <= 999999999:
+                                resultado = "Sin Error"
+                            elif int(listID[x]) >= 8000000000 and int(listID[x]) <= 9999999999:
+                                resultado = "Sin Error"
+                            else:
+                                resultado = "{0102}"
+                        else:
+                            resultado = "Sin Error"
+                    else:
+                        resultado = "{0101}"
+                else:
+                    resultado = "{0101}"
+            retorno = retorno + str(x + 1) + "\t" + list[x] + "\t" + nomarchivo[len(nomarchivo)-1] + "\t" + resultEsp + "\t" + resultado + "\t" + str(resultado == resultEsp) + "\n"
+    elif casoJira == 'EEC-34':
+        for x in range(0, len(list)):
+            if x == 0:
+                resultEsp = "ENCABEZADO"
+                resultado = "ENCABEZADO"
+            else:
+                if str(list[x]).isdigit():
+                    if int(list[x]) >= 1 and int(list[x]) <= 8:
+                        resultado = "Sin Error"
+                    else:
+                        resultado = "{2001}"
+                else:
+                    resultado = "{2001}"
+            retorno = retorno + str(x + 1) + "\t" + list[x] + "\t" + nomarchivo[
+                len(nomarchivo) - 1] + "\t" + resultEsp + "\t" + resultado + "\t" + str(resultado == resultEsp) + "\n"
+    elif casoJira == 'EEC-31':
+        for x in range(0, len(list)):
+            if x == 0:
+                resultEsp = "ENCABEZADO"
+                resultado = "ENCABEZADO"
+            else:
+                if dateValidate(list[x]):
+                    resultado = "Sin Error"
+                else:
+                    resultado = "{1901}"
+            retorno = retorno + str(x + 1) + "\t" + list[x] + "\t" + nomarchivo[
+                len(nomarchivo) - 1] + "\t" + resultEsp + "\t" + resultado + "\t" + str(resultado == resultEsp) + "\n"
+    elif casoJira == 'EEC-32':
+        for x in range(0, len(list)):
+            if x == 0:
+                resultEsp = "ENCABEZADO"
+                resultado = "ENCABEZADO"
+            else:
+                if str(list[x]).isdigit():
+                    if int(list[x]) >= 0 and int(list[x]) <= 9:
+                        resultado = "Sin Error"
+                    else:
+                        resultado = "{1301}"
+                else:
+                    resultado = "{1301}"
+            retorno = retorno + str(x + 1) + "\t" + list[x] + "\t" + nomarchivo[
+                len(nomarchivo) - 1] + "\t" + resultEsp + "\t" + resultado + "\t" + str(resultado == resultEsp) + "\n"
+    elif casoJira == 'EEC-33':
+        for x in range(0, len(list)):
+            if x == 0:
+                resultEsp = "ENCABEZADO"
+                resultado = "ENCABEZADO"
+            else:
+                if dateValidate(list[x]):
+                    resultado = "Sin Error"
+                else:
+                    resultado = "{1701}"
+            retorno = retorno + str(x + 1) + "\t" + list[x] + "\t" + nomarchivo[
+                len(nomarchivo) - 1] + "\t" + resultEsp + "\t" + resultado + "\t" + str(resultado == resultEsp) + "\n"
+    elif casoJira == 'EEC-34':
+        for x in range(0, len(list)):
+            if x == 0:
+                resultEsp = "ENCABEZADO"
+                resultado = "ENCABEZADO"
+            else:
+                if str(list[x]).isdigit():
+                    if int(list[x]) >= 0 and int(list[x]) <= 999:
+                        resultado = "Sin Error"
+                    else:
+                        resultado = "{3901}"
+                else:
+                    resultado = "{3901}"
+            retorno = retorno + str(x + 1) + "\t" + list[x] + "\t" + nomarchivo[
+                len(nomarchivo) - 1] + "\t" + resultEsp + "\t" + resultado + "\t" + str(resultado == resultEsp) + "\n"
+    elif casoJira == 'EEC-36':
+        print "CASO PRUEBA EEC-20"
+    elif casoJira == 'EEC-37':
+        print "CASO PRUEBA EEC-20"
+    elif casoJira == 'EEC-37':
+        print "CASO PRUEBA EEC-20"
+    elif casoJira == 'EEC-38':
+        print "CASO PRUEBA EEC-20"
+    elif casoJira == 'EEC-39':
+        print "CASO PRUEBA EEC-20"
+    else:
+        print "CASO PRUEBA NO PARAMETRIZADO"
+
+    return retorno
+
+def dateValidate(fecha):
+    try:
+        datetime.datetime.strptime(fecha, '%Y%m%d')
+        return True
+    except ValueError:
+        return False
+
+    # cobol = loadFileCobol(cobolOutput, initPos, finishPos)
+    # hadoop = bigDataFile(hadoopOutput, nomCampo)
+
+    # lineasIguales = 0
+    # lineasDiferentes = 0
+    # tipoCampoIgualH = 0
+    # tipoCampoDiffH = 0
+    # tipoCampoIgualC = 0
+    # tipoCampoDiffC = 0
+    # contenidoCampoC = 0
+    # contenidoCampoH = 0
+    # x = 0
+    #
+    # RLineasDif = []
+    # TCDifH = []
+    # TCDifC = []
+    # ContCampoC = []
+    # ContCampoH = []
+    #
+    # for x in range(0, len(hadoop)):
+    #     cob = str((cobol[x]).print(" ", ""))
+    #     if str(hadoop[x]) == cob:
+    #         lineasIguales += 1
+    #     else:
+    #         error = "Linea " + str(
+    #             x + 1) + " para el campo " + nomCampo + " son Diferentes [COBOL: " + cob + "] - [HADOOP: " + str(
+    #             hadoop[x]) + "]"
+    #         RLineasDif.append(error)
+    #         lineasDiferentes += 1
+    #
+    #     if tipoCampo == 'Alphanumeric':
+    #         if str(cobol[x]).isalnum():
+    #             tipoCampoIgualC += 1
+    #         else:
+    #             error = "La linea nro: " + str(x + 1) + " en archivo Cobol no es alfanumerica" + cob
+    #             TCDifC.append(error)
+    #             tipoCampoDiffC += 1
+    #     else:
+    #         if str(cobol[x]).isdigit():
+    #             tipoCampoIgualC += 1
+    #         else:
+    #             error = "La linea nro: " + str(x + 1) + " en archivo Cobol no es numerica" + cob
+    #             TCDifC.append(error)
+    #             tipoCampoDiffC += 1
+    #
+    #     if tipoCampo == 'Alphanumeric':
+    #         if str(hadoop[x]).isalnum():
+    #             tipoCampoIgualH += 1
+    #         else:
+    #             error = "La linea nro: " + str(x + 1) + " en archivo Hadoop no es alfanumerica" + str(Hadoop[x])
+    #             TCDifH.append(error)
+    #             tipoCampoDiffH += 1
+    #     else:
+    #         if str(hadoop[x]).isdigit():
+    #             tipoCampoIgualH += 1
+    #         else:
+    #             error = "La linea nro: " + str(x + 1) + " en archivo Hadoop no es numerica" + str(hadoop[x])
+    #             TCDifH.append(error)
+    #             tipoCampoDiffH += 1
+    #
+    #     bandC = False
+    #     bandH = False
+    # for i in RLineasDif:
+    #     print i
+    # for i in TCDifH:
+    #     print i
+    # for i in TCDifC:
+    #     print i
+    #
+    # print lineasIguales, tipoCampoIgualC, tipoCampoIgualH
+    # print lineasDiferentes, tipoCampoDiffC, tipoCampoDiffH
+    #
+    # if lineasDiferentes > 0 or tipoCampoDiffH > 0 or tipoCampoDiffC > 0 or contenidoCampoC > 0 or contenidoCampoH > 0:
+    #     return False
+    # else:
+    #     return True
+
+
+def loadFile1(file, initPos, finishPos):
+    indice = int(initPos) - 1
+
+    fichero = open(file)
+
+    list = []
+
+    for line in fichero:
+        cadena = ''
+        indice = int(initPos) - 1
+        while indice < int(finishPos):
+            cadena += str(line[indice])
+            indice += 1
+        list.append(cadena)
+
+    return list
+
+def loadFile(file):
+    fichero = open(file)
+
+    list = []
+
+    for line in fichero:
+        list.append(line)
+
+    return list
+
+
+def bigDataFile(file, nomCampo):
+    with open(file) as data_file:
+        data = json.load(data_file)
+
+    list = []
+
+    for i in range(0, len(data)):
+        list.append(data[i][nomCampo])
+
+    return list
